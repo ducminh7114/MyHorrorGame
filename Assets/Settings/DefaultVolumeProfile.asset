@@ -1,0 +1,2406 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-9167874883656233139
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5485954d14dfb9a4c8ead8edb0ded5b1, type: 3}
+  m_Name: LiftGammaGain
+  m_EditorClassIdentifier: 
+  active: 1
+  lift:
+    m_OverrideState: 1
+    m_Value: {x: 1, y: 1, z: 1, w: 0}
+  gamma:
+    m_OverrideState: 1
+    m_Value: {x: 1, y: 1, z: 1, w: 0}
+  gain:
+    m_OverrideState: 1
+    m_Value: {x: 1, y: 1, z: 1, w: 0}
+--- !u!114 &-8582375204836021147
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb00c03fccc953a4387732e1392ffcf8, type: 3}
+  m_Name: CameraVolume
+  m_EditorClassIdentifier: com.hauntedpsx.render-pipelines.psx.Runtime::HauntedPSX.RenderPipelines.PSX.Runtime.CameraVolume
+  active: 1
+  <displayName>k__BackingField: 
+  isFrameLimitEnabled:
+    <fieldHash>k__BackingField: -1971992848
+    m_OverrideState: 1
+    m_Value: 0
+  frameLimit:
+    <fieldHash>k__BackingField: -1732642456
+    m_OverrideState: 1
+    m_Value: 24
+  aspectMode:
+    <fieldHash>k__BackingField: -1493292064
+    m_OverrideState: 1
+    m_Value: 3
+  targetRasterizationResolutionWidth:
+    <fieldHash>k__BackingField: -1253941672
+    m_OverrideState: 1
+    m_Value: 256
+  targetRasterizationResolutionHeight:
+    <fieldHash>k__BackingField: -1014591280
+    m_OverrideState: 1
+    m_Value: 224
+  isDepthBufferEnabled:
+    <fieldHash>k__BackingField: -775240888
+    m_OverrideState: 1
+    m_Value: 1
+  isClearDepthAfterBackgroundEnabled:
+    <fieldHash>k__BackingField: -535890496
+    m_OverrideState: 1
+    m_Value: 1
+  isClearDepthBeforeUIEnabled:
+    <fieldHash>k__BackingField: -296540104
+    m_OverrideState: 1
+    m_Value: 1
+--- !u!114 &-8270506406425502121
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70afe9e12c7a7ed47911bb608a23a8ff, type: 3}
+  m_Name: SplitToning
+  m_EditorClassIdentifier: 
+  active: 1
+  shadows:
+    m_OverrideState: 1
+    m_Value: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  highlights:
+    m_OverrideState: 1
+    m_Value: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  balance:
+    m_OverrideState: 1
+    m_Value: 0
+--- !u!114 &-8104416584915340131
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: CopyPasteTestComponent2
+  m_EditorClassIdentifier: Unity.RenderPipelines.Core.Editor.Tests:UnityEditor.Rendering.Tests:VolumeComponentCopyPasteTests/CopyPasteTestComponent2
+  active: 1
+  p1:
+    m_OverrideState: 1
+    m_Value: 0
+  p2:
+    m_OverrideState: 1
+    m_Value: 0
+  p21:
+    m_OverrideState: 1
+    m_Value: 0
+--- !u!114 &-7750755424749557576
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60f3b30c03e6ba64d9a27dc9dba8f28d, type: 3}
+  m_Name: OutlineVolumeComponent
+  m_EditorClassIdentifier: 
+  active: 1
+  Enabled:
+    m_OverrideState: 1
+    m_Value: 0
+--- !u!114 &-7743500325797982168
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ccf1aba9553839d41ae37dd52e9ebcce, type: 3}
+  m_Name: MotionBlur
+  m_EditorClassIdentifier: 
+  active: 1
+  mode:
+    m_OverrideState: 1
+    m_Value: 0
+  quality:
+    m_OverrideState: 1
+    m_Value: 0
+  intensity:
+    m_OverrideState: 1
+    m_Value: 0
+  clamp:
+    m_OverrideState: 1
+    m_Value: 0.05
+--- !u!114 &-7715961534900515205
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0bd3a97acc7ef644da680b9eb611919e, type: 3}
+  m_Name: CathodeRayTubeVolume
+  m_EditorClassIdentifier: com.hauntedpsx.render-pipelines.psx.Runtime::HauntedPSX.RenderPipelines.PSX.Runtime.CathodeRayTubeVolume
+  active: 1
+  <displayName>k__BackingField: 
+  isEnabled:
+    <fieldHash>k__BackingField: -852983584
+    m_OverrideState: 1
+    m_Value: 1
+  bloom:
+    <fieldHash>k__BackingField: -613633192
+    m_OverrideState: 1
+    m_Value: 0.0625
+  grateMaskMode:
+    <fieldHash>k__BackingField: -134932408
+    m_OverrideState: 1
+    m_Value: 0
+  grateMaskTexture:
+    <fieldHash>k__BackingField: 104417984
+    m_OverrideState: 1
+    m_Value: {fileID: 0}
+    dimension: 1
+  grateMaskScale:
+    <fieldHash>k__BackingField: 583118768
+    m_OverrideState: 1
+    m_Value: 1
+  scanlineSharpness:
+    <fieldHash>k__BackingField: 822469160
+    m_OverrideState: 1
+    m_Value: 0.5
+  imageSharpness:
+    <fieldHash>k__BackingField: 1301169944
+    m_OverrideState: 1
+    m_Value: 0.5
+  bloomSharpnessX:
+    <fieldHash>k__BackingField: 1540520336
+    m_OverrideState: 1
+    m_Value: 0
+  bloomSharpnessY:
+    <fieldHash>k__BackingField: 2019221120
+    m_OverrideState: 1
+    m_Value: 0
+  noiseIntensity:
+    <fieldHash>k__BackingField: -2036395784
+    m_OverrideState: 1
+    m_Value: 0.1
+  noiseSaturation:
+    <fieldHash>k__BackingField: -1557695000
+    m_OverrideState: 1
+    m_Value: 1
+  grateMaskIntensityMin:
+    <fieldHash>k__BackingField: -1318344608
+    m_OverrideState: 1
+    m_Value: 0.25
+  grateMaskIntensityMax:
+    <fieldHash>k__BackingField: -1078994216
+    m_OverrideState: 1
+    m_Value: 0.75
+  barrelDistortionX:
+    <fieldHash>k__BackingField: -600293432
+    m_OverrideState: 1
+    m_Value: 0.125
+  barrelDistortionY:
+    <fieldHash>k__BackingField: -360943040
+    m_OverrideState: 1
+    m_Value: 0.33333334
+  vignette:
+    <fieldHash>k__BackingField: 117757744
+    m_OverrideState: 1
+    m_Value: 0.5
+--- !u!114 &-7435718917269906201
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32eb3b8fb939d9b41b04b5621e6d36dd, type: 3}
+  m_Name: Fog
+  m_EditorClassIdentifier: Assembly-CSharp::PSX.Fog
+  active: 1
+  fogDensity:
+    m_OverrideState: 1
+    m_Value: 1
+  fogDistance:
+    m_OverrideState: 1
+    m_Value: 10
+  fogColor:
+    m_OverrideState: 1
+    m_Value: {r: 1, g: 1, b: 1, a: 1}
+  ambientColor:
+    m_OverrideState: 1
+    m_Value: {r: 0.1, g: 0.1, b: 0.1, a: 0.1}
+  fogNear:
+    m_OverrideState: 1
+    m_Value: 1
+  fogFar:
+    m_OverrideState: 1
+    m_Value: 100
+  fogAltScale:
+    m_OverrideState: 1
+    m_Value: 10
+  fogThinning:
+    m_OverrideState: 1
+    m_Value: 100
+  noiseScale:
+    m_OverrideState: 1
+    m_Value: 100
+  noiseStrength:
+    m_OverrideState: 1
+    m_Value: 0.05
+--- !u!114 &-7279406353678499634
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d61509376d05fc438d9ed9281e44e26, type: 3}
+  m_Name: CompressionVolume
+  m_EditorClassIdentifier: com.hauntedpsx.render-pipelines.psx.Runtime::HauntedPSX.RenderPipelines.PSX.Runtime.CompressionVolume
+  active: 1
+  <displayName>k__BackingField: 
+  isEnabled:
+    <fieldHash>k__BackingField: 1223555792
+    m_OverrideState: 1
+    m_Value: 0
+  weight:
+    <fieldHash>k__BackingField: 1462906184
+    m_OverrideState: 1
+    m_Value: 1
+  accuracy:
+    <fieldHash>k__BackingField: 1702256576
+    m_OverrideState: 1
+    m_Value: 0
+  mode:
+    <fieldHash>k__BackingField: 1941606968
+    m_OverrideState: 1
+    m_Value: 0
+  colorspace:
+    <fieldHash>k__BackingField: -2114009936
+    m_OverrideState: 1
+    m_Value: 0
+--- !u!114 &-7274224791359825572
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fd9ee276a1023e439cf7a9c393195fa, type: 3}
+  m_Name: TestAnimationCurveVolumeComponent
+  m_EditorClassIdentifier: 
+  active: 1
+  testParameter:
+    m_OverrideState: 1
+    m_Value:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0.5
+        value: 10
+        inSlope: 0
+        outSlope: 10
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 15
+        inSlope: 10
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+--- !u!114 &-6335409530604852063
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66f335fb1ffd8684294ad653bf1c7564, type: 3}
+  m_Name: ColorAdjustments
+  m_EditorClassIdentifier: 
+  active: 1
+  postExposure:
+    m_OverrideState: 1
+    m_Value: 0
+  contrast:
+    m_OverrideState: 1
+    m_Value: 0
+  colorFilter:
+    m_OverrideState: 1
+    m_Value: {r: 1, g: 1, b: 1, a: 1}
+  hueShift:
+    m_OverrideState: 1
+    m_Value: 0
+  saturation:
+    m_OverrideState: 1
+    m_Value: 0
+--- !u!114 &-6288072647309666549
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29fa0085f50d5e54f8144f766051a691, type: 3}
+  m_Name: FilmGrain
+  m_EditorClassIdentifier: 
+  active: 1
+  type:
+    m_OverrideState: 1
+    m_Value: 0
+  intensity:
+    m_OverrideState: 1
+    m_Value: 0
+  response:
+    m_OverrideState: 1
+    m_Value: 0.8
+  texture:
+    m_OverrideState: 1
+    m_Value: {fileID: 0}
+--- !u!114 &-6053434465289073408
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4bffa9ddd307306479a0e3689eb72441, type: 3}
+  m_Name: PrecisionVolume
+  m_EditorClassIdentifier: com.hauntedpsx.render-pipelines.psx.Runtime::HauntedPSX.RenderPipelines.PSX.Runtime.PrecisionVolume
+  active: 1
+  <displayName>k__BackingField: 
+  geometryEnabled:
+    <fieldHash>k__BackingField: -1806558712
+    m_OverrideState: 1
+    m_Value: 1
+  geometry:
+    <fieldHash>k__BackingField: -1567208320
+    m_OverrideState: 1
+    m_Value: 1
+  geometryPushbackEnabled:
+    <fieldHash>k__BackingField: -1327857928
+    m_OverrideState: 1
+    m_Value: 0
+  geometryPushbackMinMax:
+    <fieldHash>k__BackingField: -1088507536
+    m_OverrideState: 1
+    m_Value: {x: 0, y: 1}
+  color:
+    <fieldHash>k__BackingField: -849157144
+    m_OverrideState: 1
+    m_Value: 0.5714286
+  chroma:
+    <fieldHash>k__BackingField: -609806752
+    m_OverrideState: 1
+    m_Value: 0.33333334
+  alpha:
+    <fieldHash>k__BackingField: -370456360
+    m_OverrideState: 1
+    m_Value: 1
+  affineTextureWarping:
+    <fieldHash>k__BackingField: -131105968
+    m_OverrideState: 1
+    m_Value: 1
+  framebufferDither:
+    <fieldHash>k__BackingField: 108244424
+    m_OverrideState: 1
+    m_Value: 1
+  ditherSize:
+    <fieldHash>k__BackingField: 347594816
+    m_OverrideState: 1
+    m_Value: 1
+  drawDistanceFalloffMode:
+    <fieldHash>k__BackingField: 586945208
+    m_OverrideState: 1
+    m_Value: 0
+  drawDistance:
+    <fieldHash>k__BackingField: 826295600
+    m_OverrideState: 1
+    m_Value: 100
+--- !u!114 &-5891077270889554849
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96575ff06efbe184aa6c6f9f90b4aab9, type: 3}
+  m_Name: FogVolume
+  m_EditorClassIdentifier: com.hauntedpsx.render-pipelines.psx.Runtime::HauntedPSX.RenderPipelines.PSX.Runtime.FogVolume
+  active: 1
+  <displayName>k__BackingField: 
+  isEnabled:
+    <fieldHash>k__BackingField: -677907584
+    m_OverrideState: 1
+    m_Value: 1
+  fogFalloffMode:
+    <fieldHash>k__BackingField: -438557192
+    m_OverrideState: 1
+    m_Value: 0
+  blendMode:
+    <fieldHash>k__BackingField: -199206800
+    m_OverrideState: 1
+    m_Value: 0
+  color:
+    <fieldHash>k__BackingField: 40143592
+    m_OverrideState: 1
+    m_Value:
+      r: 0.5
+      g: 0.5
+      b: 0.5
+      a: 1
+  precisionAlpha:
+    <fieldHash>k__BackingField: 279493984
+    m_OverrideState: 1
+    m_Value: 1
+  precisionAlphaDitherTexture:
+    <fieldHash>k__BackingField: 518844376
+    m_OverrideState: 1
+    m_Value: {fileID: 0}
+    dimension: 1
+  precisionAlphaDither:
+    <fieldHash>k__BackingField: 758194768
+    m_OverrideState: 1
+    m_Value: 1
+  distanceMin:
+    <fieldHash>k__BackingField: 997545160
+    m_OverrideState: 1
+    m_Value: 0
+  distanceMax:
+    <fieldHash>k__BackingField: 1236895552
+    m_OverrideState: 1
+    m_Value: 100
+  fogFalloffCurve:
+    <fieldHash>k__BackingField: 1476245944
+    m_OverrideState: 1
+    m_Value: 0
+  heightFalloffEnabled:
+    <fieldHash>k__BackingField: 1715596336
+    m_OverrideState: 1
+    m_Value: 0
+  heightFalloffMirrored:
+    <fieldHash>k__BackingField: 1954946728
+    m_OverrideState: 1
+    m_Value: 0
+  heightMin:
+    <fieldHash>k__BackingField: -2100670176
+    m_OverrideState: 1
+    m_Value: 0
+  heightMax:
+    <fieldHash>k__BackingField: -1861319784
+    m_OverrideState: 1
+    m_Value: 10
+  colorLUTMode:
+    <fieldHash>k__BackingField: -1621969392
+    m_OverrideState: 1
+    m_Value: 0
+  colorLUTTexture:
+    <fieldHash>k__BackingField: -1382619000
+    m_OverrideState: 1
+    m_Value: {fileID: 0}
+    dimension: 1
+  colorLUTRotationDegrees:
+    <fieldHash>k__BackingField: -1143268608
+    m_OverrideState: 1
+    m_Value: {x: 0, y: 0, z: 0}
+  colorLUTWeight:
+    <fieldHash>k__BackingField: -903918216
+    m_OverrideState: 1
+    m_Value: 1
+  colorLUTWeightLayer1:
+    <fieldHash>k__BackingField: -664567824
+    m_OverrideState: 1
+    m_Value: 0
+  isAdditionalLayerEnabled:
+    <fieldHash>k__BackingField: -425217432
+    m_OverrideState: 1
+    m_Value: 0
+  fogFalloffModeLayer1:
+    <fieldHash>k__BackingField: -185867040
+    m_OverrideState: 1
+    m_Value: 0
+  colorLayer1:
+    <fieldHash>k__BackingField: 53483352
+    m_OverrideState: 1
+    m_Value:
+      r: 0.5
+      g: 0.5
+      b: 0.5
+      a: 1
+  distanceMinLayer1:
+    <fieldHash>k__BackingField: 292833744
+    m_OverrideState: 1
+    m_Value: 0
+  distanceMaxLayer1:
+    <fieldHash>k__BackingField: 532184136
+    m_OverrideState: 1
+    m_Value: 100
+  fogFalloffCurveLayer1:
+    <fieldHash>k__BackingField: 771534528
+    m_OverrideState: 1
+    m_Value: 0
+  heightFalloffEnabledLayer1:
+    <fieldHash>k__BackingField: 1010884920
+    m_OverrideState: 1
+    m_Value: 0
+  heightFalloffMirroredLayer1:
+    <fieldHash>k__BackingField: 1250235312
+    m_OverrideState: 1
+    m_Value: 0
+  heightMinLayer1:
+    <fieldHash>k__BackingField: 1489585704
+    m_OverrideState: 1
+    m_Value: 0
+  heightMaxLayer1:
+    <fieldHash>k__BackingField: 1728936096
+    m_OverrideState: 1
+    m_Value: 10
+--- !u!114 &-5520245016509672950
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97c23e3b12dc18c42a140437e53d3951, type: 3}
+  m_Name: Tonemapping
+  m_EditorClassIdentifier: 
+  active: 1
+  mode:
+    m_OverrideState: 1
+    m_Value: 0
+  neutralHDRRangeReductionMode:
+    m_OverrideState: 1
+    m_Value: 2
+  acesPreset:
+    m_OverrideState: 1
+    m_Value: 3
+  hueShiftAmount:
+    m_OverrideState: 1
+    m_Value: 0
+  detectPaperWhite:
+    m_OverrideState: 1
+    m_Value: 0
+  paperWhite:
+    m_OverrideState: 1
+    m_Value: 300
+  detectBrightnessLimits:
+    m_OverrideState: 1
+    m_Value: 1
+  minNits:
+    m_OverrideState: 1
+    m_Value: 0.005
+  maxNits:
+    m_OverrideState: 1
+    m_Value: 1000
+--- !u!114 &-5360449096862653589
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: VolumeComponentSupportedEverywhere
+  m_EditorClassIdentifier: Unity.RenderPipelines.Core.Editor.Tests:UnityEngine.Rendering.Tests:VolumeComponentEditorSupportedOnTests/VolumeComponentSupportedEverywhere
+  active: 1
+--- !u!114 &-5139089513906902183
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a00a63fdd6bd2a45ab1f2d869305ffd, type: 3}
+  m_Name: OasisFogVolumeComponent
+  m_EditorClassIdentifier: 
+  active: 1
+  Density:
+    m_OverrideState: 1
+    m_Value: 0
+  StartDistance:
+    m_OverrideState: 1
+    m_Value: 0
+  HeightRange:
+    m_OverrideState: 1
+    m_Value: {x: 0, y: 50}
+  Tint:
+    m_OverrideState: 1
+    m_Value: {r: 1, g: 1, b: 1, a: 1}
+  SunScatteringIntensity:
+    m_OverrideState: 1
+    m_Value: 2
+--- !u!114 &-4463884970436517307
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb60a22f311433c4c962b888d1393f88, type: 3}
+  m_Name: PaniniProjection
+  m_EditorClassIdentifier: 
+  active: 1
+  distance:
+    m_OverrideState: 1
+    m_Value: 0
+  cropToFit:
+    m_OverrideState: 1
+    m_Value: 1
+--- !u!114 &-3806192925103904307
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4265a041954897941afec871c608473b, type: 3}
+  m_Name: Crt
+  m_EditorClassIdentifier: Assembly-CSharp::Crt
+  active: 1
+  screenBendX:
+    m_OverrideState: 1
+    m_Value: 1000
+  screenBendY:
+    m_OverrideState: 1
+    m_Value: 1000
+  vignetteAmount:
+    m_OverrideState: 1
+    m_Value: 0
+  vignetteSize:
+    m_OverrideState: 1
+    m_Value: 2
+  vignetteRounding:
+    m_OverrideState: 1
+    m_Value: 2
+  vignetteSmoothing:
+    m_OverrideState: 1
+    m_Value: 1
+  scanlinesDensity:
+    m_OverrideState: 1
+    m_Value: 200
+  scanlinesSpeed:
+    m_OverrideState: 1
+    m_Value: -10
+  noiseAmount:
+    m_OverrideState: 1
+    m_Value: 250
+  chromaticRed:
+    m_OverrideState: 1
+    m_Value: {x: 0, y: 0}
+  chromaticGreen:
+    m_OverrideState: 1
+    m_Value: {x: 0, y: 0}
+  chromaticBlue:
+    m_OverrideState: 1
+    m_Value: {x: 0, y: 0}
+--- !u!114 &-3251293095806304114
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4bffa9ddd307306479a0e3689eb72441, type: 3}
+  m_Name: PrecisionVolume
+  m_EditorClassIdentifier: com.hauntedpsx.render-pipelines.psx.Runtime::HauntedPSX.RenderPipelines.PSX.Runtime.PrecisionVolume
+  active: 1
+  <displayName>k__BackingField: 
+  geometryEnabled:
+    <fieldHash>k__BackingField: 170282104
+    m_OverrideState: 1
+    m_Value: 1
+  geometry:
+    <fieldHash>k__BackingField: 409632496
+    m_OverrideState: 1
+    m_Value: 1
+  geometryPushbackEnabled:
+    <fieldHash>k__BackingField: 648982888
+    m_OverrideState: 1
+    m_Value: 0
+  geometryPushbackMinMax:
+    <fieldHash>k__BackingField: 2085085240
+    m_OverrideState: 1
+    m_Value: {x: 0, y: 1}
+  color:
+    <fieldHash>k__BackingField: -534429312
+    m_OverrideState: 1
+    m_Value: 0.5714286
+  chroma:
+    <fieldHash>k__BackingField: -55728528
+    m_OverrideState: 1
+    m_Value: 0.33333334
+  alpha:
+    <fieldHash>k__BackingField: 422972256
+    m_OverrideState: 1
+    m_Value: 1
+  affineTextureWarping:
+    <fieldHash>k__BackingField: -1465151360
+    m_OverrideState: 1
+    m_Value: 1
+  framebufferDither:
+    <fieldHash>k__BackingField: 368847928
+    m_OverrideState: 1
+    m_Value: 1
+  ditherSize:
+    <fieldHash>k__BackingField: 1804950280
+    m_OverrideState: 1
+    m_Value: 1
+  drawDistanceFalloffMode:
+    <fieldHash>k__BackingField: -335863488
+    m_OverrideState: 1
+    m_Value: 0
+  drawDistance:
+    <fieldHash>k__BackingField: -96513096
+    m_OverrideState: 1
+    m_Value: 100
+--- !u!114 &-2068259935405637301
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0bd3a97acc7ef644da680b9eb611919e, type: 3}
+  m_Name: CathodeRayTubeVolume
+  m_EditorClassIdentifier: com.hauntedpsx.render-pipelines.psx.Runtime::HauntedPSX.RenderPipelines.PSX.Runtime.CathodeRayTubeVolume
+  active: 1
+  <displayName>k__BackingField: 
+  isEnabled:
+    <fieldHash>k__BackingField: 1236499680
+    m_OverrideState: 1
+    m_Value: 1
+  bloom:
+    <fieldHash>k__BackingField: 1475850072
+    m_OverrideState: 1
+    m_Value: 0.0625
+  grateMaskMode:
+    <fieldHash>k__BackingField: 1715200464
+    m_OverrideState: 1
+    m_Value: 0
+  grateMaskTexture:
+    <fieldHash>k__BackingField: 1954550856
+    m_OverrideState: 1
+    m_Value: {fileID: 0}
+    dimension: 1
+  grateMaskScale:
+    <fieldHash>k__BackingField: -2101066048
+    m_OverrideState: 1
+    m_Value: 1
+  scanlineSharpness:
+    <fieldHash>k__BackingField: -1861715656
+    m_OverrideState: 1
+    m_Value: 0.5
+  imageSharpness:
+    <fieldHash>k__BackingField: -1622365264
+    m_OverrideState: 1
+    m_Value: 0.5
+  bloomSharpnessX:
+    <fieldHash>k__BackingField: -1383014872
+    m_OverrideState: 1
+    m_Value: 0
+  bloomSharpnessY:
+    <fieldHash>k__BackingField: -1143664480
+    m_OverrideState: 1
+    m_Value: 0
+  noiseIntensity:
+    <fieldHash>k__BackingField: -904314088
+    m_OverrideState: 1
+    m_Value: 0.1
+  noiseSaturation:
+    <fieldHash>k__BackingField: -664963696
+    m_OverrideState: 1
+    m_Value: 1
+  grateMaskIntensityMin:
+    <fieldHash>k__BackingField: -425613304
+    m_OverrideState: 1
+    m_Value: 0.25
+  grateMaskIntensityMax:
+    <fieldHash>k__BackingField: -186262912
+    m_OverrideState: 1
+    m_Value: 0.75
+  barrelDistortionX:
+    <fieldHash>k__BackingField: 53087480
+    m_OverrideState: 1
+    m_Value: 0.125
+  barrelDistortionY:
+    <fieldHash>k__BackingField: 292437872
+    m_OverrideState: 1
+    m_Value: 0.33333334
+  vignette:
+    <fieldHash>k__BackingField: 531788264
+    m_OverrideState: 1
+    m_Value: 0.5
+--- !u!114 &-1857053604524080979
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35a1bd58dd7548198609eabd8ae2bb7d, type: 3}
+  m_Name: Pixelation
+  m_EditorClassIdentifier: Assembly-CSharp::PSX.Pixelation
+  active: 1
+  widthPixelation:
+    m_OverrideState: 1
+    m_Value: 512
+  heightPixelation:
+    m_OverrideState: 1
+    m_Value: 512
+  colorPrecision:
+    m_OverrideState: 1
+    m_Value: 32
+--- !u!114 &-1627215566929726135
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bad71758d66b75b45a6157133f3e6024, type: 3}
+  m_Name: AccumulationMotionBlurVolume
+  m_EditorClassIdentifier: com.hauntedpsx.render-pipelines.psx.Runtime::HauntedPSX.RenderPipelines.PSX.Runtime.AccumulationMotionBlurVolume
+  active: 1
+  <displayName>k__BackingField: 
+  weight:
+    <fieldHash>k__BackingField: -1747437072
+    m_OverrideState: 1
+    m_Value: 0
+  vignette:
+    <fieldHash>k__BackingField: -790035504
+    m_OverrideState: 1
+    m_Value: 0
+  dither:
+    <fieldHash>k__BackingField: 1842818808
+    m_OverrideState: 1
+    m_Value: 1
+  zoom:
+    <fieldHash>k__BackingField: -1734097312
+    m_OverrideState: 1
+    m_Value: 0
+  zoomDither:
+    <fieldHash>k__BackingField: -776695744
+    m_OverrideState: 1
+    m_Value: 0
+  anisotropy:
+    <fieldHash>k__BackingField: 420056216
+    m_OverrideState: 1
+    m_Value: 0
+  applyToUIOverlay:
+    <fieldHash>k__BackingField: 1138107392
+    m_OverrideState: 1
+    m_Value: 0
+--- !u!114 &-1410297666881709256
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6bd486065ce11414fa40e631affc4900, type: 3}
+  m_Name: ProbeVolumesOptions
+  m_EditorClassIdentifier: 
+  active: 1
+  normalBias:
+    m_OverrideState: 1
+    m_Value: 0.33
+  viewBias:
+    m_OverrideState: 1
+    m_Value: 0
+  scaleBiasWithMinProbeDistance:
+    m_OverrideState: 1
+    m_Value: 0
+  samplingNoise:
+    m_OverrideState: 1
+    m_Value: 0.1
+  animateSamplingNoise:
+    m_OverrideState: 1
+    m_Value: 1
+  leakReductionMode:
+    m_OverrideState: 1
+    m_Value: 1
+  minValidDotProductValue:
+    m_OverrideState: 1
+    m_Value: 0.1
+  occlusionOnlyReflectionNormalization:
+    m_OverrideState: 1
+    m_Value: 1
+  intensityMultiplier:
+    m_OverrideState: 1
+    m_Value: 1
+  skyOcclusionIntensityMultiplier:
+    m_OverrideState: 1
+    m_Value: 1
+  worldOffset:
+    m_OverrideState: 1
+    m_Value: {x: 0, y: 0, z: 0}
+--- !u!114 &-1379336708998414033
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70d335ddfaff71d4493ab520ae36643e, type: 3}
+  m_Name: TonemapperVolume
+  m_EditorClassIdentifier: com.hauntedpsx.render-pipelines.psx.Runtime::HauntedPSX.RenderPipelines.PSX.Runtime.TonemapperVolume
+  active: 1
+  <displayName>k__BackingField: 
+  isEnabled:
+    <fieldHash>k__BackingField: -1129928848
+    m_OverrideState: 1
+    m_Value: 0
+  contrast:
+    <fieldHash>k__BackingField: -890578456
+    m_OverrideState: 1
+    m_Value: 0.5
+  shoulder:
+    <fieldHash>k__BackingField: -651228064
+    m_OverrideState: 1
+    m_Value: 0.5
+  graypointIn:
+    <fieldHash>k__BackingField: -411877672
+    m_OverrideState: 1
+    m_Value: 0.18
+  graypointOut:
+    <fieldHash>k__BackingField: -172527280
+    m_OverrideState: 1
+    m_Value: 0.18
+  whitepoint:
+    <fieldHash>k__BackingField: 306173504
+    m_OverrideState: 1
+    m_Value: 10
+  crossTalk:
+    <fieldHash>k__BackingField: 545523896
+    m_OverrideState: 1
+    m_Value: 0.394
+  saturation:
+    <fieldHash>k__BackingField: 784874288
+    m_OverrideState: 1
+    m_Value: 0
+  crossTalkSaturation:
+    <fieldHash>k__BackingField: 1024224680
+    m_OverrideState: 1
+    m_Value: 0.039
+--- !u!114 &-1216621516061285780
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b2db86121404754db890f4c8dfe81b2, type: 3}
+  m_Name: Bloom
+  m_EditorClassIdentifier: 
+  active: 1
+  skipIterations:
+    m_OverrideState: 1
+    m_Value: 1
+  threshold:
+    m_OverrideState: 1
+    m_Value: 0.9
+  intensity:
+    m_OverrideState: 1
+    m_Value: 0
+  scatter:
+    m_OverrideState: 1
+    m_Value: 0.7
+  clamp:
+    m_OverrideState: 1
+    m_Value: 65472
+  tint:
+    m_OverrideState: 1
+    m_Value: {r: 1, g: 1, b: 1, a: 1}
+  highQualityFiltering:
+    m_OverrideState: 1
+    m_Value: 0
+  downscale:
+    m_OverrideState: 1
+    m_Value: 0
+  maxIterations:
+    m_OverrideState: 1
+    m_Value: 6
+  dirtTexture:
+    m_OverrideState: 1
+    m_Value: {fileID: 0}
+    dimension: 1
+  dirtIntensity:
+    m_OverrideState: 1
+    m_Value: 0
+--- !u!114 &-1170528603972255243
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 221518ef91623a7438a71fef23660601, type: 3}
+  m_Name: WhiteBalance
+  m_EditorClassIdentifier: 
+  active: 1
+  temperature:
+    m_OverrideState: 1
+    m_Value: 0
+  tint:
+    m_OverrideState: 1
+    m_Value: 0
+--- !u!114 &-581120513425526550
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: CopyPasteTestComponent3
+  m_EditorClassIdentifier: Unity.RenderPipelines.Core.Editor.Tests:UnityEditor.Rendering.Tests:VolumeComponentCopyPasteTests/CopyPasteTestComponent3
+  active: 1
+  p1:
+    m_OverrideState: 1
+    m_Value: 0
+  p2:
+    m_OverrideState: 1
+    m_Value: 0
+  p31:
+    m_OverrideState: 1
+    m_Value: {r: 0, g: 0, b: 0, a: 1}
+--- !u!114 &-477060901424140159
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bad71758d66b75b45a6157133f3e6024, type: 3}
+  m_Name: AccumulationMotionBlurVolume
+  m_EditorClassIdentifier: com.hauntedpsx.render-pipelines.psx.Runtime::HauntedPSX.RenderPipelines.PSX.Runtime.AccumulationMotionBlurVolume
+  active: 1
+  <displayName>k__BackingField: 
+  weight:
+    <fieldHash>k__BackingField: -1833238232
+    m_OverrideState: 1
+    m_Value: 0
+  vignette:
+    <fieldHash>k__BackingField: -1593887840
+    m_OverrideState: 1
+    m_Value: 0
+  dither:
+    <fieldHash>k__BackingField: -1354537448
+    m_OverrideState: 1
+    m_Value: 1
+  zoom:
+    <fieldHash>k__BackingField: -1115187056
+    m_OverrideState: 1
+    m_Value: 0
+  zoomDither:
+    <fieldHash>k__BackingField: -875836664
+    m_OverrideState: 1
+    m_Value: 0
+  anisotropy:
+    <fieldHash>k__BackingField: -636486272
+    m_OverrideState: 1
+    m_Value: 0
+  applyToUIOverlay:
+    <fieldHash>k__BackingField: -397135880
+    m_OverrideState: 1
+    m_Value: 0
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7fd9488000d3734a9e00ee676215985, type: 3}
+  m_Name: DefaultVolumeProfile
+  m_EditorClassIdentifier: 
+  components:
+  - {fileID: -9167874883656233139}
+  - {fileID: 1918650496244738858}
+  - {fileID: 853819529557874667}
+  - {fileID: 1052315754049611418}
+  - {fileID: -1170528603972255243}
+  - {fileID: -8270506406425502121}
+  - {fileID: -5520245016509672950}
+  - {fileID: 7173750748008157695}
+  - {fileID: 1666464333004379222}
+  - {fileID: 9001657382290151224}
+  - {fileID: -6335409530604852063}
+  - {fileID: -1216621516061285780}
+  - {fileID: 3959858460715838825}
+  - {fileID: -7743500325797982168}
+  - {fileID: 4644742534064026673}
+  - {fileID: -4463884970436517307}
+  - {fileID: -6288072647309666549}
+  - {fileID: 7518938298396184218}
+  - {fileID: -1410297666881709256}
+  - {fileID: -7435718917269906201}
+  - {fileID: -3806192925103904307}
+  - {fileID: 3228497682273767317}
+  - {fileID: -1857053604524080979}
+--- !u!114 &853819529557874667
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06437c1ff663d574d9447842ba0a72e4, type: 3}
+  m_Name: ScreenSpaceLensFlare
+  m_EditorClassIdentifier: 
+  active: 1
+  intensity:
+    m_OverrideState: 1
+    m_Value: 0
+  tintColor:
+    m_OverrideState: 1
+    m_Value: {r: 1, g: 1, b: 1, a: 1}
+  bloomMip:
+    m_OverrideState: 1
+    m_Value: 1
+  firstFlareIntensity:
+    m_OverrideState: 1
+    m_Value: 1
+  secondaryFlareIntensity:
+    m_OverrideState: 1
+    m_Value: 1
+  warpedFlareIntensity:
+    m_OverrideState: 1
+    m_Value: 1
+  warpedFlareScale:
+    m_OverrideState: 1
+    m_Value: {x: 1, y: 1}
+  samples:
+    m_OverrideState: 1
+    m_Value: 1
+  sampleDimmer:
+    m_OverrideState: 1
+    m_Value: 0.5
+  vignetteEffect:
+    m_OverrideState: 1
+    m_Value: 1
+  startingPosition:
+    m_OverrideState: 1
+    m_Value: 1.25
+  scale:
+    m_OverrideState: 1
+    m_Value: 1.5
+  streaksIntensity:
+    m_OverrideState: 1
+    m_Value: 0
+  streaksLength:
+    m_OverrideState: 1
+    m_Value: 0.5
+  streaksOrientation:
+    m_OverrideState: 1
+    m_Value: 0
+  streaksThreshold:
+    m_OverrideState: 1
+    m_Value: 0.25
+  resolution:
+    m_OverrideState: 1
+    m_Value: 4
+  chromaticAbberationIntensity:
+    m_OverrideState: 1
+    m_Value: 0.5
+--- !u!114 &1052315754049611418
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 558a8e2b6826cf840aae193990ba9f2e, type: 3}
+  m_Name: ShadowsMidtonesHighlights
+  m_EditorClassIdentifier: 
+  active: 1
+  shadows:
+    m_OverrideState: 1
+    m_Value: {x: 1, y: 1, z: 1, w: 0}
+  midtones:
+    m_OverrideState: 1
+    m_Value: {x: 1, y: 1, z: 1, w: 0}
+  highlights:
+    m_OverrideState: 1
+    m_Value: {x: 1, y: 1, z: 1, w: 0}
+  shadowsStart:
+    m_OverrideState: 1
+    m_Value: 0
+  shadowsEnd:
+    m_OverrideState: 1
+    m_Value: 0.3
+  highlightsStart:
+    m_OverrideState: 1
+    m_Value: 0.55
+  highlightsEnd:
+    m_OverrideState: 1
+    m_Value: 1
+--- !u!114 &1666464333004379222
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3eb4b772797da9440885e8bd939e9560, type: 3}
+  m_Name: ColorCurves
+  m_EditorClassIdentifier: 
+  active: 1
+  master:
+    m_OverrideState: 1
+    m_Value:
+      <length>k__BackingField: 2
+      m_Loop: 0
+      m_ZeroValue: 0
+      m_Range: 1
+      m_Curve:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 1
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+  red:
+    m_OverrideState: 1
+    m_Value:
+      <length>k__BackingField: 2
+      m_Loop: 0
+      m_ZeroValue: 0
+      m_Range: 1
+      m_Curve:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 1
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+  green:
+    m_OverrideState: 1
+    m_Value:
+      <length>k__BackingField: 2
+      m_Loop: 0
+      m_ZeroValue: 0
+      m_Range: 1
+      m_Curve:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 1
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+  blue:
+    m_OverrideState: 1
+    m_Value:
+      <length>k__BackingField: 2
+      m_Loop: 0
+      m_ZeroValue: 0
+      m_Range: 1
+      m_Curve:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 1
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+  hueVsHue:
+    m_OverrideState: 1
+    m_Value:
+      <length>k__BackingField: 0
+      m_Loop: 1
+      m_ZeroValue: 0.5
+      m_Range: 1
+      m_Curve:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+  hueVsSat:
+    m_OverrideState: 1
+    m_Value:
+      <length>k__BackingField: 0
+      m_Loop: 1
+      m_ZeroValue: 0.5
+      m_Range: 1
+      m_Curve:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+  satVsSat:
+    m_OverrideState: 1
+    m_Value:
+      <length>k__BackingField: 0
+      m_Loop: 0
+      m_ZeroValue: 0.5
+      m_Range: 1
+      m_Curve:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+  lumVsSat:
+    m_OverrideState: 1
+    m_Value:
+      <length>k__BackingField: 0
+      m_Loop: 0
+      m_ZeroValue: 0.5
+      m_Range: 1
+      m_Curve:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+--- !u!114 &1918650496244738858
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e021b4c809a781e468c2988c016ebbea, type: 3}
+  m_Name: ColorLookup
+  m_EditorClassIdentifier: 
+  active: 1
+  texture:
+    m_OverrideState: 1
+    m_Value: {fileID: 0}
+    dimension: 1
+  contribution:
+    m_OverrideState: 1
+    m_Value: 0
+--- !u!114 &3189303008758210678
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70d335ddfaff71d4493ab520ae36643e, type: 3}
+  m_Name: TonemapperVolume
+  m_EditorClassIdentifier: com.hauntedpsx.render-pipelines.psx.Runtime::HauntedPSX.RenderPipelines.PSX.Runtime.TonemapperVolume
+  active: 1
+  <displayName>k__BackingField: 
+  isEnabled:
+    <fieldHash>k__BackingField: 359733864
+    m_OverrideState: 1
+    m_Value: 0
+  contrast:
+    <fieldHash>k__BackingField: 1077785040
+    m_OverrideState: 1
+    m_Value: 0.5
+  shoulder:
+    <fieldHash>k__BackingField: 1317135432
+    m_OverrideState: 1
+    m_Value: 0.5
+  graypointIn:
+    <fieldHash>k__BackingField: -823678336
+    m_OverrideState: 1
+    m_Value: 0.18
+  graypointOut:
+    <fieldHash>k__BackingField: 133723232
+    m_OverrideState: 1
+    m_Value: 0.18
+  whitepoint:
+    <fieldHash>k__BackingField: 612424016
+    m_OverrideState: 1
+    m_Value: 10
+  crossTalk:
+    <fieldHash>k__BackingField: 851774408
+    m_OverrideState: 1
+    m_Value: 0.394
+  saturation:
+    <fieldHash>k__BackingField: 1091124800
+    m_OverrideState: 1
+    m_Value: 0
+  crossTalkSaturation:
+    <fieldHash>k__BackingField: -2007090536
+    m_OverrideState: 1
+    m_Value: 0.039
+--- !u!114 &3228497682273767317
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ea62842ddb6960488930897ba9ce398, type: 3}
+  m_Name: Dithering
+  m_EditorClassIdentifier: Assembly-CSharp::PSX.Dithering
+  active: 1
+  patternIndex:
+    m_OverrideState: 1
+    m_Value: 0
+  ditherThreshold:
+    m_OverrideState: 1
+    m_Value: 512
+  ditherStrength:
+    m_OverrideState: 1
+    m_Value: 1
+  ditherScale:
+    m_OverrideState: 1
+    m_Value: 2
+--- !u!114 &3272472819889858798
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bdadb30f615c5d5499a6de3fe4216ef6, type: 3}
+  m_Name: SkyVolume
+  m_EditorClassIdentifier: com.hauntedpsx.render-pipelines.psx.Runtime::HauntedPSX.RenderPipelines.PSX.Runtime.SkyVolume
+  active: 1
+  <displayName>k__BackingField: 
+  skyMode:
+    <fieldHash>k__BackingField: -1040574904
+    m_OverrideState: 1
+    m_Value: 0
+  framebufferDitherWeight:
+    <fieldHash>k__BackingField: 156177056
+    m_OverrideState: 1
+    m_Value: 1
+  skyRotation:
+    <fieldHash>k__BackingField: 395527448
+    m_OverrideState: 1
+    m_Value: {x: 0, y: 0, z: 0}
+  textureFilterMode:
+    <fieldHash>k__BackingField: 1113578624
+    m_OverrideState: 1
+    m_Value: 0
+  skyboxTexture:
+    <fieldHash>k__BackingField: -1266585536
+    m_OverrideState: 1
+    m_Value: {fileID: 0}
+    dimension: 1
+  tiledLayersSkyHeightScale:
+    <fieldHash>k__BackingField: 648217600
+    m_OverrideState: 1
+    m_Value: 0.25
+  tiledLayersSkyHorizonOffset:
+    <fieldHash>k__BackingField: 1688520944
+    m_OverrideState: 1
+    m_Value: 0
+  tiledLayersSkyColorLayer0:
+    <fieldHash>k__BackingField: -1409694392
+    m_OverrideState: 1
+    m_Value:
+      r: 1
+      g: 1
+      b: 1
+      a: 1
+  tiledLayersSkyTextureLayer0:
+    <fieldHash>k__BackingField: -691643216
+    m_OverrideState: 1
+    m_Value: {fileID: 0}
+    dimension: 1
+  tiledLayersSkyTextureScaleOffsetLayer0:
+    <fieldHash>k__BackingField: 26407960
+    m_OverrideState: 1
+    m_Value: {x: 1, y: 1, z: 0, w: 0}
+  tiledLayersSkyRotationLayer0:
+    <fieldHash>k__BackingField: 744459136
+    m_OverrideState: 1
+    m_Value: 0
+  tiledLayersSkyScrollScaleLayer0:
+    <fieldHash>k__BackingField: 1223159920
+    m_OverrideState: 1
+    m_Value: {x: 0.125, y: 0.125}
+  tiledLayersSkyScrollRotationLayer0:
+    <fieldHash>k__BackingField: 1462510312
+    m_OverrideState: 1
+    m_Value: 0
+  tiledLayersSkyColorLayer1:
+    <fieldHash>k__BackingField: 1701860704
+    m_OverrideState: 1
+    m_Value:
+      r: 1
+      g: 1
+      b: 1
+      a: 1
+  tiledLayersSkyTextureLayer1:
+    <fieldHash>k__BackingField: 1941211096
+    m_OverrideState: 1
+    m_Value: {fileID: 0}
+    dimension: 1
+  tiledLayersSkyTextureScaleOffsetLayer1:
+    <fieldHash>k__BackingField: -917653848
+    m_OverrideState: 1
+    m_Value: {x: 1, y: 1, z: 0, w: 0}
+  tiledLayersSkyRotationLayer1:
+    <fieldHash>k__BackingField: -678303456
+    m_OverrideState: 1
+    m_Value: 0
+  tiledLayersSkyScrollScaleLayer1:
+    <fieldHash>k__BackingField: -438953064
+    m_OverrideState: 1
+    m_Value: {x: -0.25, y: -0.25}
+  tiledLayersSkyScrollRotationLayer1:
+    <fieldHash>k__BackingField: -199602672
+    m_OverrideState: 1
+    m_Value: 0
+--- !u!114 &3604378646889565342
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bdadb30f615c5d5499a6de3fe4216ef6, type: 3}
+  m_Name: SkyVolume
+  m_EditorClassIdentifier: com.hauntedpsx.render-pipelines.psx.Runtime::HauntedPSX.RenderPipelines.PSX.Runtime.SkyVolume
+  active: 1
+  <displayName>k__BackingField: 
+  skyMode:
+    <fieldHash>k__BackingField: -2032569344
+    m_OverrideState: 1
+    m_Value: 0
+  framebufferDitherWeight:
+    <fieldHash>k__BackingField: -640312712
+    m_OverrideState: 1
+    m_Value: 1
+  skyRotation:
+    <fieldHash>k__BackingField: -161611928
+    m_OverrideState: 1
+    m_Value: {x: 0, y: 0, z: 0}
+  textureFilterMode:
+    <fieldHash>k__BackingField: 77738464
+    m_OverrideState: 1
+    m_Value: 0
+  skyboxTexture:
+    <fieldHash>k__BackingField: 556439248
+    m_OverrideState: 1
+    m_Value: {fileID: 0}
+    dimension: 1
+  tiledLayersSkyHeightScale:
+    <fieldHash>k__BackingField: 795789640
+    m_OverrideState: 1
+    m_Value: 0.25
+  tiledLayersSkyHorizonOffset:
+    <fieldHash>k__BackingField: 1274490424
+    m_OverrideState: 1
+    m_Value: 0
+  tiledLayersSkyColorLayer0:
+    <fieldHash>k__BackingField: 1513840816
+    m_OverrideState: 1
+    m_Value:
+      r: 1
+      g: 1
+      b: 1
+      a: 1
+  tiledLayersSkyTextureLayer0:
+    <fieldHash>k__BackingField: 1992541600
+    m_OverrideState: 1
+    m_Value: {fileID: 0}
+    dimension: 1
+  tiledLayersSkyTextureScaleOffsetLayer0:
+    <fieldHash>k__BackingField: -2063075304
+    m_OverrideState: 1
+    m_Value: {x: 1, y: 1, z: 0, w: 0}
+  tiledLayersSkyRotationLayer0:
+    <fieldHash>k__BackingField: -1584374520
+    m_OverrideState: 1
+    m_Value: 0
+  tiledLayersSkyScrollScaleLayer0:
+    <fieldHash>k__BackingField: -1345024128
+    m_OverrideState: 1
+    m_Value: {x: 0.125, y: 0.125}
+  tiledLayersSkyScrollRotationLayer0:
+    <fieldHash>k__BackingField: -866323344
+    m_OverrideState: 1
+    m_Value: 0
+  tiledLayersSkyColorLayer1:
+    <fieldHash>k__BackingField: -626972952
+    m_OverrideState: 1
+    m_Value:
+      r: 1
+      g: 1
+      b: 1
+      a: 1
+  tiledLayersSkyTextureLayer1:
+    <fieldHash>k__BackingField: -148272168
+    m_OverrideState: 1
+    m_Value: {fileID: 0}
+    dimension: 1
+  tiledLayersSkyTextureScaleOffsetLayer1:
+    <fieldHash>k__BackingField: 91078224
+    m_OverrideState: 1
+    m_Value: {x: 1, y: 1, z: 0, w: 0}
+  tiledLayersSkyRotationLayer1:
+    <fieldHash>k__BackingField: 569779008
+    m_OverrideState: 1
+    m_Value: 0
+  tiledLayersSkyScrollScaleLayer1:
+    <fieldHash>k__BackingField: 809129400
+    m_OverrideState: 1
+    m_Value: {x: -0.25, y: -0.25}
+  tiledLayersSkyScrollRotationLayer1:
+    <fieldHash>k__BackingField: 1287830184
+    m_OverrideState: 1
+    m_Value: 0
+--- !u!114 &3786042193020148948
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73811fdb48dddb143add2662b3aba7bf, type: 3}
+  m_Name: TerrainGrassVolume
+  m_EditorClassIdentifier: com.hauntedpsx.render-pipelines.psx.Runtime::HauntedPSX.RenderPipelines.PSX.Runtime.TerrainGrassVolume
+  active: 1
+  <displayName>k__BackingField: 
+  textureFilterMode:
+    <fieldHash>k__BackingField: -1219203688
+    m_OverrideState: 1
+    m_Value: 0
+--- !u!114 &3959858460715838825
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c01700fd266d6914ababb731e09af2eb, type: 3}
+  m_Name: DepthOfField
+  m_EditorClassIdentifier: 
+  active: 1
+  mode:
+    m_OverrideState: 1
+    m_Value: 0
+  gaussianStart:
+    m_OverrideState: 1
+    m_Value: 10
+  gaussianEnd:
+    m_OverrideState: 1
+    m_Value: 30
+  gaussianMaxRadius:
+    m_OverrideState: 1
+    m_Value: 1
+  highQualitySampling:
+    m_OverrideState: 1
+    m_Value: 0
+  focusDistance:
+    m_OverrideState: 1
+    m_Value: 10
+  aperture:
+    m_OverrideState: 1
+    m_Value: 5.6
+  focalLength:
+    m_OverrideState: 1
+    m_Value: 50
+  bladeCount:
+    m_OverrideState: 1
+    m_Value: 5
+  bladeCurvature:
+    m_OverrideState: 1
+    m_Value: 1
+  bladeRotation:
+    m_OverrideState: 1
+    m_Value: 0
+--- !u!114 &4251301726029935498
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74955a4b0b4243bc87231e8b59ed9140, type: 3}
+  m_Name: TestVolume
+  m_EditorClassIdentifier: 
+  active: 1
+  param:
+    m_OverrideState: 1
+    m_Value: 123
+--- !u!114 &4644742534064026673
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81180773991d8724ab7f2d216912b564, type: 3}
+  m_Name: ChromaticAberration
+  m_EditorClassIdentifier: 
+  active: 1
+  intensity:
+    m_OverrideState: 1
+    m_Value: 0
+--- !u!114 &4897549321104223919
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac4315c5d81c1274fb8120ba49e62c21, type: 3}
+  m_Name: LightingVolume
+  m_EditorClassIdentifier: com.hauntedpsx.render-pipelines.psx.Runtime::HauntedPSX.RenderPipelines.PSX.Runtime.LightingVolume
+  active: 1
+  <displayName>k__BackingField: 
+  lightingIsEnabled:
+    <fieldHash>k__BackingField: -1898000872
+    m_OverrideState: 1
+    m_Value: 0
+  bakedLightingMultiplier:
+    <fieldHash>k__BackingField: -1658650480
+    m_OverrideState: 1
+    m_Value: 1
+  vertexColorLightingMultiplier:
+    <fieldHash>k__BackingField: -1419300088
+    m_OverrideState: 1
+    m_Value: 0
+  dynamicLightingMultiplier:
+    <fieldHash>k__BackingField: -1179949696
+    m_OverrideState: 1
+    m_Value: 1
+  dynamicLightsMaxCount:
+    <fieldHash>k__BackingField: -423409816
+    m_OverrideState: 1
+    m_Value: 256
+  dynamicLightsMaxPerObjectCount:
+    <fieldHash>k__BackingField: 533991752
+    m_OverrideState: 1
+    m_Value: 4
+  lightingClampMode:
+    <fieldHash>k__BackingField: 773342144
+    m_OverrideState: 1
+    m_Value: 0
+  lightingClamp:
+    <fieldHash>k__BackingField: 1744083472
+    m_OverrideState: 1
+    m_Value: 1
+  lightingClampSharpness:
+    <fieldHash>k__BackingField: -1832832648
+    m_OverrideState: 1
+    m_Value: 0
+--- !u!114 &5265751169823545919
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74f7b4b43d392da4aa0edc7aa47211ca, type: 3}
+  m_Name: QualityOverrideVolume
+  m_EditorClassIdentifier: com.hauntedpsx.render-pipelines.psx.Runtime::HauntedPSX.RenderPipelines.PSX.Runtime.QualityOverrideVolume
+  active: 1
+  <displayName>k__BackingField: 
+  isPSXQualityEnabled:
+    <fieldHash>k__BackingField: 268014664
+    m_OverrideState: 1
+    m_Value: 0
+--- !u!114 &5609583056446796868
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d61509376d05fc438d9ed9281e44e26, type: 3}
+  m_Name: CompressionVolume
+  m_EditorClassIdentifier: com.hauntedpsx.render-pipelines.psx.Runtime::HauntedPSX.RenderPipelines.PSX.Runtime.CompressionVolume
+  active: 1
+  <displayName>k__BackingField: 
+  isEnabled:
+    <fieldHash>k__BackingField: 1378912640
+    m_OverrideState: 1
+    m_Value: 0
+  weight:
+    <fieldHash>k__BackingField: 1618263032
+    m_OverrideState: 1
+    m_Value: 1
+  accuracy:
+    <fieldHash>k__BackingField: 1857613424
+    m_OverrideState: 1
+    m_Value: 0
+  mode:
+    <fieldHash>k__BackingField: 2096963816
+    m_OverrideState: 1
+    m_Value: 0
+  colorspace:
+    <fieldHash>k__BackingField: -1958653088
+    m_OverrideState: 1
+    m_Value: 0
+--- !u!114 &5837881277208352159
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96575ff06efbe184aa6c6f9f90b4aab9, type: 3}
+  m_Name: FogVolume
+  m_EditorClassIdentifier: com.hauntedpsx.render-pipelines.psx.Runtime::HauntedPSX.RenderPipelines.PSX.Runtime.FogVolume
+  active: 1
+  <displayName>k__BackingField: 
+  isEnabled:
+    <fieldHash>k__BackingField: -43849952
+    m_OverrideState: 1
+    m_Value: 1
+  fogFalloffMode:
+    <fieldHash>k__BackingField: 434850832
+    m_OverrideState: 1
+    m_Value: 0
+  blendMode:
+    <fieldHash>k__BackingField: 913551616
+    m_OverrideState: 1
+    m_Value: 0
+  color:
+    <fieldHash>k__BackingField: 1152902008
+    m_OverrideState: 1
+    m_Value:
+      r: 0.5
+      g: 0.5
+      b: 0.5
+      a: 1
+  precisionAlpha:
+    <fieldHash>k__BackingField: 1392252400
+    m_OverrideState: 1
+    m_Value: 1
+  precisionAlphaDitherTexture:
+    <fieldHash>k__BackingField: 1631602792
+    m_OverrideState: 1
+    m_Value: {fileID: 0}
+    dimension: 1
+  precisionAlphaDither:
+    <fieldHash>k__BackingField: 1870953184
+    m_OverrideState: 1
+    m_Value: 1
+  distanceMin:
+    <fieldHash>k__BackingField: 2110303576
+    m_OverrideState: 1
+    m_Value: 0
+  distanceMax:
+    <fieldHash>k__BackingField: -1945313328
+    m_OverrideState: 1
+    m_Value: 100
+  fogFalloffCurve:
+    <fieldHash>k__BackingField: -1705962936
+    m_OverrideState: 1
+    m_Value: 0
+  heightFalloffEnabled:
+    <fieldHash>k__BackingField: -1466612544
+    m_OverrideState: 1
+    m_Value: 0
+  heightFalloffMirrored:
+    <fieldHash>k__BackingField: -1227262152
+    m_OverrideState: 1
+    m_Value: 0
+  heightMin:
+    <fieldHash>k__BackingField: -269860584
+    m_OverrideState: 1
+    m_Value: 0
+  heightMax:
+    <fieldHash>k__BackingField: -30510192
+    m_OverrideState: 1
+    m_Value: 10
+  colorLUTMode:
+    <fieldHash>k__BackingField: 208840200
+    m_OverrideState: 1
+    m_Value: 0
+  colorLUTTexture:
+    <fieldHash>k__BackingField: 1166241768
+    m_OverrideState: 1
+    m_Value: {fileID: 0}
+    dimension: 1
+  colorLUTRotationDegrees:
+    <fieldHash>k__BackingField: 1405592160
+    m_OverrideState: 1
+    m_Value: {x: 0, y: 0, z: 0}
+  colorLUTWeight:
+    <fieldHash>k__BackingField: 1884292944
+    m_OverrideState: 1
+    m_Value: 1
+  colorLUTWeightLayer1:
+    <fieldHash>k__BackingField: -1931973568
+    m_OverrideState: 1
+    m_Value: 0
+  isAdditionalLayerEnabled:
+    <fieldHash>k__BackingField: -1692623176
+    m_OverrideState: 1
+    m_Value: 0
+  fogFalloffModeLayer1:
+    <fieldHash>k__BackingField: -1453272784
+    m_OverrideState: 1
+    m_Value: 0
+  colorLayer1:
+    <fieldHash>k__BackingField: -1213922392
+    m_OverrideState: 1
+    m_Value:
+      r: 0.5
+      g: 0.5
+      b: 0.5
+      a: 1
+  distanceMinLayer1:
+    <fieldHash>k__BackingField: -495871216
+    m_OverrideState: 1
+    m_Value: 0
+  distanceMaxLayer1:
+    <fieldHash>k__BackingField: 107043712
+    m_OverrideState: 1
+    m_Value: 100
+  fogFalloffCurveLayer1:
+    <fieldHash>k__BackingField: 346394104
+    m_OverrideState: 1
+    m_Value: 0
+  heightFalloffEnabledLayer1:
+    <fieldHash>k__BackingField: 1543146064
+    m_OverrideState: 1
+    m_Value: 0
+  heightFalloffMirroredLayer1:
+    <fieldHash>k__BackingField: 2021846848
+    m_OverrideState: 1
+    m_Value: 0
+  heightMinLayer1:
+    <fieldHash>k__BackingField: -1794419664
+    m_OverrideState: 1
+    m_Value: 0
+  heightMaxLayer1:
+    <fieldHash>k__BackingField: -1076368488
+    m_OverrideState: 1
+    m_Value: 10
+--- !u!114 &5882454458884008352
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac4315c5d81c1274fb8120ba49e62c21, type: 3}
+  m_Name: LightingVolume
+  m_EditorClassIdentifier: com.hauntedpsx.render-pipelines.psx.Runtime::HauntedPSX.RenderPipelines.PSX.Runtime.LightingVolume
+  active: 1
+  <displayName>k__BackingField: 
+  lightingIsEnabled:
+    <fieldHash>k__BackingField: -862496904
+    m_OverrideState: 1
+    m_Value: 0
+  bakedLightingMultiplier:
+    <fieldHash>k__BackingField: -623146512
+    m_OverrideState: 1
+    m_Value: 1
+  vertexColorLightingMultiplier:
+    <fieldHash>k__BackingField: -383796120
+    m_OverrideState: 1
+    m_Value: 0
+  dynamicLightingMultiplier:
+    <fieldHash>k__BackingField: -144445728
+    m_OverrideState: 1
+    m_Value: 1
+  dynamicLightsMaxCount:
+    <fieldHash>k__BackingField: 94904664
+    m_OverrideState: 1
+    m_Value: 256
+  dynamicLightsMaxPerObjectCount:
+    <fieldHash>k__BackingField: 334255056
+    m_OverrideState: 1
+    m_Value: 4
+  lightingClampMode:
+    <fieldHash>k__BackingField: 573605448
+    m_OverrideState: 1
+    m_Value: 0
+  lightingClamp:
+    <fieldHash>k__BackingField: 812955840
+    m_OverrideState: 1
+    m_Value: 1
+  lightingClampSharpness:
+    <fieldHash>k__BackingField: 1052306232
+    m_OverrideState: 1
+    m_Value: 0
+--- !u!114 &6372645927371378398
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73811fdb48dddb143add2662b3aba7bf, type: 3}
+  m_Name: TerrainGrassVolume
+  m_EditorClassIdentifier: com.hauntedpsx.render-pipelines.psx.Runtime::HauntedPSX.RenderPipelines.PSX.Runtime.TerrainGrassVolume
+  active: 1
+  <displayName>k__BackingField: 
+  textureFilterMode:
+    <fieldHash>k__BackingField: 1278316864
+    m_OverrideState: 1
+    m_Value: 0
+--- !u!114 &6487046332755433465
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74f7b4b43d392da4aa0edc7aa47211ca, type: 3}
+  m_Name: QualityOverrideVolume
+  m_EditorClassIdentifier: com.hauntedpsx.render-pipelines.psx.Runtime::HauntedPSX.RenderPipelines.PSX.Runtime.QualityOverrideVolume
+  active: 1
+  <displayName>k__BackingField: 
+  isPSXQualityEnabled:
+    <fieldHash>k__BackingField: -1358799312
+    m_OverrideState: 1
+    m_Value: 0
+--- !u!114 &6940869943325143175
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: VolumeComponentSupportedOnAnySRP
+  m_EditorClassIdentifier: Unity.RenderPipelines.Core.Editor.Tests:UnityEngine.Rendering.Tests:VolumeComponentEditorSupportedOnTests/VolumeComponentSupportedOnAnySRP
+  active: 1
+--- !u!114 &7173750748008157695
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 899c54efeace73346a0a16faa3afe726, type: 3}
+  m_Name: Vignette
+  m_EditorClassIdentifier: 
+  active: 1
+  color:
+    m_OverrideState: 1
+    m_Value: {r: 0, g: 0, b: 0, a: 1}
+  center:
+    m_OverrideState: 1
+    m_Value: {x: 0.5, y: 0.5}
+  intensity:
+    m_OverrideState: 1
+    m_Value: 0
+  smoothness:
+    m_OverrideState: 1
+    m_Value: 0.2
+  rounded:
+    m_OverrideState: 1
+    m_Value: 0
+--- !u!114 &7173848550962883064
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb00c03fccc953a4387732e1392ffcf8, type: 3}
+  m_Name: CameraVolume
+  m_EditorClassIdentifier: com.hauntedpsx.render-pipelines.psx.Runtime::HauntedPSX.RenderPipelines.PSX.Runtime.CameraVolume
+  active: 1
+  <displayName>k__BackingField: 
+  isFrameLimitEnabled:
+    <fieldHash>k__BackingField: 1967890616
+    m_OverrideState: 1
+    m_Value: 0
+  frameLimit:
+    <fieldHash>k__BackingField: -2087726288
+    m_OverrideState: 1
+    m_Value: 24
+  aspectMode:
+    <fieldHash>k__BackingField: -1848375896
+    m_OverrideState: 1
+    m_Value: 3
+  targetRasterizationResolutionWidth:
+    <fieldHash>k__BackingField: -1609025504
+    m_OverrideState: 1
+    m_Value: 256
+  targetRasterizationResolutionHeight:
+    <fieldHash>k__BackingField: -1369675112
+    m_OverrideState: 1
+    m_Value: 224
+  isDepthBufferEnabled:
+    <fieldHash>k__BackingField: -1130324720
+    m_OverrideState: 1
+    m_Value: 1
+  isClearDepthAfterBackgroundEnabled:
+    <fieldHash>k__BackingField: -890974328
+    m_OverrideState: 1
+    m_Value: 1
+  isClearDepthBeforeUIEnabled:
+    <fieldHash>k__BackingField: -651623936
+    m_OverrideState: 1
+    m_Value: 1
+--- !u!114 &7518938298396184218
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5e1dc532bcb41949b58bc4f2abfbb7e, type: 3}
+  m_Name: LensDistortion
+  m_EditorClassIdentifier: 
+  active: 1
+  intensity:
+    m_OverrideState: 1
+    m_Value: 0
+  xMultiplier:
+    m_OverrideState: 1
+    m_Value: 1
+  yMultiplier:
+    m_OverrideState: 1
+    m_Value: 1
+  center:
+    m_OverrideState: 1
+    m_Value: {x: 0.5, y: 0.5}
+  scale:
+    m_OverrideState: 1
+    m_Value: 1
+--- !u!114 &9001657382290151224
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cdfbdbb87d3286943a057f7791b43141, type: 3}
+  m_Name: ChannelMixer
+  m_EditorClassIdentifier: 
+  active: 1
+  redOutRedIn:
+    m_OverrideState: 1
+    m_Value: 100
+  redOutGreenIn:
+    m_OverrideState: 1
+    m_Value: 0
+  redOutBlueIn:
+    m_OverrideState: 1
+    m_Value: 0
+  greenOutRedIn:
+    m_OverrideState: 1
+    m_Value: 0
+  greenOutGreenIn:
+    m_OverrideState: 1
+    m_Value: 100
+  greenOutBlueIn:
+    m_OverrideState: 1
+    m_Value: 0
+  blueOutRedIn:
+    m_OverrideState: 1
+    m_Value: 0
+  blueOutGreenIn:
+    m_OverrideState: 1
+    m_Value: 0
+  blueOutBlueIn:
+    m_OverrideState: 1
+    m_Value: 100
+--- !u!114 &9122958982931076880
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: CopyPasteTestComponent1
+  m_EditorClassIdentifier: Unity.RenderPipelines.Core.Editor.Tests:UnityEditor.Rendering.Tests:VolumeComponentCopyPasteTests/CopyPasteTestComponent1
+  active: 1
+  p1:
+    m_OverrideState: 1
+    m_Value: 0
+  p2:
+    m_OverrideState: 1
+    m_Value: 0
