@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 
 [Serializable]
 public class SaveData
@@ -18,7 +17,6 @@ public class SaveData
     public float playerRotZ;
 
     public List<string> completedTriggers = new List<string>();
-
     public List<ObjectStateData> objectStates = new List<ObjectStateData>();
 }
 

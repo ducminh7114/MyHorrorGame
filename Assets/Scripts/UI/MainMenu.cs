@@ -59,10 +59,9 @@ public class MainMenu : MonoBehaviour
         if (continueButton == null)
             return;
 
-        bool hasSave =
-            PlayerPrefs.GetInt("HasSaveGame", 0) == 1;
-
-        continueButton.interactable = hasSave;
+        continueButton.interactable =
+            GameSaveManager.Instance != null &&
+            GameSaveManager.Instance.HasSaveGame();
     }
 
     // =========================================================
@@ -71,12 +70,9 @@ public class MainMenu : MonoBehaviour
     public void playGame()
     {
         if (GameSaveManager.Instance != null)
-        {
             GameSaveManager.Instance.NewGame();
-        }
 
-        UnityEngine.SceneManagement.SceneManager
-            .LoadScene(SceneName);
+        UnityEngine.SceneManagement.SceneManager.LoadScene(SceneName);
     }
 
 

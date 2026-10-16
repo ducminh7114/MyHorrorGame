@@ -344,6 +344,6 @@ public class EnemyJumpscareAI : MonoBehaviour
 
     private void Disappear()
     {
-        gameObject.SetActive(false);
+        SaveObjectState.SetActive(gameObject, false);
     }
 }

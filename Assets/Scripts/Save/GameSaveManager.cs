@@ -1,3 +1,5 @@
+
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
@@ -7,9 +9,12 @@ public class GameSaveManager : MonoBehaviour
 {
     public static GameSaveManager Instance;
 
-    private SaveData currentSave;
+    public SaveData currentSave = new SaveData();
 
-    private string savePath;
+    private string SavePath =>
+        Path.Combine(Application.persistentDataPath, "savegame.json");
+
+    private bool restoring;
 
     private void Awake()
     {
@@ -20,330 +25,273 @@ public class GameSaveManager : MonoBehaviour
         }
 
         Instance = this;
-
         DontDestroyOnLoad(gameObject);
 
-        savePath = Path.Combine(
-            Application.persistentDataPath,
-            "savegame.json"
-        );
+        LoadFromDisk();
 
-        LoadSaveFromDisk();
+        SceneManager.sceneLoaded += OnSceneLoaded;
 
-        Debug.Log("GameSaveManager initialized.");
-        Debug.Log("Save path: " + savePath);
+        Debug.Log("[SAVE] Manager ready: " + SavePath);
     }
 
-    // =========================================================
-    // LOAD SAVE FILE
-    // =========================================================
-
-    private void LoadSaveFromDisk()
+    private void OnDestroy()
     {
-        if (!File.Exists(savePath))
-        {
-            currentSave = new SaveData();
-
-            Debug.Log("No save file found.");
+        if (Instance != this)
             return;
-        }
 
-        string json = File.ReadAllText(savePath);
-
-        currentSave = JsonUtility.FromJson<SaveData>(json);
-
-        if (currentSave == null)
-        {
-            currentSave = new SaveData();
-        }
-
-        Debug.Log("Save file loaded.");
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+        Instance = null;
     }
 
-    // =========================================================
-    // NEW GAME
-    // =========================================================
+    // ---------- NEW GAME ----------
 
     public void NewGame()
     {
         currentSave = new SaveData();
 
-        DeleteSaveFile();
+        if (File.Exists(SavePath))
+            File.Delete(SavePath);
 
-        Debug.Log("NEW GAME - save data cleared.");
+        Debug.Log("[SAVE] New game started. Old save deleted.");
     }
 
-    // =========================================================
-    // CHECK SAVE
-    // =========================================================
-
-    public bool HasSaveGame()
-    {
-        return currentSave != null &&
-               currentSave.hasSave;
-    }
-
-    // =========================================================
-    // SAVE PLAYER + SCENE
-    // =========================================================
+    // ---------- CHECKPOINT ----------
 
     public void SaveCheckpoint(GameObject player)
     {
         if (player == null)
         {
-            Debug.LogError("SaveCheckpoint: Player is NULL.");
+            Debug.LogError("[SAVE] Cannot save: Player is missing.");
             return;
         }
 
         currentSave.hasSave = true;
+        currentSave.sceneName = SceneManager.GetActiveScene().name;
 
-        currentSave.sceneName =
-            SceneManager.GetActiveScene().name;
+        Vector3 pos = player.transform.position;
+        Vector3 rot = player.transform.eulerAngles;
 
-        currentSave.playerPosX =
-            player.transform.position.x;
+        currentSave.playerPosX = pos.x;
+        currentSave.playerPosY = pos.y;
+        currentSave.playerPosZ = pos.z;
 
-        currentSave.playerPosY =
-            player.transform.position.y;
-
-        currentSave.playerPosZ =
-            player.transform.position.z;
-
-        currentSave.playerRotX =
-            player.transform.eulerAngles.x;
-
-        currentSave.playerRotY =
-            player.transform.eulerAngles.y;
-
-        currentSave.playerRotZ =
-            player.transform.eulerAngles.z;
+        currentSave.playerRotX = rot.x;
+        currentSave.playerRotY = rot.y;
+        currentSave.playerRotZ = rot.z;
 
         SaveToDisk();
 
-        Debug.Log("=================================");
-        Debug.Log("CHECKPOINT SAVED");
-        Debug.Log("Scene: " + currentSave.sceneName);
-        Debug.Log("Position: " + player.transform.position);
-        Debug.Log("=================================");
+        Debug.Log("[SAVE] Checkpoint saved in scene: " +
+                  currentSave.sceneName);
     }
 
-    // =========================================================
-    // TRIGGERS
-    // =========================================================
+    // ---------- COMPLETED EVENTS ----------
 
     public void MarkTriggerCompleted(string triggerID)
     {
-        if (string.IsNullOrEmpty(triggerID))
-            return;
-
-        if (currentSave.completedTriggers == null)
+        if (string.IsNullOrWhiteSpace(triggerID))
         {
-            currentSave.completedTriggers =
-                new List<string>();
+            Debug.LogWarning("[SAVE] Trigger ID is empty.");
+            return;
         }
 
         if (!currentSave.completedTriggers.Contains(triggerID))
         {
             currentSave.completedTriggers.Add(triggerID);
-
-            Debug.Log(
-                "Trigger completed: " +
-                triggerID
-            );
+            Debug.Log("[SAVE] Event recorded: " + triggerID);
         }
     }
 
     public bool IsTriggerCompleted(string triggerID)
     {
-        if (string.IsNullOrEmpty(triggerID))
-            return false;
-
-        if (currentSave.completedTriggers == null)
-            return false;
-
-        return currentSave.completedTriggers.Contains(triggerID);
+        return !string.IsNullOrWhiteSpace(triggerID)
+            && currentSave.completedTriggers.Contains(triggerID);
     }
 
-    // =========================================================
-    // OBJECT STATE
-    // =========================================================
+    // ---------- OBJECT STATES ----------
 
-    public void SetObjectState(
-        string id,
-        bool active
-    )
+    public void SetObjectState(string id, bool active)
     {
-        if (string.IsNullOrEmpty(id))
+        if (string.IsNullOrWhiteSpace(id))
+        {
+            Debug.LogWarning("[SAVE] Object ID is empty.");
             return;
+        }
 
         ObjectStateData state =
-            currentSave.objectStates.Find(
-                x => x.id == id
-            );
+            currentSave.objectStates.Find(item => item.id == id);
 
         if (state == null)
         {
             state = new ObjectStateData();
-
             state.id = id;
-            state.active = active;
-
             currentSave.objectStates.Add(state);
         }
-        else
+
+        state.active = active;
+
+        Debug.Log("[SAVE] Object recorded: " + id + " = " + active);
+    }
+
+    public bool TryGetObjectState(string id, out bool active)
+    {
+        ObjectStateData state =
+            currentSave.objectStates.Find(item => item.id == id);
+
+        if (state != null)
         {
-            state.active = active;
+            active = state.active;
+            return true;
         }
 
-        Debug.Log(
-            "Saved object state: " +
-            id +
-            " = " +
-            active
-        );
+        active = false;
+        return false;
     }
 
-    public bool TryGetObjectState(
-        string id,
-        out bool active
-    )
-    {
-        active = true;
-
-        ObjectStateData state =
-            currentSave.objectStates.Find(
-                x => x.id == id
-            );
-
-        if (state == null)
-            return false;
-
-        active = state.active;
-
-        return true;
-    }
-
-    // =========================================================
-    // ACTUALLY WRITE FILE
-    // =========================================================
+    // ---------- DISK SAVE / LOAD ----------
 
     public void SaveToDisk()
     {
-        if (currentSave == null)
-            currentSave = new SaveData();
+        try
+        {
+            string json = JsonUtility.ToJson(currentSave, true);
+            File.WriteAllText(SavePath, json);
 
-        string json =
-            JsonUtility.ToJson(
-                currentSave,
-                true
-            );
-
-        File.WriteAllText(
-            savePath,
-            json
-        );
-
-        Debug.Log("SAVE FILE WRITTEN.");
+            Debug.Log("[SAVE] File written successfully.");
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError("[SAVE] Could not write save: " + e.Message);
+        }
     }
 
-    // =========================================================
-    // DELETE SAVE
-    // =========================================================
-
-    public void DeleteSaveFile()
+    public void LoadFromDisk()
     {
-        if (File.Exists(savePath))
+        if (!File.Exists(SavePath))
         {
-            File.Delete(savePath);
+            currentSave = new SaveData();
+            Debug.Log("[SAVE] No existing save file.");
+            return;
         }
 
-        currentSave = new SaveData();
+        try
+        {
+            string json = File.ReadAllText(SavePath);
+            currentSave = JsonUtility.FromJson<SaveData>(json);
 
-        Debug.Log("SAVE FILE DELETED.");
+            if (currentSave == null)
+                currentSave = new SaveData();
+
+            if (currentSave.completedTriggers == null)
+                currentSave.completedTriggers = new List<string>();
+
+            if (currentSave.objectStates == null)
+                currentSave.objectStates = new List<ObjectStateData>();
+
+            Debug.Log("[SAVE] Save file loaded.");
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError("[SAVE] Could not load save: " + e.Message);
+            currentSave = new SaveData();
+        }
     }
 
-    // =========================================================
-    // CONTINUE INFORMATION
-    // =========================================================
+    public bool HasSaveGame()
+    {
+        return currentSave != null
+            && currentSave.hasSave
+            && !string.IsNullOrEmpty(currentSave.sceneName);
+    }
 
     public string GetSavedScene()
     {
-        if (currentSave == null)
-            return "";
-
         return currentSave.sceneName;
     }
 
-    public Vector3 GetSavedPosition()
+    // ---------- RESTORE AFTER CONTINUE ----------
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        return new Vector3(
-            currentSave.playerPosX,
-            currentSave.playerPosY,
-            currentSave.playerPosZ
-        );
+        if (HasSaveGame() && scene.name == currentSave.sceneName)
+            StartCoroutine(RestoreSceneData(scene.name));
     }
 
-    public Vector3 GetSavedRotation()
+    private IEnumerator RestoreSceneData(string sceneName)
     {
-        return new Vector3(
-            currentSave.playerRotX,
-            currentSave.playerRotY,
-            currentSave.playerRotZ
-        );
-    }
+        if (restoring)
+            yield break;
 
-    // =========================================================
-    // DEBUG
-    // =========================================================
+        restoring = true;
+
+        // Allow scene objects and their Start methods to initialize.
+        yield return null;
+        yield return null;
+
+        if (!HasSaveGame() || sceneName != currentSave.sceneName)
+        {
+            restoring = false;
+            yield break;
+        }
+
+        Debug.Log("[SAVE] Restoring scene: " + sceneName);
+
+        PersistentObject[] objects =
+            FindObjectsOfType<PersistentObject>(true);
+
+        foreach (PersistentObject obj in objects)
+        {
+            if (obj != null)
+                obj.RestoreState();
+        }
+
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+
+        if (player != null)
+        {
+            CharacterController controller =
+                player.GetComponent<CharacterController>();
+
+            if (controller != null)
+                controller.enabled = false;
+
+            player.transform.SetPositionAndRotation(
+                new Vector3(
+                    currentSave.playerPosX,
+                    currentSave.playerPosY,
+                    currentSave.playerPosZ
+                ),
+                Quaternion.Euler(
+                    currentSave.playerRotX,
+                    currentSave.playerRotY,
+                    currentSave.playerRotZ
+                )
+            );
+
+            if (controller != null)
+                controller.enabled = true;
+
+            Debug.Log("[SAVE] Player position restored.");
+        }
+        else
+        {
+            Debug.LogWarning("[SAVE] Player with tag Player not found.");
+        }
+
+        Debug.Log("[SAVE] Restore finished.");
+        restoring = false;
+    }
 
     public void DebugSave()
     {
-        Debug.Log("========== SAVE DATA ==========");
+        Debug.Log("[SAVE] Save file path: " + SavePath);
+        Debug.Log("[SAVE] Has save: " + HasSaveGame());
+        Debug.Log("[SAVE] Saved scene: " + GetSavedScene());
+        Debug.Log("[SAVE] Completed triggers: " +
+            currentSave.completedTriggers.Count);
+        Debug.Log("[SAVE] Saved object states: " +
+            currentSave.objectStates.Count);
 
-        Debug.Log(
-            "Has Save: " +
-            currentSave.hasSave
-        );
-
-        Debug.Log(
-            "Scene: " +
-            currentSave.sceneName
-        );
-
-        Debug.Log(
-            "Player Position: " +
-            GetSavedPosition()
-        );
-
-        Debug.Log(
-            "Completed Triggers:"
-        );
-
-        foreach (
-            string trigger
-            in currentSave.completedTriggers
-        )
-        {
-            Debug.Log(" - " + trigger);
-        }
-
-        Debug.Log(
-            "Object States:"
-        );
-
-        foreach (
-            ObjectStateData state
-            in currentSave.objectStates
-        )
-        {
-            Debug.Log(
-                " - " +
-                state.id +
-                " = " +
-                state.active
-            );
-        }
-
-        Debug.Log("===============================");
+        SaveToDisk();
     }
 }

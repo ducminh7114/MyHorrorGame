@@ -3,6 +3,9 @@ using System.Collections;
 
 public class Door : MonoBehaviour
 {
+    [Header("Save Settings")]
+    public string doorID = "Door_01";
+
     [Header("UI")] 
     public GameObject inttext; 
     public GameObject lockedText;
@@ -25,6 +28,8 @@ public class Door : MonoBehaviour
 
         if (lockedText != null)
             lockedText.SetActive(false);
+
+        RestoreDoorState();
     }
 
     private void OnTriggerStay(Collider other)
@@ -101,6 +106,8 @@ public class Door : MonoBehaviour
             inttext.SetActive(false);
 
         interactable = false;
+
+        SaveDoorState();
     }
 
     private void ShowLockedText()
@@ -122,10 +129,41 @@ public class Door : MonoBehaviour
     private IEnumerator DisableText()
     {
         yield return new WaitForSeconds(2f);
-
-        if (lockedText != null) ;
-        lockedText.SetActive(false);
+        
+        if (lockedText != null)
+            lockedText.SetActive(false);
 
         lockedCoroutine = null;
+    }
+
+
+    public void SaveDoorState()
+    {
+        if (GameSaveManager.Instance == null)
+            return;
+
+        GameSaveManager.Instance.SetObjectState(doorID, toggle);
+    }
+
+    public void RestoreDoorState()
+    {
+        if (GameSaveManager.Instance == null)
+            return;
+
+        if (GameSaveManager.Instance.TryGetObjectState(
+            doorID, out bool savedOpen))
+        {
+            toggle = savedOpen;
+
+            if (doorAnim != null)
+            {
+                doorAnim.ResetTrigger("open");
+                doorAnim.ResetTrigger("close");
+
+                doorAnim.SetTrigger(savedOpen ? "open" : "close");
+            }
+
+            Debug.Log("[SAVE] Door restored. Open = " + savedOpen);
+        }
     }
 }

@@ -1,9 +1,9 @@
+
 using UnityEngine;
 using TMPro;
 using System.Collections;
-using System.Collections.Generic;
 
-public class lookAtObjcet : MonoBehaviour
+public class lookAtObject : MonoBehaviour
 {
     [Header("Interaction")]
     public TMP_Text textOB;
@@ -19,121 +19,130 @@ public class lookAtObjcet : MonoBehaviour
     public bool isKey = false;
     public GameObject key;
 
+    [Header("Key Save Settings")]
+    public string keyID = "Key_01";
+
     [Header("Key Dialogue")]
     [TextArea]
-    public string dialogue = "This is a key item. You can use it to unlock doors or chests.";
+    public string dialogue =
+        "This is a key item. You can use it to unlock doors or chests.";
 
     public float dialogueTimer = 2f;
 
+    private bool keyCollected = false;
     private Coroutine dialogueCoroutine;
 
-    void Start()
+    private void Start()
     {
-       if (textOB != null)
-        {
+        if (textOB != null)
             textOB.enabled = false;
 
-        }
-
         if (ObjName != null)
-        {
             ObjName.enabled = false;
-        }
-    }
 
-    void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("MainCamera"))
-        {
-            inttext.SetActive(true);
-            
-            if (ObjName != null)
-            {
-                ObjName.text = objectName;
-                ObjName.enabled = true;
-
-            }
-        
-            if (!isKey && textOB != null)
-            {
-                textOB.enabled = true;
-            }
-
-            interactable = true;
-
-        }
-
-    }
-
-    void OnTriggerExit(Collider Other)
-    {
-        if (Other.CompareTag("MainCamera"))
-        {
+        if (inttext != null)
             inttext.SetActive(false);
 
-            if (textOB != null)
-            {
-                textOB.enabled = false;
-                textOB.text = "";
-            }
+        interactable = false;
 
-            if (objectName != null)
-            {
-                ObjName.enabled = false;
-                ObjName.text = "";
-            }
-
-            interactable = false;
-
-        }
+        if (isKey)
+            RestoreKeyState();
     }
 
-    void Update()
+    private void Update()
     {
+        if (isKey)
+        {
+            // If the real key is inactive, disable this interaction object.
+            if (key != null && !key.activeInHierarchy)
+            {
+                DisableKeyInteraction();
+                return;
+            }
+
+            if (keyCollected)
+                return;
+        }
+
         if (!interactable)
             return;
+
         if (Input.GetKeyDown(KeyCode.E))
         {
             Debug.Log("Interacted with " + gameObject.name);
-            if(isKey)
-            {
-                PickUpKey();
-            } else
-            {
-                LookAtObject();
-            }
-        }
 
+            if (isKey)
+                PickUpKey();
+            else
+                LookAtObject();
+        }
     }
 
-    void LookAtObject()
+    private void OnTriggerEnter(Collider other)
+    {
+        if (isKey && (keyCollected ||
+            (key != null && !key.activeInHierarchy)))
+        {
+            DisableKeyInteraction();
+            return;
+        }
+
+        if (!other.CompareTag("MainCamera"))
+            return;
+
+        if (inttext != null)
+            inttext.SetActive(true);
+
+        if (ObjName != null)
+        {
+            ObjName.text = objectName;
+            ObjName.enabled = true;
+        }
+
+        if (!isKey && textOB != null)
+            textOB.enabled = true;
+
+        interactable = true;
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (!other.CompareTag("MainCamera"))
+            return;
+
+        HideInteractionUI();
+        interactable = false;
+    }
+
+    private void LookAtObject()
     {
         Debug.Log("Looking at " + gameObject.name);
+
         if (inttext != null)
             inttext.SetActive(false);
 
         if (ObjName != null)
             ObjName.text = "";
 
-        if(textOB != null)
+        if (textOB != null)
         {
             textOB.text = description;
             textOB.enabled = true;
         }
     }
 
-    void PickUpKey()
+    private void PickUpKey()
     {
-        Debug.Log("Picked up " + gameObject.name);
-        if (inttext != null)
-            inttext.SetActive(false);
+        if (keyCollected)
+            return;
 
-        if (ObjName != null)
-        {
-            ObjName.text = "";
-            ObjName.enabled = false;
+        keyCollected = true;
+        interactable = false;
 
-        }
+        if (GameSaveManager.Instance != null)
+            GameSaveManager.Instance.SetObjectState(keyID, true);
+
+        HideInteractionUI();
 
         if (textOB != null)
         {
@@ -141,29 +150,81 @@ public class lookAtObjcet : MonoBehaviour
             textOB.enabled = true;
         }
 
-        if (dialogueCoroutine != null)
-        {
-            StopCoroutine(dialogueCoroutine);
-        }
-
-        dialogueCoroutine = StartCoroutine(HideDialogue());
-    
-        if (key != null)
-        {
-            key.SetActive(false);
-        }
-
-        interactable = false;
-
+        StartCoroutine(DeactivateAfterDialogue());
     }
 
-    IEnumerator HideDialogue()
+    private IEnumerator DeactivateAfterDialogue()
     {
+        // Keep the dialogue visible for its configured duration.
         yield return new WaitForSeconds(dialogueTimer);
+
+        if (textOB != null)
+            textOB.enabled = false;
+
+        // Deactivate and save the actual key.
+        if (key != null)
+            SaveObjectState.SetActive(key, false);
+
+        // Deactivate and save the interaction object.
+        SaveObjectState.SetActive(gameObject, false);
+    }
+
+    private void RestoreKeyState()
+    {
+        if (GameSaveManager.Instance == null)
+            return;
+
+        if (GameSaveManager.Instance.TryGetObjectState(
+            keyID, out bool collected) && collected)
+        {
+            keyCollected = true;
+            DisableKeyInteraction();
+            return;
+        }
+
+        // Also handle a key that was restored as inactive.
+        if (key != null && !key.activeInHierarchy)
+            DisableKeyInteraction();
+    }
+
+    private void DisableKeyInteraction()
+    {
+        keyCollected = true;
+        interactable = false;
+
+        HideInteractionUI();
+
+        if (key != null && key.activeSelf)
+            key.SetActive(false);
+
+        // Disable only the interaction object, not its parent.
+        gameObject.SetActive(false);
+    }
+
+    private void HideInteractionUI()
+    {
+        if (inttext != null)
+            inttext.SetActive(false);
+
+        if (ObjName != null)
+        {
+            ObjName.enabled = false;
+            ObjName.text = "";
+        }
+
         if (textOB != null)
         {
             textOB.enabled = false;
+            textOB.text = "";
         }
+    }
+
+    private IEnumerator HideDialogue()
+    {
+        yield return new WaitForSeconds(dialogueTimer);
+
+        if (textOB != null)
+            textOB.enabled = false;
 
         dialogueCoroutine = null;
     }

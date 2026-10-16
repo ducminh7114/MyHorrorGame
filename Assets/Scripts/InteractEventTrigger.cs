@@ -353,26 +353,16 @@ public class InteractEventTrigger : MonoBehaviour
         if (inttext != null)
             inttext.SetActive(false);
 
-        // =====================================================
-        // ENABLE OBJECTS
-        // =====================================================
-
         foreach (var action in enableObjects)
         {
-            StartCoroutine(
-                EnableObjectRoutine(action)
-            );
+            if (action.targetObject != null)
+                SaveObjectState.SetActive(action.targetObject, true);
         }
-
-        // =====================================================
-        // DISABLE OBJECTS
-        // =====================================================
 
         foreach (var action in disableObjects)
         {
-            StartCoroutine(
-                DisableObjectRoutine(action)
-            );
+            if (action.targetObject != null)
+                SaveObjectState.SetActive(action.targetObject, false);
         }
 
         // =====================================================
@@ -510,7 +500,7 @@ public class InteractEventTrigger : MonoBehaviour
             yield return new WaitForSeconds(action.delay);
 
         if (action.targetObject != null)
-            action.targetObject.SetActive(true);
+            SaveObjectState.SetActive(action.targetObject, true);
     }
 
     // =========================================================
@@ -523,7 +513,7 @@ public class InteractEventTrigger : MonoBehaviour
             yield return new WaitForSeconds(action.delay);
 
         if (action.targetObject != null)
-            action.targetObject.SetActive(false);
+            SaveObjectState.SetActive(action.targetObject, false);
     }
 
     // =========================================================

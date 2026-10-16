@@ -1,61 +1,32 @@
+
 using UnityEngine;
 
 public class PersistentObject : MonoBehaviour
 {
-    [Header("Unique Save ID")]
+    [Header("Must be unique in the entire game")]
     public string objectID;
-
-    private void Start()
-    {
-        if (string.IsNullOrEmpty(objectID))
-        {
-            Debug.LogWarning(
-                "PersistentObject has no ID: " +
-                gameObject.name
-            );
-
-            return;
-        }
-
-        RestoreState();
-    }
-
-    public void SetState(bool active)
-    {
-        if (GameSaveManager.Instance == null)
-            return;
-
-        gameObject.SetActive(active);
-
-        GameSaveManager.Instance.SetObjectState(
-            objectID,
-            active
-        );
-    }
 
     public void RestoreState()
     {
+        if (string.IsNullOrWhiteSpace(objectID))
+        {
+            Debug.LogWarning(
+                "[SAVE] Missing Object ID on " + gameObject.name
+            );
+            return;
+        }
+
         if (GameSaveManager.Instance == null)
             return;
 
-        bool savedState;
+        if (GameSaveManager.Instance.TryGetObjectState(
+            objectID, out bool savedActive))
+        {
+            gameObject.SetActive(savedActive);
 
-        bool found =
-            GameSaveManager.Instance.TryGetObjectState(
-                objectID,
-                out savedState
+            Debug.Log(
+                "[SAVE] Restored " + objectID + " = " + savedActive
             );
-
-        if (!found)
-            return;
-
-        gameObject.SetActive(savedState);
-
-        Debug.Log(
-            "Restored object: " +
-            objectID +
-            " = " +
-            savedState
-        );
+        }
     }
 }

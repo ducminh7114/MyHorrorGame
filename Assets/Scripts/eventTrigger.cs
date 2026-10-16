@@ -239,20 +239,14 @@ public class eventTrigger : MonoBehaviour
 
     private void Start()
     {
-        // No GameSaveManager = nothing to restore
-        if (GameSaveManager.Instance == null)
-            return;
+        hasTriggered = false;
 
-        // Check if this trigger was completed before
-        if (!string.IsNullOrEmpty(triggerID) &&
+        if (GameSaveManager.Instance != null &&
+            !string.IsNullOrWhiteSpace(triggerID) &&
             GameSaveManager.Instance.IsTriggerCompleted(triggerID))
         {
             hasTriggered = true;
-
-            Debug.Log(
-                "Trigger already completed: " +
-                triggerID
-            );
+            Debug.Log("[SAVE] Trigger already completed: " + triggerID);
         }
     }
 
@@ -262,29 +256,27 @@ public class eventTrigger : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+
+        Debug.LogError("EVENT TRIGGER ENTERED!");
+        Debug.LogError("Trigger ID = " + triggerID);
+        Debug.LogError("Player tag = " + other.tag);
+
         if (!other.CompareTag("Player"))
             return;
 
-        // Prevent trigger from running again
         if (triggerOnce && hasTriggered)
             return;
 
         hasTriggered = true;
 
-        // =====================================================
-        // REGISTER TRIGGER AS COMPLETED
-        // =====================================================
-
-        if (GameSaveManager.Instance != null &&
-            !string.IsNullOrEmpty(triggerID))
+        if (GameSaveManager.Instance != null)
         {
-            GameSaveManager.Instance.MarkTriggerCompleted(
-                triggerID
-            );
-
-            Debug.Log(
-                "EVENT TRIGGER COMPLETED AND REGISTERED: " +
-                triggerID
+            GameSaveManager.Instance.MarkTriggerCompleted(triggerID);
+        }
+        else
+        {
+            Debug.LogError(
+                "Cannot save trigger: GameSaveManager missing or ID empty!"
             );
         }
 
@@ -420,7 +412,7 @@ public class eventTrigger : MonoBehaviour
             yield return new WaitForSeconds(action.delay);
 
         if (action.targetObject != null)
-            action.targetObject.SetActive(true);
+            SaveObjectState.SetActive(action.targetObject, true);
     }
 
     // =========================================================
@@ -433,7 +425,7 @@ public class eventTrigger : MonoBehaviour
             yield return new WaitForSeconds(action.delay);
 
         if (action.targetObject != null)
-            action.targetObject.SetActive(false);
+            SaveObjectState.SetActive(action.targetObject, false);
     }
 
     // =========================================================
@@ -569,70 +561,73 @@ public class eventTrigger : MonoBehaviour
     // TIMELINE
     // =========================================================
 
-    IEnumerator TimelineRoutine(
-        TimelineAction action)
+
+    IEnumerator TimelineRoutine(TimelineAction action)
     {
-        if (action.useDelay)
+        if (action.useDelay && action.delay > 0f)
             yield return new WaitForSeconds(action.delay);
 
-        if (action.director == null)
-            yield break;
-
-        // =====================================================
-        // ENABLE CUTSCENE OBJECTS
-        // =====================================================
-
+        // 1. Enable the cutscene root FIRST
         if (action.cutsceneRoot != null)
+        {
             action.cutsceneRoot.SetActive(true);
 
-        // =====================================================
-        // DISABLE PLAYER MOVEMENT
-        // =====================================================
+            Debug.Log("[Cutscene] Enabled root: " +
+                      action.cutsceneRoot.name);
+        }
+        else
+        {
+            Debug.LogWarning(
+                "[Cutscene] Cutscene Root is not assigned!");
+        }
 
+        // 2. Check the Timeline Director
+        if (action.director == null)
+        {
+            Debug.LogError(
+                "[Cutscene] Playable Director is not assigned!");
+            yield break;
+        }
+
+        Debug.Log("[Cutscene] Director found: " +
+                  action.director.name);
+
+        // 3. Disable player movement
         if (action.disablePlayerMovement &&
             action.playerMovement != null)
         {
             action.playerMovement.enabled = false;
         }
 
-        // =====================================================
-        // HIDE PLAYER
-        // =====================================================
-
-        if (action.hidePlayer &&
-            action.player != null)
+        // 4. Hide player if requested
+        if (action.hidePlayer && action.player != null)
         {
             action.player.SetActive(false);
         }
 
-        // =====================================================
-        // WAIT FOR TIMELINE
-        // =====================================================
-
+        // 5. Register callback BEFORE playing
         bool timelineFinished = false;
 
-        void OnTimelineFinished(
-            PlayableDirector finishedDirector)
+        void OnTimelineFinished(PlayableDirector finishedDirector)
         {
             timelineFinished = true;
-
-            finishedDirector.stopped -=
-                OnTimelineFinished;
+            finishedDirector.stopped -= OnTimelineFinished;
         }
 
-        action.director.stopped +=
-            OnTimelineFinished;
+        action.director.stopped -= OnTimelineFinished;
+        action.director.stopped += OnTimelineFinished;
 
+        // 6. Play Timeline
+        action.director.time = 0;
         action.director.Play();
 
-        yield return new WaitUntil(
-            () => timelineFinished
-        );
+        Debug.Log("[Cutscene] Timeline started!");
 
-        // =====================================================
-        // TELEPORT PLAYER
-        // =====================================================
+        yield return new WaitUntil(() => timelineFinished);
 
+        Debug.Log("[Cutscene] Timeline finished!");
+
+        // 7. Teleport player if requested
         if (action.teleportPlayer &&
             action.player != null &&
             action.endPosition != null)
@@ -648,37 +643,28 @@ public class eventTrigger : MonoBehaviour
                 action.endPosition.rotation
             );
 
-            yield return null;
-
             if (cc != null)
                 cc.enabled = true;
         }
 
-        // =====================================================
-        // SHOW PLAYER
-        // =====================================================
-
-        if (action.hidePlayer &&
-            action.player != null)
+        // 8. Show player again
+        if (action.hidePlayer && action.player != null)
         {
             action.player.SetActive(true);
         }
 
-        // =====================================================
-        // DISABLE CUTSCENE ROOT
-        // =====================================================
-
+        // 9. Disable cutscene root after Timeline finishes
         if (action.cutsceneRoot != null)
+        {
             action.cutsceneRoot.SetActive(false);
+        }
 
-        // =====================================================
-        // ENABLE PLAYER MOVEMENT
-        // =====================================================
-
+        // 10. Enable player movement again
         if (action.disablePlayerMovement &&
             action.playerMovement != null)
         {
             action.playerMovement.enabled = true;
         }
     }
+
 }
