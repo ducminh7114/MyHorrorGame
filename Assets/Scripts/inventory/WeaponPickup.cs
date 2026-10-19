@@ -1,14 +1,16 @@
+
 using UnityEngine;
 
 public class WeaponPickup : MonoBehaviour
 {
     public WeaponData weaponData;
-
-    public GameObject pickupText;     // "Press E to Pick Up"
+    public GameObject pickupText;
 
     private bool interactable = false;
-
     private WeaponInventory inventory;
+
+    [Header("Save System")]
+    public string pickupID;
 
     void Start()
     {
@@ -20,39 +22,54 @@ public class WeaponPickup : MonoBehaviour
 
     void OnTriggerStay(Collider other)
     {
-        if (other.CompareTag("MainCamera"))
-        {
-            interactable = true;
+        if (!other.CompareTag("MainCamera"))
+            return;
 
-            if (pickupText != null)
-                pickupText.SetActive(true);
+        interactable = true;
+
+        if (pickupText != null)
+            pickupText.SetActive(true);
+
+        if (GameSaveManager.Instance != null &&
+    !string.IsNullOrEmpty(pickupID) &&
+    GameSaveManager.Instance.WasWeaponPickupCollected(pickupID))
+        {
+            Destroy(gameObject);
+            return;
         }
     }
 
     void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("MainCamera"))
-        {
-            interactable = false;
+        if (!other.CompareTag("MainCamera"))
+            return;
 
-            if (pickupText != null)
-                pickupText.SetActive(false);
-        }
+        interactable = false;
+
+        if (pickupText != null)
+            pickupText.SetActive(false);
     }
 
     void Update()
     {
-        if (!interactable)
+        if (!interactable || !Input.GetKeyDown(KeyCode.E))
             return;
 
-        if (Input.GetKeyDown(KeyCode.E))
+        if (inventory == null)
         {
-            inventory.PickupWeapon(this);
-
-            if (pickupText != null)
-                pickupText.SetActive(false);
-
-            Destroy(gameObject);
+            Debug.LogWarning("WeaponPickup: WeaponInventory not found.");
+            return;
         }
+
+        if (weaponData == null)
+        {
+            Debug.LogWarning("WeaponPickup: WeaponData is not assigned.");
+            return;
+        }
+
+        inventory.PickupWeapon(this);
+
+        if (pickupText != null)
+            pickupText.SetActive(false);
     }
-}   
+}

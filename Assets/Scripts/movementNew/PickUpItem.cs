@@ -1,18 +1,61 @@
+
 using UnityEngine;
+using System.Collections;
 
 public class PickUpItem : MonoBehaviour
 {
+    [Header("Flashlight")]
     public GameObject inttext;
     public GameObject flashlight_table;
     public GameObject flashlight_player;
     public AudioSource pickup;
     public bool interactable;
 
+    [Header("Save IDs")]
+    public string flashlightPickupID = "Flashlight_PickedUp";
+
+    private bool pickedUp;
+
+    IEnumerator Start()
+    {
+        if (inttext != null)
+            inttext.SetActive(false);
+
+        // Wait for the save manager to restore the saved state.
+        yield return null;
+        yield return null;
+
+        if (GameSaveManager.Instance != null &&
+            GameSaveManager.Instance.TryGetObjectState(
+                flashlightPickupID, out bool wasPickedUp))
+        {
+            pickedUp = wasPickedUp;
+
+            if (pickedUp)
+            {
+                if (flashlight_table != null)
+                    flashlight_table.SetActive(false);
+
+                if (flashlight_player != null)
+                    flashlight_player.SetActive(true);
+
+                if (inttext != null)
+                    inttext.SetActive(false);
+
+                interactable = false;
+            }
+        }
+    }
+
     void OnTriggerEnter(Collider other)
     {
+        if (pickedUp) return;
+
         if (other.CompareTag("MainCamera"))
         {
-            inttext.SetActive(true);
+            if (inttext != null)
+                inttext.SetActive(true);
+
             interactable = true;
         }
     }
@@ -21,20 +64,38 @@ public class PickUpItem : MonoBehaviour
     {
         if (other.CompareTag("MainCamera"))
         {
-            inttext.SetActive(false);
+            if (inttext != null)
+                inttext.SetActive(false);
+
             interactable = false;
         }
     }
 
-    void Update ()
+    void Update()
     {
-        if (interactable && Input.GetKeyDown(KeyCode.E))
+        if (interactable && !pickedUp &&
+            Input.GetKeyDown(KeyCode.E))
         {
-            flashlight_player.SetActive(true);
-            flashlight_table.SetActive(false);
-            //pickup.Play();
-            inttext.SetActive(false);
+            pickedUp = true;
             interactable = false;
+
+            if (GameSaveManager.Instance != null)
+            {
+                GameSaveManager.Instance.SetObjectState(
+                    flashlightPickupID, true);
+            }
+
+            if (flashlight_table != null)
+                SaveObjectState.SetActive(flashlight_table, false);
+
+            if (flashlight_player != null)
+                flashlight_player.SetActive(true);
+
+            if (inttext != null)
+                inttext.SetActive(false);
+
+            if (pickup != null)
+                pickup.Play();
         }
     }
 }

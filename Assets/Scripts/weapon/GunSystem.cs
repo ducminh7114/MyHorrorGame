@@ -234,6 +234,11 @@ public class GunSystem : MonoBehaviour
                 return;
 
             magazineSize--;
+
+            WeaponInventory inventory = FindObjectOfType<WeaponInventory>();
+            if (inventory != null)
+                inventory.SaveInventory();
+
             ammoNeeded++;
 
             muzzleFlash.Play();

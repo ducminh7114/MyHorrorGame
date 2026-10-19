@@ -14,6 +14,7 @@ public class playerMovement : MonoBehaviour
 
     [Header("Camera")]
     public Camera playerCamera;
+    public Transform lookPivot;
     public float lookSpeed = 2.0f;
     public float lookXLimit = 80.0f;
 
@@ -27,8 +28,8 @@ public class playerMovement : MonoBehaviour
     private Vector3 normalCenter;
     private Vector3 crouchCenter;
 
-    private float normalCamY = 1.6f;
-    private float crouchCamY = 0.8f;
+    [SerializeField] private float normalCamY = 0f;
+    [SerializeField] private float crouchCamY = -0.8f;
 
     public Transform cameraParent;
 
@@ -36,6 +37,8 @@ public class playerMovement : MonoBehaviour
     public bool isClimbing = false;
     public float climbSpeed = 3f;
 
+    [Header("Animation")]
+    public Animator animator;
 
     CharacterController characterController;
     Vector3 moveDirection = Vector3.zero;
@@ -70,6 +73,7 @@ public class playerMovement : MonoBehaviour
         HandleMovement();
         HandleMouseLook();
         HandleCrouch();
+        HandleAnimation();
     }
 
     void HandleMovement()
@@ -132,70 +136,102 @@ public class playerMovement : MonoBehaviour
 
     public void SyncCameraRotation()
     {
-        Vector3 angles = playerCamera.transform.localEulerAngles;
+        if (lookPivot == null) return;
 
-        float pitch = angles.x;
+        float pitch = lookPivot.localEulerAngles.x;
 
-        if (pitch > 180)
-            pitch -= 360;
+        if (pitch > 180f)
+            pitch -= 360f;
 
         rotationX = pitch;
     }
 
+
     void HandleCrouch()
     {
-        if (!Input.GetKeyDown(KeyCode.LeftControl)) return;
+        if (!Input.GetKeyDown(KeyCode.LeftControl))
+            return;
 
         if (isCrouched)
         {
-            // Try to stand (ceiling check)
-            float checkDistance = normalHeight - characterController.height;
+            // Calculate the capsule needed to stand up.
+            float radius = characterController.radius * 0.95f;
 
-            Vector3 origin = transform.position + Vector3.up * characterController.height;
+            Vector3 bottom = transform.position +
+                             Vector3.up * radius;
 
-            if (!Physics.SphereCast(origin, characterController.radius * 0.9f, Vector3.up, out RaycastHit hit, checkDistance))
+            Vector3 top = transform.position +
+                          Vector3.up * (normalHeight - radius);
+
+            Collider[] hits = Physics.OverlapCapsule(
+                bottom,
+                top,
+                radius,
+                Physics.AllLayers,
+                QueryTriggerInteraction.Ignore
+            );
+
+            bool blocked = false;
+
+            foreach (Collider hit in hits)
             {
-                // Stand up
-                float oldHeight = characterController.height;
+                // Ignore the player's own collider.
+                if (hit == characterController ||
+                    hit.transform.IsChildOf(transform))
+                    continue;
 
-                characterController.height = normalHeight;
-                characterController.center = normalCenter;
-
-                // Keep feet grounded
-                float diff = normalHeight - oldHeight;
-                characterController.Move(Vector3.up * (diff / 2f));
-
-                isCrouched = false;
-
-                // Camera
-                cameraParent.localPosition = new Vector3(0, normalCamY, 0);
+                blocked = true;
+                Debug.Log("Cannot stand up: " + hit.name);
+                break;
             }
-            else
-            {
-                Debug.Log("Blocked above, can't stand");
-                Debug.Log(hit.collider.name);
-                Debug.Log("Blocked by: " + hit.collider.name);
-            }
+
+            if (blocked)
+                return;
+
+            // Stand up. Center and height preserve the feet position.
+            characterController.height = normalHeight;
+            characterController.center = normalCenter;
+
+            isCrouched = false;
+
+            if (cameraParent != null)
+                cameraParent.localPosition =
+                    new Vector3(0f, normalCamY, 0f);
         }
         else
         {
-            // Crouch
-            float oldHeight = characterController.height;
-
+            // Crouch down.
             characterController.height = crouchHeight;
             characterController.center = crouchCenter;
 
-            // Keep feet grounded
-            float diff = oldHeight - crouchHeight;
-            characterController.Move(Vector3.down * (diff / 2f));
-
             isCrouched = true;
 
-            // Camera
-            cameraParent.localPosition = new Vector3(0, crouchCamY, 0);
-            Debug.Log(playerCamera.transform.localPosition);
+            if (cameraParent != null)
+                cameraParent.localPosition =
+                    new Vector3(0f, crouchCamY, 0f);
         }
     }
+
+    void SetCrouch(bool crouch)
+    {
+        isCrouched = crouch;
+
+        characterController.height =
+            crouch ? crouchHeight : normalHeight;
+
+        characterController.center =
+            crouch ? crouchCenter : normalCenter;
+
+        if (cameraParent != null)
+        {
+            cameraParent.localPosition = new Vector3(
+                0f,
+                crouch ? crouchCamY : normalCamY,
+                0f
+            );
+        }
+    }
+
 
     public float GetCameraPitch()
     {
@@ -204,9 +240,47 @@ public class playerMovement : MonoBehaviour
 
     public void SetCameraPitch(float pitch)
     {
-        rotationX = pitch;
+        rotationX = Mathf.Clamp(pitch, -lookXLimit, lookXLimit);
 
-        playerCamera.transform.localRotation =
-            Quaternion.Euler(rotationX, 0f, 0f);
+        if (lookPivot != null)
+        {
+            lookPivot.localRotation =
+                Quaternion.Euler(rotationX, 0f, 0f);
+        }
+    }
+
+    void HandleAnimation()
+    {
+        float vertical = Input.GetAxisRaw("Vertical");
+        float horizontal = Input.GetAxisRaw("Horizontal");
+
+        bool isMoving = Mathf.Abs(vertical) > 0.1f ||
+                        Mathf.Abs(horizontal) > 0.1f;
+
+        bool isRunning = Input.GetKey(KeyCode.LeftShift) &&
+                         isMoving &&
+                         !isCrouched &&
+                         !isClimbing;
+
+        if (animator == null) return;
+
+        if (!isMoving || !canMove)
+        {
+            animator.ResetTrigger("walk");
+            animator.ResetTrigger("run");
+            animator.SetTrigger("idle");
+        }
+        else if (isRunning)
+        {
+            animator.ResetTrigger("idle");
+            animator.ResetTrigger("walk");
+            animator.SetTrigger("run");
+        }
+        else
+        {
+            animator.ResetTrigger("idle");
+            animator.ResetTrigger("run");
+            animator.SetTrigger("walk");
+        }
     }
 }

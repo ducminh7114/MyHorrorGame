@@ -188,6 +188,16 @@ public class GameSaveManager : MonoBehaviour
             if (currentSave.objectStates == null)
                 currentSave.objectStates = new List<ObjectStateData>();
 
+            if (currentSave.weaponInventory == null)
+                currentSave.weaponInventory = new WeaponInventorySaveData();
+
+            if (currentSave.weaponInventory.ammo == null)
+                currentSave.weaponInventory.ammo = new List<WeaponAmmoSaveData>();
+
+            if (currentSave.collectedWeaponPickupIDs == null)
+                currentSave.collectedWeaponPickupIDs = new List<string>();
+
+
             Debug.Log("[SAVE] Save file loaded.");
         }
         catch (System.Exception e)
@@ -271,6 +281,11 @@ public class GameSaveManager : MonoBehaviour
             if (controller != null)
                 controller.enabled = true;
 
+            playerMovement movement = player.GetComponent<playerMovement>();
+
+            if (movement != null)
+                movement.enabled = true;
+
             Debug.Log("[SAVE] Player position restored.");
         }
         else
@@ -294,4 +309,57 @@ public class GameSaveManager : MonoBehaviour
 
         SaveToDisk();
     }
+
+    public void SaveWeaponInventory(WeaponInventorySaveData data)
+    {
+        if (currentSave == null)
+            currentSave = new SaveData();
+
+        currentSave.weaponInventory = data;
+
+        if (currentSave.hasSave)
+            SaveToDisk();
+    }
+
+    public WeaponInventorySaveData GetWeaponInventory()
+    {
+        if (currentSave == null)
+            currentSave = new SaveData();
+
+        if (currentSave.weaponInventory == null)
+            currentSave.weaponInventory = new WeaponInventorySaveData();
+
+        if (currentSave.weaponInventory.ammo == null)
+            currentSave.weaponInventory.ammo = new List<WeaponAmmoSaveData>();
+
+        return currentSave.weaponInventory;
+    }
+
+    public void MarkWeaponPickupCollected(string pickupID)
+    {
+        if (string.IsNullOrEmpty(pickupID))
+            return;
+
+        if (currentSave == null)
+            currentSave = new SaveData();
+
+        if (currentSave.collectedWeaponPickupIDs == null)
+            currentSave.collectedWeaponPickupIDs = new List<string>();
+
+        if (!currentSave.collectedWeaponPickupIDs.Contains(pickupID))
+        {
+            currentSave.collectedWeaponPickupIDs.Add(pickupID);
+
+            if (currentSave.hasSave)
+                SaveToDisk();
+        }
+    }
+
+    public bool WasWeaponPickupCollected(string pickupID)
+    {
+        return currentSave != null
+            && currentSave.collectedWeaponPickupIDs != null
+            && currentSave.collectedWeaponPickupIDs.Contains(pickupID);
+    }
+
 }

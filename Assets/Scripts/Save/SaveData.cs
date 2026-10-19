@@ -18,6 +18,10 @@ public class SaveData
 
     public List<string> completedTriggers = new List<string>();
     public List<ObjectStateData> objectStates = new List<ObjectStateData>();
+
+    public WeaponInventorySaveData weaponInventory = new WeaponInventorySaveData();
+    public List<string> collectedWeaponPickupIDs = new List<string>();
+
 }
 
 [Serializable]
