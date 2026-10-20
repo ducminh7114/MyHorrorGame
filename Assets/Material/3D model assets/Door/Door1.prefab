@@ -119,6 +119,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1a9594568e8afa4180d52d47d011efd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Door
+  doorID: Door_01
   inttext: {fileID: 0}
   lockedText: {fileID: 0}
   key: {fileID: 0}
@@ -172,6 +173,7 @@ GameObject:
   m_Component:
   - component: {fileID: 405332917604683775}
   - component: {fileID: 2330952659849317420}
+  - component: {fileID: 7377108728388120699}
   m_Layer: 0
   m_Name: doorbell_Interact
   m_TagString: Untagged
@@ -215,6 +217,23 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 10, y: 19.39, z: 10}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &7377108728388120699
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 761615183647145995}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f2493273ebc75842b2e0acce901905f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DoorBell
+  inttext: {fileID: 0}
+  ObjName: {fileID: 0}
+  toggleSound: {fileID: 0}
+  objectName: P
+  interactable: 0
 --- !u!1 &969930564256412062
 GameObject:
   m_ObjectHideFlags: 0
