@@ -40,6 +40,30 @@ public class playerMovement : MonoBehaviour
     [Header("Animation")]
     public Animator animator;
 
+    [Header("Footstep Audio")]
+    public AudioSource footstepAudioSource;
+
+    public AudioClip walkFootstepSound;
+    public AudioClip runFootstepSound;
+
+    [Tooltip("Time between footsteps while walking")]
+    public float walkStepInterval = 0.5f;
+
+    [Tooltip("Time between footsteps while running")]
+    public float runStepInterval = 0.3f;
+
+    [Tooltip("Playback speed for walking sounds")]
+    public float walkSoundSpeed = 1.0f;
+
+    [Tooltip("Playback speed for running sounds")]
+    public float runSoundSpeed = 1.3f;
+
+    [Range(0f, 1f)]
+    public float footstepVolume = 0.8f;
+
+    private float footstepTimer = 0f;
+
+
     CharacterController characterController;
     Vector3 moveDirection = Vector3.zero;
     [HideInInspector]
@@ -74,6 +98,7 @@ public class playerMovement : MonoBehaviour
         HandleMouseLook();
         HandleCrouch();
         HandleAnimation();
+        HandleFootstepAudio();
     }
 
     void HandleMovement()
@@ -281,6 +306,60 @@ public class playerMovement : MonoBehaviour
             animator.ResetTrigger("idle");
             animator.ResetTrigger("run");
             animator.SetTrigger("walk");
+        }
+    }
+
+    void HandleFootstepAudio()
+    {
+        if (footstepAudioSource == null)
+            return;
+
+        bool isMoving =
+            Mathf.Abs(Input.GetAxisRaw("Vertical")) > 0.1f ||
+            Mathf.Abs(Input.GetAxisRaw("Horizontal")) > 0.1f;
+
+        bool isRunning =
+            Input.GetKey(KeyCode.LeftShift) &&
+            !isCrouched;
+
+        // No footsteps while idle, airborne, crouching, or climbing.
+        if (!canMove ||
+            !isMoving ||
+            !characterController.isGrounded ||
+            isCrouched ||
+            isClimbing)
+        {
+            footstepTimer = 0f;
+            footstepAudioSource.Stop();
+            return;
+        }
+
+        AudioClip currentClip = isRunning
+            ? runFootstepSound
+            : walkFootstepSound;
+
+        float stepInterval = isRunning
+            ? runStepInterval
+            : walkStepInterval;
+
+        float soundSpeed = isRunning
+            ? runSoundSpeed
+            : walkSoundSpeed;
+
+        if (currentClip == null)
+            return;
+
+        footstepTimer -= Time.deltaTime;
+
+        if (footstepTimer <= 0f)
+        {
+            footstepAudioSource.pitch = soundSpeed;
+            footstepAudioSource.PlayOneShot(
+                currentClip,
+                footstepVolume
+            );
+
+            footstepTimer = stepInterval;
         }
     }
 }

@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class Ladder : MonoBehaviour
 {
+
     private void OnTriggerEnter(Collider other)
     {
         playerMovement player = other.GetComponent<playerMovement>();
