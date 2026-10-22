@@ -2,7 +2,9 @@ using UnityEngine;
 
 public class lightSwitch : MonoBehaviour
 {
+    [Header("UI")]
     public GameObject intText;
+    public TMP_Text ObjName;
 
     [Header("Light")]
     public GameObject[] lightObject;
@@ -16,6 +18,8 @@ public class lightSwitch : MonoBehaviour
     public AudioSource lightSwitchSound;
     public Animator switchAnim;
 
+    [Header("Object information")]
+    public string objectName = "Item Name";
     public bool toggle;
     private bool interactable;
 
@@ -25,6 +29,13 @@ public class lightSwitch : MonoBehaviour
         {
             Debug.Log("Camera detected");
             intText.SetActive(true);
+
+            if (ObjName != null)
+            {
+                ObjName.text = objectName;
+                ObjName.enabled = true;
+            }
+
             interactable = true;
         }
     }
@@ -34,6 +45,13 @@ public class lightSwitch : MonoBehaviour
         if (other.CompareTag("MainCamera"))
         {
             intText.SetActive(false);
+
+            if (ObjName != null)
+            {
+                ObjName.text = "";
+                ObjName.enabled = false;
+            }
+
             interactable = false;
         }
     }
@@ -63,6 +81,11 @@ public class lightSwitch : MonoBehaviour
                     lightBulbs[i].material = offLight;
                 }
             }
+
+            if (ObjName != null)
+                {
+                ObjName.text = "";
+                }
         }
     }
 }

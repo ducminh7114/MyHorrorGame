@@ -49,18 +49,15 @@ public class DoorBell : MonoBehaviour
     {
         if (other.CompareTag("MainCamera"))
         {
-            if (!interactable)
-            {
-                interactable = true;
-            }
+            interactable = false;
             if (inttext != null)
             {
-                inttext.SetActive(true);
+                inttext.SetActive(false);
             }
             if (ObjName != null)
             {
-                ObjName.text = objectName;
-                ObjName.enabled = true;
+                ObjName.text = "";
+                ObjName.enabled = false;
             }
         }
     }
@@ -76,6 +73,12 @@ public class DoorBell : MonoBehaviour
         {
             Debug.Log("Door bell pressed");
             toggleSound.Play();
+
+            if (inttext != null)
+                inttext.SetActive(false);
+
+            if (ObjName != null)
+                ObjName.text = "";
         }
      }
 }

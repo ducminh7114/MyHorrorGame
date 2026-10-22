@@ -140,7 +140,7 @@ MonoBehaviour:
   lightBulbs: []
   offLight: {fileID: 2100000, guid: a49d679457cbec9498ee637f1224d7bb, type: 2}
   onLight: {fileID: -4305260242154434139, guid: cc3603effd2e75b4b9d52b70f9017579, type: 3}
-  lightSwitchSound: {fileID: 0}
+  lightSwitchSound: {fileID: 1077421702685119591, guid: 4443fd30dddeec04f8e7413a193839fb, type: 3}
   switchAnim: {fileID: 0}
   toggle: 0
 --- !u!65 &3763389240452421804
