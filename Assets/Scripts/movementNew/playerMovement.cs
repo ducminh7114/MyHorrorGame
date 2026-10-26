@@ -17,7 +17,7 @@ public class playerMovement : MonoBehaviour
     public Transform lookPivot;
     public float lookSpeed = 2.0f;
     public float lookXLimit = 80.0f;
-
+    
     [Header("Crouch Settings")]
     public float normalHeight = 1.8f;
     public float crouchHeight = 0.9f;
@@ -42,21 +42,15 @@ public class playerMovement : MonoBehaviour
 
     [Header("Footstep Audio")]
     public AudioSource footstepAudioSource;
-
     public AudioClip walkFootstepSound;
-    public AudioClip runFootstepSound;
 
-    [Tooltip("Time between footsteps while walking")]
+    [Header("Footstep Timing")]
     public float walkStepInterval = 0.5f;
-
-    [Tooltip("Time between footsteps while running")]
     public float runStepInterval = 0.3f;
 
-    [Tooltip("Playback speed for walking sounds")]
-    public float walkSoundSpeed = 1.0f;
-
-    [Tooltip("Playback speed for running sounds")]
-    public float runSoundSpeed = 1.3f;
+    [Header("Footstep Speed")]
+    public float walkSoundSpeed = 1f;
+    public float runSoundSpeed = 2f;
 
     [Range(0f, 1f)]
     public float footstepVolume = 0.8f;
@@ -311,32 +305,35 @@ public class playerMovement : MonoBehaviour
 
     void HandleFootstepAudio()
     {
-        if (footstepAudioSource == null)
-            return;
-
         bool isMoving =
-            Mathf.Abs(Input.GetAxisRaw("Vertical")) > 0.1f ||
-            Mathf.Abs(Input.GetAxisRaw("Horizontal")) > 0.1f;
+            Input.GetKey(KeyCode.W) ||
+            Input.GetKey(KeyCode.A) ||
+            Input.GetKey(KeyCode.S) ||
+            Input.GetKey(KeyCode.D);
 
         bool isRunning =
-            Input.GetKey(KeyCode.LeftShift) &&
-            !isCrouched;
+            Input.GetKey(KeyCode.LeftShift) ||
+            Input.GetKey(KeyCode.RightShift);
 
-        // No footsteps while idle, airborne, crouching, or climbing.
-        if (!canMove ||
-            !isMoving ||
-            !characterController.isGrounded ||
-            isCrouched ||
-            isClimbing)
+        // Stop the current sound immediately when movement stops.
+        if (!isMoving || !canMove || isClimbing)
         {
             footstepTimer = 0f;
-            footstepAudioSource.Stop();
+
+            if (footstepAudioSource != null &&
+                footstepAudioSource.isPlaying)
+            {
+                footstepAudioSource.Stop();
+            }
+
             return;
         }
 
-        AudioClip currentClip = isRunning
-            ? runFootstepSound
-            : walkFootstepSound;
+        if (footstepAudioSource == null ||
+            walkFootstepSound == null)
+        {
+            return;
+        }
 
         float stepInterval = isRunning
             ? runStepInterval
@@ -346,18 +343,19 @@ public class playerMovement : MonoBehaviour
             ? runSoundSpeed
             : walkSoundSpeed;
 
-        if (currentClip == null)
-            return;
-
         footstepTimer -= Time.deltaTime;
 
         if (footstepTimer <= 0f)
         {
+            // Stop the previous footstep before starting another.
+            footstepAudioSource.Stop();
+
+            footstepAudioSource.clip = walkFootstepSound;
             footstepAudioSource.pitch = soundSpeed;
-            footstepAudioSource.PlayOneShot(
-                currentClip,
-                footstepVolume
-            );
+            footstepAudioSource.volume = footstepVolume;
+            footstepAudioSource.loop = false;
+
+            footstepAudioSource.Play();
 
             footstepTimer = stepInterval;
         }

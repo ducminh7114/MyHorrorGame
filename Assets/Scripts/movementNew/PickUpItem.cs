@@ -9,6 +9,7 @@ public class PickUpItem : MonoBehaviour
     public GameObject flashlight_table;
     public GameObject flashlight_player;
     public AudioSource pickup;
+    public AudioClip pickupSound;
     public bool interactable;
 
     [Header("Save IDs")]
@@ -95,7 +96,7 @@ public class PickUpItem : MonoBehaviour
                 inttext.SetActive(false);
 
             if (pickup != null)
-                pickup.Play();
+                { pickup.PlayOneShot(pickupSound); }
         }
     }
 }

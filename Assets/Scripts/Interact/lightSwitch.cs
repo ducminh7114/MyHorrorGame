@@ -15,7 +15,8 @@ public class lightSwitch : MonoBehaviour
     public Material onLight;
 
     [Header("Audio & Animation")]
-    public AudioSource lightSwitchSound;
+    public AudioSource Switch;
+    public AudioClip lightSwitchSound;
     public Animator switchAnim;
 
     [Header("Object information")]
@@ -62,7 +63,10 @@ public class lightSwitch : MonoBehaviour
         {
             toggle = !toggle;
 
-            if (lightSwitchSound) lightSwitchSound.Play();
+            if (lightSwitchSound)
+            { 
+                Switch.PlayOneShot(lightSwitchSound); 
+            }
             if (switchAnim)
             {
                 switchAnim.ResetTrigger("press");

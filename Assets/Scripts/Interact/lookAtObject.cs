@@ -17,6 +17,8 @@ public class lookAtObject : MonoBehaviour
 
     [Header("Key Settings")]
     public bool isKey = false;
+    public AudioSource keySound;
+    public AudioClip keyPickupSound;
     public GameObject key;
 
     [Header("Key Save Settings")]
@@ -138,6 +140,7 @@ public class lookAtObject : MonoBehaviour
 
         keyCollected = true;
         interactable = false;
+        keySound.PlayOneShot(keyPickupSound);
 
         if (GameSaveManager.Instance != null)
             GameSaveManager.Instance.SetObjectState(keyID, true);

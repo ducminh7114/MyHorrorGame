@@ -18,6 +18,7 @@ public class readNote : MonoBehaviour
     public GameObject noteUI;
     public TMP_Text ObjName;
     public TMP_Text noteText;
+    public UnityEngine.UI.ScrollRect noteScrollRect;
 
     [Header("Note Information")]
     public string noteTitle = "Note";
@@ -33,6 +34,7 @@ public class readNote : MonoBehaviour
 
     [Header("Sound")]
     public AudioSource toggleSound;
+    public AudioClip toggleClip;
 
 
     private bool readingNote = false;
@@ -121,7 +123,7 @@ public class readNote : MonoBehaviour
 
         readingNote = true;
         interactable = false;
-        toggleSound.Play();
+        toggleSound.PlayOneShot(toggleClip);
 
         // Stop PauseGame from responding to ESC
         if (pause != null)
@@ -141,6 +143,13 @@ public class readNote : MonoBehaviour
 
         if (noteText != null)
             noteText.text = noteContent;
+
+        // Reset scrollbar to the top when opening the note
+        if (noteScrollRect != null)
+        {
+            Canvas.ForceUpdateCanvases();
+            noteScrollRect.verticalNormalizedPosition = 1f;
+        }
 
         // Disable player movement
         if (player != null)

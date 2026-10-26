@@ -19,6 +19,12 @@ public class Door : MonoBehaviour
     public bool toggle = false;
     public Animator doorAnim;
 
+    [Header("Audio")]
+    public AudioSource doorSound;
+    public AudioClip doorOpenSound;
+    public AudioClip doorCloseSound;
+    public AudioClip doorLockedSound;
+
     private Coroutine lockedCoroutine;
 
     private void Start()
@@ -92,7 +98,11 @@ public class Door : MonoBehaviour
 
             doorAnim.ResetTrigger("close");
             doorAnim.SetTrigger("open");
-
+            
+            if (doorOpenSound)
+            {
+                doorSound.PlayOneShot(doorOpenSound);
+            }
         }
         else
         {
@@ -100,6 +110,11 @@ public class Door : MonoBehaviour
 
             doorAnim.ResetTrigger("open");
             doorAnim.SetTrigger("close");
+
+            if (doorCloseSound)
+            {
+                doorSound.PlayOneShot(doorCloseSound);
+            }
         }
 
         if (inttext != null)
@@ -118,6 +133,11 @@ public class Door : MonoBehaviour
             return;
 
         lockedText.SetActive(true);
+
+        if (doorLockedSound)
+        {
+            doorSound.PlayOneShot(doorLockedSound);
+        }
 
         if (lockedCoroutine != null)
             StopCoroutine(lockedCoroutine);

@@ -4,9 +4,12 @@ using TMPro;
 
 public class KeyPad : MonoBehaviour
 {
+    [Header("Player")]
     public GameObject player;
     public GameObject keypadOB;
     public playerMovement playerMove;
+
+    [Header("Lock")]
     public GameObject animatedOB;
     public Animator ANI;
     public padlockInteraction padlockScript;
@@ -19,24 +22,29 @@ public class KeyPad : MonoBehaviour
     private bool isOpening = false;
 
     public PuzzleManager puzzleManager;
-
     public bool Animate = false;
+
+    [Header("Audio")]
+    public AudioSource audioSource;
+    public AudioClip buttonSound;
+    public AudioClip correctSound;
+    public AudioClip wrongSound;
+
+    [Range(0f, 1f)]
+    public float audioVolume = 0.8f;
 
     void Start()
     {
-        // Get player movement
         if (player != null)
         {
             playerMove = player.GetComponent<playerMovement>();
         }
 
-        // Hide keypad at start
         if (keypadOB != null)
         {
             keypadOB.SetActive(false);
         }
 
-        // Get the generated puzzle code
         UpdateAnswer();
     }
 
@@ -47,7 +55,6 @@ public class KeyPad : MonoBehaviour
             answer = puzzleManager.generatedCode;
         }
 
-        // If it hasn't been loaded yet, try PlayerPrefs
         if (string.IsNullOrEmpty(answer))
         {
             answer = PlayerPrefs.GetString("KeypadCode", "");
@@ -56,21 +63,28 @@ public class KeyPad : MonoBehaviour
         Debug.Log("Keypad answer: " + answer);
     }
 
-    public void Number(int number)
+    // Play a sound without interrupting other keypad sounds.
+    void PlaySound(AudioClip clip)
     {
-        if (textOB == null)
+        if (audioSource == null || clip == null)
             return;
 
-        // Don't allow numbers after keypad is solved
-        if (isOpening)
+        audioSource.PlayOneShot(clip, audioVolume);
+    }
+
+    public void Number(int number)
+    {
+        if (textOB == null || isOpening)
             return;
+
+        PlaySound(buttonSound);
 
         textOB.text += number.ToString();
     }
 
     public void Execute()
     {
-        if (textOB == null)
+        if (textOB == null || isOpening)
             return;
 
         if (string.IsNullOrEmpty(answer))
@@ -78,11 +92,12 @@ public class KeyPad : MonoBehaviour
             UpdateAnswer();
         }
 
-        if (textOB.text == answer && !string.IsNullOrEmpty(answer))
+        if (!string.IsNullOrEmpty(answer) && textOB.text == answer)
         {
-            // Correct
-            textOB.text = "Right";
+            // Correct code
+            PlaySound(correctSound);
 
+            textOB.text = "Right";
             isOpening = true;
 
             if (ANI != null)
@@ -101,20 +116,21 @@ public class KeyPad : MonoBehaviour
         }
         else
         {
-            // Wrong
-            textOB.text = "Wrong";
+            // Incorrect code
+            PlaySound(wrongSound);
 
-            // Keep your original behavior
             textOB.text = "";
         }
     }
 
     public void Clear()
     {
-        if (textOB != null)
-        {
-            textOB.text = "";
-        }
+        if (textOB == null || isOpening)
+            return;
+
+        PlaySound(buttonSound);
+
+        textOB.text = "";
     }
 
     public void Exit()
@@ -124,7 +140,6 @@ public class KeyPad : MonoBehaviour
 
     public void Update()
     {
-        // If keypad is open, disable player movement
         if (keypadOB != null && keypadOB.activeInHierarchy)
         {
             isKeypadActive = true;

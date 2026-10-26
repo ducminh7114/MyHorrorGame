@@ -19,7 +19,6 @@ public class EnemyJumpscareAI : MonoBehaviour
 
     [Header("Ignore Timer")]
     [SerializeField] private float timeBeforeChase = 8f;
-
     [Header("Jumpscare")]
     [SerializeField] private JumpscareController jumpscareController;
     [SerializeField] private float disappearDelay = 2f;
@@ -27,6 +26,17 @@ public class EnemyJumpscareAI : MonoBehaviour
     [Header("Rotation")]
     [SerializeField] private float rotationSpeed = 8f;
     [SerializeField] private float lookAtPlayerDistance = 2f;
+
+    [Header("Enemy Audio")]
+    [SerializeField] private AudioSource audioSource;
+
+    [SerializeField] private AudioClip walkAudio;
+    [SerializeField] private AudioClip runAudio;
+    [SerializeField] private AudioClip jumpscareAudio;
+
+    [Header("Audio Settings")]
+    [SerializeField, Range(0f, 1f)] private float audioVolume = 0.8f;
+    [SerializeField] private bool loopMovementAudio = true;
 
     private NavMeshAgent agent;
     private float ignoreTimer;
@@ -114,7 +124,8 @@ public class EnemyJumpscareAI : MonoBehaviour
             RotateTowardsPath();
         }
 
-        // Run animation
+        // Run animation and chase audio
+        PlayMovementAudio(runAudio);
         PlayRun();
     }
 
@@ -135,6 +146,8 @@ public class EnemyJumpscareAI : MonoBehaviour
         }
 
         RotateTowardsMovement();
+
+        PlayMovementAudio(walkAudio);
 
         PlaySadWalk();
     }
@@ -293,6 +306,7 @@ public class EnemyJumpscareAI : MonoBehaviour
 
     private void OnEnable()
     {
+        StopAudio();
         jumpscareTriggered = false;
         chasing = false;
         ignoreTimer = 0f;
@@ -328,12 +342,18 @@ public class EnemyJumpscareAI : MonoBehaviour
 
     private void TriggerJumpscare()
     {
+        if (jumpscareTriggered)
+            return;
+
         jumpscareTriggered = true;
 
-        agent.isStopped = true;
+        if (agent != null)
+            agent.isStopped = true;
 
-        // Stop and return to Idle
+        StopAudio();
+
         PlayIdle();
+        PlayJumpscareAudio();
 
         if (jumpscareController != null)
             jumpscareController.PlayJumpscare();
@@ -345,5 +365,39 @@ public class EnemyJumpscareAI : MonoBehaviour
     private void Disappear()
     {
         SaveObjectState.SetActive(gameObject, false);
+    }
+
+    private void PlayMovementAudio(AudioClip clip)
+    {
+        if (audioSource == null || clip == null)
+            return;
+
+        // Don't restart the sound every frame.
+        if (audioSource.isPlaying && audioSource.clip == clip)
+            return;
+
+        audioSource.Stop();
+        audioSource.clip = clip;
+        audioSource.volume = audioVolume;
+        audioSource.loop = loopMovementAudio;
+        audioSource.Play();
+    }
+
+    private void StopAudio()
+    {
+        if (audioSource != null && audioSource.isPlaying)
+            audioSource.Stop();
+    }
+
+    private void PlayJumpscareAudio()
+    {
+        if (audioSource == null || jumpscareAudio == null)
+            return;
+
+        audioSource.Stop();
+        audioSource.clip = jumpscareAudio;
+        audioSource.volume = audioVolume;
+        audioSource.loop = false;
+        audioSource.Play();
     }
 }

@@ -380,7 +380,59 @@ MonoBehaviour:
   settingObj: {fileID: 0}
   controlObj: {fileID: 0}
   continueButton: {fileID: 1622261854598816948}
-  buttonEffects: []
+  buttonEffects:
+  - button: {fileID: 7662692312208089416}
+    targetText: {fileID: 2866874446999228749}
+    changeTextColor: 1
+    normalTextColor: {r: 0, g: 0, b: 0, a: 0}
+    hoverTextColor: {r: 0.1, g: 0.1, b: 0.1, a: 1}
+    changeMaterial: 0
+    targetRenderer: {fileID: 0}
+    normalMaterial: {fileID: 0}
+    transitionMaterial: {fileID: 0}
+    hoverMaterial: {fileID: 0}
+    useTransitionMaterial: 0
+    materialTransitionDuration: 0
+    changeLightColor: 0
+    targetLight: {fileID: 0}
+    normalLightColor: {r: 0, g: 0, b: 0, a: 0}
+    hoverLightColor: {r: 0, g: 0, b: 0, a: 0}
+    smoothLightTransition: 0
+    lightTransitionSpeed: 0
+    changeHoverObject: 0
+    hoverObject: {fileID: 0}
+    changeClickTextColor: 1
+    clickTextColor: {r: 1, g: 1, b: 1, a: 0}
+    changeClickMaterial: 0
+    clickMaterial: {fileID: 0}
+    changeClickObject: 0
+    clickObject: {fileID: 0}
+  - button: {fileID: 2380143967069071854}
+    targetText: {fileID: 2866874446999228749}
+    changeTextColor: 1
+    normalTextColor: {r: 0, g: 0, b: 0, a: 0}
+    hoverTextColor: {r: 0.9, g: 0.9, b: 0.9, a: 1}
+    changeMaterial: 0
+    targetRenderer: {fileID: 0}
+    normalMaterial: {fileID: 0}
+    transitionMaterial: {fileID: 0}
+    hoverMaterial: {fileID: 0}
+    useTransitionMaterial: 0
+    materialTransitionDuration: 0
+    changeLightColor: 0
+    targetLight: {fileID: 0}
+    normalLightColor: {r: 0, g: 0, b: 0, a: 0}
+    hoverLightColor: {r: 0, g: 0, b: 0, a: 0}
+    smoothLightTransition: 0
+    lightTransitionSpeed: 0
+    changeHoverObject: 0
+    hoverObject: {fileID: 0}
+    changeClickTextColor: 1
+    clickTextColor: {r: 1, g: 1, b: 1, a: 0}
+    changeClickMaterial: 0
+    clickMaterial: {fileID: 0}
+    changeClickObject: 0
+    clickObject: {fileID: 0}
 --- !u!1 &1329873633
 GameObject:
   m_ObjectHideFlags: 0
@@ -1066,8 +1118,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4281479730
-  m_fontColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+    rgba: 4279900698
+  m_fontColor: {r: 0.1, g: 0.1, b: 0.1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:

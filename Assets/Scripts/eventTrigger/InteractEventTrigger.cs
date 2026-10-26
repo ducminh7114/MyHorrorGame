@@ -52,6 +52,10 @@ public class InteractEventTrigger : MonoBehaviour
     public class AudioAction
     {
         public AudioSource audioSource;
+        public AudioClip audioClip;
+
+        [Range(0f, 1f)]
+        public float volume = 1f;
 
         public bool useDelay;
         public float delay;
@@ -587,11 +591,23 @@ public class InteractEventTrigger : MonoBehaviour
 
     IEnumerator AudioRoutine(AudioAction action)
     {
-        if (action.useDelay)
+        if (action.useDelay && action.delay > 0f)
             yield return new WaitForSeconds(action.delay);
 
         if (action.audioSource != null)
-            action.audioSource.Play();
+        {
+            if (action.audioClip != null)
+            {
+                action.audioSource.PlayOneShot(
+                    action.audioClip,
+                    action.volume
+                );
+            }
+            else
+            {
+                action.audioSource.Play();
+            }
+        }
     }
 
     // =========================================================
