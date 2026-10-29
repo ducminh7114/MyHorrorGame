@@ -8,6 +8,7 @@ public class Dialogue : MonoBehaviour
     [Header("Dialogue")]
     public TMP_Text textOB;
     public GameObject Activator;
+    [TextArea]
     public string dialogue = "Dialogue";
     public float timer = 2f;
 
@@ -15,14 +16,14 @@ public class Dialogue : MonoBehaviour
     public string triggerID = "Dialogue_01";
     public bool triggerOnce = true;
 
-    private bool hasTriggered = false;
+    private bool hasTriggered;
+    private Coroutine dialogueCoroutine;
 
     void Start()
     {
         if (textOB != null)
             textOB.enabled = false;
 
-        // Do not show the dialogue again if already completed.
         if (triggerOnce &&
             GameSaveManager.Instance != null &&
             GameSaveManager.Instance.IsTriggerCompleted(triggerID))
@@ -38,6 +39,7 @@ public class Dialogue : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
+        // Only react to the actual Player-tagged collider.
         if (!other.CompareTag("Player"))
             return;
 
@@ -46,17 +48,19 @@ public class Dialogue : MonoBehaviour
 
         hasTriggered = true;
 
-        // Save immediately when the player enters the trigger zone.
-        if (GameSaveManager.Instance != null)
+        // Save event completion, NOT the player's position.
+        if (triggerOnce && GameSaveManager.Instance != null)
+        {
             GameSaveManager.Instance.MarkTriggerCompleted(triggerID);
+        }
 
         if (textOB != null)
         {
-            textOB.enabled = true;
             textOB.text = dialogue;
+            textOB.enabled = true;
         }
 
-        StartCoroutine(DisableText());
+        dialogueCoroutine = StartCoroutine(DisableText());
     }
 
     IEnumerator DisableText()
@@ -70,6 +74,26 @@ public class Dialogue : MonoBehaviour
             Destroy(Activator);
 
         if (triggerOnce)
+        {
             gameObject.SetActive(false);
+        }
+        else
+        {
+            hasTriggered = false;
+            dialogueCoroutine = null;
+        }
+    }
+
+    void OnDisable()
+    {
+        if (dialogueCoroutine != null)
+        {
+            StopCoroutine(dialogueCoroutine);
+            dialogueCoroutine = null;
+        }
+
+        if (textOB != null)
+            textOB.enabled = false;
     }
 }
+

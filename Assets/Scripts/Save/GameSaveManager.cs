@@ -57,6 +57,7 @@ public class GameSaveManager : MonoBehaviour
 
     // ---------- CHECKPOINT ----------
 
+
     public void SaveCheckpoint(GameObject player)
     {
         if (player == null)
@@ -79,13 +80,17 @@ public class GameSaveManager : MonoBehaviour
         currentSave.playerRotY = rot.y;
         currentSave.playerRotZ = rot.z;
 
-        SaveToDisk();
+        Debug.LogWarning(
+            "[SAVE POSITION] Saved position: " + pos +
+            " | Called by: " + new System.Diagnostics.StackTrace().GetFrame(1).GetMethod().Name
+        );
 
-        Debug.Log("[SAVE] Checkpoint saved in scene: " +
-                  currentSave.sceneName);
+        SaveToDisk();
     }
 
+
     // ---------- COMPLETED EVENTS ----------
+
 
     public void MarkTriggerCompleted(string triggerID)
     {
@@ -99,14 +104,11 @@ public class GameSaveManager : MonoBehaviour
         {
             currentSave.completedTriggers.Add(triggerID);
             Debug.Log("[SAVE] Event recorded: " + triggerID);
+
+            SaveToDisk();
         }
     }
 
-    public bool IsTriggerCompleted(string triggerID)
-    {
-        return !string.IsNullOrWhiteSpace(triggerID)
-            && currentSave.completedTriggers.Contains(triggerID);
-    }
 
     // ---------- OBJECT STATES ----------
 
@@ -360,6 +362,15 @@ public class GameSaveManager : MonoBehaviour
         return currentSave != null
             && currentSave.collectedWeaponPickupIDs != null
             && currentSave.collectedWeaponPickupIDs.Contains(pickupID);
+    }
+
+
+    public bool IsTriggerCompleted(string triggerID)
+    {
+        return !string.IsNullOrWhiteSpace(triggerID)
+            && currentSave != null
+            && currentSave.completedTriggers != null
+            && currentSave.completedTriggers.Contains(triggerID);
     }
 
 }

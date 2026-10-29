@@ -10,19 +10,22 @@ public class PickUpItem : MonoBehaviour
     public GameObject flashlight_player;
     public AudioSource pickup;
     public AudioClip pickupSound;
-    public bool interactable;
 
-    [Header("Save IDs")]
+    [Header("Save ID - must be unique")]
     public string flashlightPickupID = "Flashlight_PickedUp";
 
+    private bool interactable;
     private bool pickedUp;
+    private bool restoring;
 
     IEnumerator Start()
     {
+        restoring = true;
+
         if (inttext != null)
             inttext.SetActive(false);
 
-        // Wait for the save manager to restore the saved state.
+        // Wait for save loading and scene initialization.
         yield return null;
         yield return null;
 
@@ -31,73 +34,70 @@ public class PickUpItem : MonoBehaviour
                 flashlightPickupID, out bool wasPickedUp))
         {
             pickedUp = wasPickedUp;
-
-            if (pickedUp)
-            {
-                if (flashlight_table != null)
-                    flashlight_table.SetActive(false);
-
-                if (flashlight_player != null)
-                    flashlight_player.SetActive(true);
-
-                if (inttext != null)
-                    inttext.SetActive(false);
-
-                interactable = false;
-            }
         }
+
+        ApplyPickupState();
+        restoring = false;
     }
 
     void OnTriggerEnter(Collider other)
     {
-        if (pickedUp) return;
+        if (restoring || pickedUp)
+            return;
 
-        if (other.CompareTag("MainCamera"))
-        {
-            if (inttext != null)
-                inttext.SetActive(true);
+        if (!other.CompareTag("MainCamera"))
+            return;
 
-            interactable = true;
-        }
+        interactable = true;
+
+        if (inttext != null)
+            inttext.SetActive(true);
     }
 
     void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("MainCamera"))
-        {
-            if (inttext != null)
-                inttext.SetActive(false);
+        if (!other.CompareTag("MainCamera"))
+            return;
 
-            interactable = false;
-        }
+        interactable = false;
+
+        if (inttext != null)
+            inttext.SetActive(false);
     }
 
     void Update()
     {
-        if (interactable && !pickedUp &&
-            Input.GetKeyDown(KeyCode.E))
+        if (restoring || pickedUp || !interactable)
+            return;
+
+        if (!Input.GetKeyDown(KeyCode.E))
+            return;
+
+        pickedUp = true;
+        interactable = false;
+
+        // Save only this pickup's collected flag.
+        if (GameSaveManager.Instance != null)
         {
-            pickedUp = true;
-            interactable = false;
-
-            if (GameSaveManager.Instance != null)
-            {
-                GameSaveManager.Instance.SetObjectState(
-                    flashlightPickupID, true);
-            }
-
-            if (flashlight_table != null)
-                SaveObjectState.SetActive(flashlight_table, false);
-
-            if (flashlight_player != null)
-                flashlight_player.SetActive(true);
-
-            if (inttext != null)
-                inttext.SetActive(false);
-
-            if (pickup != null)
-                { pickup.PlayOneShot(pickupSound); }
+            GameSaveManager.Instance.SetObjectState(
+                flashlightPickupID, true);
         }
+
+        ApplyPickupState();
+
+        if (pickup != null && pickupSound != null)
+            pickup.PlayOneShot(pickupSound);
+    }
+
+    void ApplyPickupState()
+    {
+        if (flashlight_table != null)
+            flashlight_table.SetActive(!pickedUp);
+
+        if (flashlight_player != null)
+            flashlight_player.SetActive(pickedUp);
+
+        if (inttext != null)
+            inttext.SetActive(false);
     }
 }
-
