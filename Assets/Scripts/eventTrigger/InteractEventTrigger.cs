@@ -153,6 +153,10 @@ public class InteractEventTrigger : MonoBehaviour
     public GameObject inttext;
     public bool interactable;
 
+    [Header("Note Interaction")]
+    [Tooltip("Enable this when readNote handles the E key.")]
+    public bool noteInteractionMode = false;
+
     // =========================================================
     // SAVE ID
     // =========================================================
@@ -312,6 +316,10 @@ public class InteractEventTrigger : MonoBehaviour
 
     private void Update()
     {
+        // readNote handles the E key for this object.
+        if (noteInteractionMode)
+            return;
+
         if (!interactable)
             return;
 
@@ -931,5 +939,32 @@ public class InteractEventTrigger : MonoBehaviour
             "Persistent state restored for: " +
             triggerID
         );
+    }
+
+    // =========================================================
+    // NOTE INTERACTION COMPLETION
+    // =========================================================
+
+    public void CompleteNoteInteraction()
+    {
+        if (hasTriggered)
+            return;
+
+        hasTriggered = true;
+        interactable = false;
+
+        if (inttext != null)
+            inttext.SetActive(false);
+
+        // Register completion with the save system.
+        if (GameSaveManager.Instance != null &&
+            !string.IsNullOrEmpty(triggerID))
+        {
+            GameSaveManager.Instance.MarkTriggerCompleted(
+                triggerID
+            );
+
+            Debug.Log("NOTE INTERACTION COMPLETED: " + triggerID);
+        }
     }
 }

@@ -121,7 +121,6 @@ public class readNote : MonoBehaviour
     {
         Debug.Log("Reading note: " + gameObject.name);
 
-        readingNote = true;
         interactable = false;
         toggleSound.PlayOneShot(toggleClip);
 
@@ -143,6 +142,9 @@ public class readNote : MonoBehaviour
 
         if (noteText != null)
             noteText.text = noteContent;
+
+        readingNote = true;
+        Debug.Log("Reading note: All component appear");
 
         // Reset scrollbar to the top when opening the note
         if (noteScrollRect != null)
