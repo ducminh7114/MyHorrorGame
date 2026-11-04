@@ -128,6 +128,21 @@ public class MainMenu : MonoBehaviour
     }
 
     // =========================================================
+    // SETTINGS
+    // =========================================================
+
+    public void settingsMenu()
+    {
+        if (menuObj != null)
+            menuObj.SetActive(false);
+
+        if (settingObj != null)
+            settingObj.SetActive(true);
+
+        Debug.Log("Open Settings menu");
+    }
+
+    // =========================================================
     // QUIT
     // =========================================================
 

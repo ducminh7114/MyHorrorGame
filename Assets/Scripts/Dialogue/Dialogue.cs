@@ -6,7 +6,7 @@ using TMPro;
 public class Dialogue : MonoBehaviour
 {
     [Header("Dialogue")]
-    public TMP_Text textOB;
+    public TMP_Text dialogueText;
     public GameObject Activator;
     [TextArea]
     public string dialogue = "Dialogue";
@@ -21,8 +21,8 @@ public class Dialogue : MonoBehaviour
 
     void Start()
     {
-        if (textOB != null)
-            textOB.enabled = false;
+        if (dialogueText != null)
+            dialogueText.enabled = false;
 
         if (triggerOnce &&
             GameSaveManager.Instance != null &&
@@ -54,10 +54,10 @@ public class Dialogue : MonoBehaviour
             GameSaveManager.Instance.MarkTriggerCompleted(triggerID);
         }
 
-        if (textOB != null)
+        if (dialogueText != null)
         {
-            textOB.text = dialogue;
-            textOB.enabled = true;
+            dialogueText.text = dialogue;
+            dialogueText.enabled = true;
         }
 
         dialogueCoroutine = StartCoroutine(DisableText());
@@ -67,8 +67,8 @@ public class Dialogue : MonoBehaviour
     {
         yield return new WaitForSeconds(timer);
 
-        if (textOB != null)
-            textOB.enabled = false;
+        if (dialogueText != null)
+            dialogueText.enabled = false;
 
         if (Activator != null)
             Destroy(Activator);
@@ -92,8 +92,8 @@ public class Dialogue : MonoBehaviour
             dialogueCoroutine = null;
         }
 
-        if (textOB != null)
-            textOB.enabled = false;
+        if (dialogueText != null)
+            dialogueText.enabled = false;
     }
 }
 

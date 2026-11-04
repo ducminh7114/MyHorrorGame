@@ -18,7 +18,7 @@ public class PauseGame : MonoBehaviour
     {
         if (!canPause)
         {
-            return;
+            return;s
         }
 
         if (Input.GetKeyDown(KeyCode.Escape))

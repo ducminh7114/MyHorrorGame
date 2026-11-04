@@ -268,6 +268,7 @@ GameObject:
   - component: {fileID: 1075605010}
   - component: {fileID: 1075605009}
   - component: {fileID: 1075605013}
+  - component: {fileID: 1075605014}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -370,69 +371,49 @@ MonoBehaviour:
   m_GameObject: {fileID: 1075605006}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eb403c73bd1e51447957e7df53055786, type: 3}
+  m_Script: {fileID: 11500000, guid: 204f244e29fb7f14ebaff2d32063be0a, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::MainMenu
-  SceneName: Win 1
-  SceneName2: Main Menu
-  loadingScene: {fileID: 0}
-  menuObj: {fileID: 5985402565502144638}
-  settingObj: {fileID: 0}
-  controlObj: {fileID: 0}
-  continueButton: {fileID: 1622261854598816948}
+  m_EditorClassIdentifier: Assembly-CSharp::YouWin
+  sceneName: MainMenu
+--- !u!114 &1075605014
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1075605006}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 632c0d51c0a803b4d90726226b2f6a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIButtonEffect
   buttonEffects:
   - button: {fileID: 7662692312208089416}
     targetText: {fileID: 2866874446999228749}
     changeTextColor: 1
-    normalTextColor: {r: 0, g: 0, b: 0, a: 0}
+    normalTextColor: {r: 0.1, g: 0.1, b: 0.1, a: 1}
     hoverTextColor: {r: 0.1, g: 0.1, b: 0.1, a: 1}
-    changeMaterial: 0
-    targetRenderer: {fileID: 0}
-    normalMaterial: {fileID: 0}
-    transitionMaterial: {fileID: 0}
-    hoverMaterial: {fileID: 0}
-    useTransitionMaterial: 0
-    materialTransitionDuration: 0
-    changeLightColor: 0
-    targetLight: {fileID: 0}
-    normalLightColor: {r: 0, g: 0, b: 0, a: 0}
-    hoverLightColor: {r: 0, g: 0, b: 0, a: 0}
-    smoothLightTransition: 0
-    lightTransitionSpeed: 0
-    changeHoverObject: 0
-    hoverObject: {fileID: 0}
-    changeClickTextColor: 1
-    clickTextColor: {r: 1, g: 1, b: 1, a: 0}
-    changeClickMaterial: 0
-    clickMaterial: {fileID: 0}
-    changeClickObject: 0
-    clickObject: {fileID: 0}
+    clickTextColor: {r: 0.1, g: 0.1, b: 0.1, a: 1}
+    changeFillColor: 1
+    fillImage: {fileID: 1744604586707292885}
+    normalFillColor: {r: 0.9607844, g: 0.9607844, b: 0.9607844, a: 1}
+    hoverFillColor: {r: 0.5294118, g: 0.8078432, b: 0.9215687, a: 1}
+    clickFillColor: {r: 0.5294118, g: 0.8078432, b: 0.9803922, a: 1}
+    enableHoverEffect: 1
+    enableClickEffect: 1
   - button: {fileID: 2380143967069071854}
-    targetText: {fileID: 2866874446999228749}
+    targetText: {fileID: 4633517714198206730}
     changeTextColor: 1
-    normalTextColor: {r: 0, g: 0, b: 0, a: 0}
-    hoverTextColor: {r: 0.9, g: 0.9, b: 0.9, a: 1}
-    changeMaterial: 0
-    targetRenderer: {fileID: 0}
-    normalMaterial: {fileID: 0}
-    transitionMaterial: {fileID: 0}
-    hoverMaterial: {fileID: 0}
-    useTransitionMaterial: 0
-    materialTransitionDuration: 0
-    changeLightColor: 0
-    targetLight: {fileID: 0}
-    normalLightColor: {r: 0, g: 0, b: 0, a: 0}
-    hoverLightColor: {r: 0, g: 0, b: 0, a: 0}
-    smoothLightTransition: 0
-    lightTransitionSpeed: 0
-    changeHoverObject: 0
-    hoverObject: {fileID: 0}
-    changeClickTextColor: 1
-    clickTextColor: {r: 1, g: 1, b: 1, a: 0}
-    changeClickMaterial: 0
-    clickMaterial: {fileID: 0}
-    changeClickObject: 0
-    clickObject: {fileID: 0}
+    normalTextColor: {r: 0.1, g: 0.1, b: 0.1, a: 1}
+    hoverTextColor: {r: 0.8627452, g: 0.8627452, b: 0.8627452, a: 1}
+    clickTextColor: {r: 0.8274511, g: 0.8274511, b: 0.8274511, a: 1}
+    changeFillColor: 1
+    fillImage: {fileID: 4245600995315300225}
+    normalFillColor: {r: 0.9607844, g: 0.9607844, b: 0.9607844, a: 1}
+    hoverFillColor: {r: 1, g: 0.4117647, b: 0.7058824, a: 1}
+    clickFillColor: {r: 0.8627452, g: 0.07843138, b: 0.2352941, a: 1}
+    enableHoverEffect: 1
+    enableClickEffect: 1
 --- !u!1 &1329873633
 GameObject:
   m_ObjectHideFlags: 0
@@ -569,6 +550,85 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1329873633}
   m_CullTransparentMesh: 1
+--- !u!1 &1632743551
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1632743554}
+  - component: {fileID: 1632743553}
+  - component: {fileID: 1632743552}
+  m_Layer: 0
+  m_Name: EventSystem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1632743552
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1632743551}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01614664b831546d2ae94a42149d80ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.UI.InputSystemUIInputModule
+  m_SendPointerHoverToParent: 1
+  m_MoveRepeatDelay: 0.5
+  m_MoveRepeatRate: 0.1
+  m_XRTrackingOrigin: {fileID: 0}
+  m_ActionsAsset: {fileID: -944628639613478452, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
+  m_PointAction: {fileID: -1654692200621890270, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
+  m_MoveAction: {fileID: -8784545083839296357, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
+  m_SubmitAction: {fileID: 392368643174621059, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
+  m_CancelAction: {fileID: 7727032971491509709, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
+  m_LeftClickAction: {fileID: 3001919216989983466, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
+  m_MiddleClickAction: {fileID: -2185481485913320682, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
+  m_RightClickAction: {fileID: -4090225696740746782, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
+  m_ScrollWheelAction: {fileID: 6240969308177333660, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
+  m_TrackedDevicePositionAction: {fileID: 6564999863303420839, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
+  m_TrackedDeviceOrientationAction: {fileID: 7970375526676320489, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
+  m_DeselectOnBackgroundClick: 1
+  m_PointerBehavior: 0
+  m_CursorLockBehavior: 0
+  m_ScrollDeltaPerTick: 6
+--- !u!114 &1632743553
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1632743551}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.EventSystems.EventSystem
+  m_FirstSelected: {fileID: 0}
+  m_sendNavigationEvents: 1
+  m_DragThreshold: 10
+--- !u!4 &1632743554
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1632743551}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1776639721
 GameObject:
   m_ObjectHideFlags: 0
@@ -1050,9 +1110,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PauseGame, Assembly-CSharp
-        m_MethodName: QuitGame
+      - m_Target: {fileID: 1075605013}
+        m_TargetAssemblyTypeName: WinGame, Assembly-CSharp
+        m_MethodName: ToDesktop
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1342,11 +1402,11 @@ RectTransform:
   m_Children:
   - {fileID: 6916605628072446342}
   - {fileID: 7302445254687710956}
+  - {fileID: 4100138936720711197}
+  - {fileID: 7403091484844906688}
   - {fileID: 242893359}
   - {fileID: 2799586490784660667}
   - {fileID: 9113475520557552061}
-  - {fileID: 4100138936720711197}
-  - {fileID: 7403091484844906688}
   m_Father: {fileID: 1075605012}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -1904,8 +1964,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1075605013}
-        m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
-        m_MethodName: backToMenu
+        m_TargetAssemblyTypeName: WinGame, Assembly-CSharp
+        m_MethodName: BackToMenu
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2032,3 +2092,4 @@ SceneRoots:
   m_Roots:
   - {fileID: 1776639724}
   - {fileID: 1075605012}
+  - {fileID: 1632743554}

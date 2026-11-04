@@ -163,6 +163,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0464b93d702e9824399fbdb5663420bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameSaveManager
+  currentSave:
+    hasSave: 0
+    sceneName: 
+    playerPosX: 0
+    playerPosY: 0
+    playerPosZ: 0
+    playerRotX: 0
+    playerRotY: 0
+    playerRotZ: 0
+    completedTriggers: []
+    objectStates: []
+    weaponInventory:
+      primaryWeapon: 
+      smallWeapon: 
+      meleeWeapon: 
+      equippedWeapon: 
+      ammo: []
+    collectedWeaponPickupIDs: []
 --- !u!4 &24586274
 Transform:
   m_ObjectHideFlags: 0
@@ -7789,7 +7807,10 @@ MonoBehaviour:
   objectName: Window
   ObjName: {fileID: 0}
   isKey: 0
+  keySound: {fileID: 0}
+  keyPickupSound: {fileID: 0}
   key: {fileID: 0}
+  keyID: Key_01
   dialogue: This is a key item. You can use it to unlock doors or chests.
   dialogueTimer: 2
 --- !u!1 &1085075011917726801
@@ -8644,14 +8665,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::lightSwitch
   intText: {fileID: 0}
+  ObjName: {fileID: 0}
   lightObject:
   - {fileID: 0}
   lightBulbs:
   - {fileID: 272677869}
   offLight: {fileID: 2100000, guid: a49d679457cbec9498ee637f1224d7bb, type: 2}
   onLight: {fileID: 2100000, guid: 76f5008ca32fa1345aac122bf2369fb5, type: 2}
+  Switch: {fileID: 0}
   lightSwitchSound: {fileID: 0}
   switchAnim: {fileID: 0}
+  objectName: Item Name
   toggle: 0
 --- !u!1001 &1781534002831116247
 PrefabInstance:
@@ -9231,14 +9255,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::lightSwitch
   intText: {fileID: 0}
+  ObjName: {fileID: 0}
   lightObject:
   - {fileID: 0}
   lightBulbs:
   - {fileID: 272677869}
   offLight: {fileID: 2100000, guid: a49d679457cbec9498ee637f1224d7bb, type: 2}
   onLight: {fileID: 2100000, guid: 76f5008ca32fa1345aac122bf2369fb5, type: 2}
+  Switch: {fileID: 0}
   lightSwitchSound: {fileID: 0}
   switchAnim: {fileID: 0}
+  objectName: Item Name
   toggle: 0
 --- !u!23 &2036930497356505003
 MeshRenderer:
@@ -10396,7 +10423,7 @@ PrefabInstance:
       objectReference: {fileID: 2024602657}
     - target: {fileID: 328523062326544944, guid: 0d7d167b3a94c064ea031423d2d387ad, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 386896203806322452, guid: 0d7d167b3a94c064ea031423d2d387ad, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -10508,7 +10535,7 @@ PrefabInstance:
       objectReference: {fileID: 2024602657}
     - target: {fileID: 4729075849156220971, guid: 0d7d167b3a94c064ea031423d2d387ad, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7487405742973681984, guid: 0d7d167b3a94c064ea031423d2d387ad, type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -10520,7 +10547,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7818820852386236942, guid: 0d7d167b3a94c064ea031423d2d387ad, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8757742854025890302, guid: 0d7d167b3a94c064ea031423d2d387ad, type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -10802,7 +10829,10 @@ MonoBehaviour:
   objectName: Window
   ObjName: {fileID: 0}
   isKey: 0
+  keySound: {fileID: 0}
+  keyPickupSound: {fileID: 0}
   key: {fileID: 0}
+  keyID: Key_01
   dialogue: This is a key item. You can use it to unlock doors or chests.
   dialogueTimer: 2
 --- !u!23 &2819355998015766072
@@ -16304,6 +16334,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1a9594568e8afa4180d52d47d011efd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Door
+  doorID: Door_01
   inttext: {fileID: 0}
   lockedText: {fileID: 0}
   key: {fileID: 0}
@@ -16311,6 +16342,10 @@ MonoBehaviour:
   interactable: 0
   toggle: 0
   doorAnim: {fileID: 486293335}
+  doorSound: {fileID: 0}
+  doorOpenSound: {fileID: 0}
+  doorCloseSound: {fileID: 0}
+  doorLockedSound: {fileID: 0}
 --- !u!1 &4580447055155099427
 GameObject:
   m_ObjectHideFlags: 0
@@ -26949,6 +26984,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1a9594568e8afa4180d52d47d011efd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Door
+  doorID: Door_01
   inttext: {fileID: 0}
   lockedText: {fileID: 0}
   key: {fileID: 0}
@@ -26956,6 +26992,10 @@ MonoBehaviour:
   interactable: 0
   toggle: 0
   doorAnim: {fileID: 486293335}
+  doorSound: {fileID: 0}
+  doorOpenSound: {fileID: 0}
+  doorCloseSound: {fileID: 0}
+  doorLockedSound: {fileID: 0}
 --- !u!1 &6771197556088647314
 GameObject:
   m_ObjectHideFlags: 0
@@ -28037,7 +28077,10 @@ MonoBehaviour:
   objectName: Window
   ObjName: {fileID: 0}
   isKey: 0
+  keySound: {fileID: 0}
+  keyPickupSound: {fileID: 0}
   key: {fileID: 0}
+  keyID: Key_01
   dialogue: This is a key item. You can use it to unlock doors or chests.
   dialogueTimer: 2
 --- !u!224 &7478533215215418398
@@ -29018,7 +29061,10 @@ MonoBehaviour:
   objectName: Plate pile
   ObjName: {fileID: 0}
   isKey: 0
+  keySound: {fileID: 0}
+  keyPickupSound: {fileID: 0}
   key: {fileID: 0}
+  keyID: Key_01
   dialogue: This is a key item. You can use it to unlock doors or chests.
   dialogueTimer: 2
 --- !u!4 &8032264349761649543
@@ -34703,7 +34749,8 @@ MonoBehaviour:
   flashlight_table: {fileID: 1563703179}
   flashlight_player: {fileID: 0}
   pickup: {fileID: 0}
-  interactable: 0
+  pickupSound: {fileID: 0}
+  flashlightPickupID: Flashlight_PickedUp
 --- !u!1001 &9076302274827286972
 PrefabInstance:
   m_ObjectHideFlags: 0
