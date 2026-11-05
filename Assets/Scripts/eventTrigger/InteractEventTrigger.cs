@@ -10,6 +10,10 @@ public class InteractEventTrigger : MonoBehaviour
     // ACTION CLASSES
     // =========================================================
 
+    [Header("Note Interaction")]
+    public bool noteInteractionMode = false;
+    public readNote noteHandler;
+
     [System.Serializable]
     public class ObjectAction
     {
@@ -123,6 +127,8 @@ public class InteractEventTrigger : MonoBehaviour
         public float delay;
     }
 
+
+
     // =========================================================
     // SAVE GAME ACTION
     // =========================================================
@@ -155,14 +161,12 @@ public class InteractEventTrigger : MonoBehaviour
 
     [Header("Note Interaction")]
     [Tooltip("Enable this when readNote handles the E key.")]
-    public bool noteInteractionMode = false;
 
     // =========================================================
     // SAVE ID
     // =========================================================
 
     [Header("Persistent Save ID")]
-    [Tooltip("Give every InteractEventTrigger a UNIQUE ID.")]
     public string triggerID = "InteractTrigger_01";
 
     // =========================================================
@@ -208,6 +212,7 @@ public class InteractEventTrigger : MonoBehaviour
     [Header("Save Game")]
     public List<SaveGameAction> saveGameActions = new();
 
+
     // =========================================================
     // INTERNAL
     // =========================================================
@@ -222,6 +227,8 @@ public class InteractEventTrigger : MonoBehaviour
     // =========================================================
     // START
     // =========================================================
+
+
 
     private void Start()
     {
@@ -275,6 +282,12 @@ public class InteractEventTrigger : MonoBehaviour
 
         if (col != null)
             col.enabled = true;
+
+        if (noteHandler == null)
+            noteHandler = GetComponent<readNote>();
+
+        if (noteHandler != null)
+            noteInteractionMode = true;
     }
 
     // =========================================================
@@ -286,13 +299,17 @@ public class InteractEventTrigger : MonoBehaviour
         if (hasTriggered)
             return;
 
-        if (other.CompareTag("MainCamera"))
-        {
-            interactable = true;
+        if (!other.CompareTag("MainCamera"))
+            return;
 
-            if (inttext != null)
-                inttext.SetActive(true);
-        }
+        interactable = true;
+
+        // Let readNote control the interaction prompt.
+        if (noteInteractionMode)
+            return;
+
+        if (inttext != null)
+            inttext.SetActive(true);
     }
 
     // =========================================================
@@ -301,15 +318,14 @@ public class InteractEventTrigger : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("MainCamera"))
-        {
-            interactable = false;
+        if (!other.CompareTag("MainCamera"))
+            return;
 
-            if (inttext != null)
-                inttext.SetActive(false);
-        }
+        interactable = false;
+
+        if (inttext != null)
+            inttext.SetActive(false);
     }
-
     // =========================================================
     // UPDATE
     // =========================================================
@@ -505,6 +521,73 @@ public class InteractEventTrigger : MonoBehaviour
     // =========================================================
     // ENABLE OBJECT
     // =========================================================
+
+    public void TriggerEvent()
+    {
+        if (hasTriggered)
+            return;
+
+        hasTriggered = true;
+
+        // Register completion
+        if (GameSaveManager.Instance != null &&
+            !string.IsNullOrEmpty(triggerID))
+        {
+            GameSaveManager.Instance.MarkTriggerCompleted(
+                triggerID
+            );
+        }
+
+        if (inttext != null)
+            inttext.SetActive(false);
+
+        // Execute all configured actions
+        foreach (var action in enableObjects)
+            StartCoroutine(EnableObjectRoutine(action));
+
+        foreach (var action in disableObjects)
+            StartCoroutine(DisableObjectRoutine(action));
+
+        foreach (var action in animations)
+            StartCoroutine(AnimationRoutine(action));
+
+        foreach (var action in materials)
+            StartCoroutine(MaterialRoutine(action));
+
+        foreach (var action in enableScripts)
+            StartCoroutine(EnableScriptRoutine(action));
+
+        foreach (var action in disableScripts)
+            StartCoroutine(DisableScriptRoutine(action));
+
+        foreach (var action in audioActions)
+            StartCoroutine(AudioRoutine(action));
+
+        foreach (var action in cameraFocusActions)
+            StartCoroutine(CameraFocusRoutine(action));
+
+        foreach (var action in methods)
+            StartCoroutine(MethodRoutine(action));
+
+        foreach (var action in lights)
+            StartCoroutine(LightRoutine(action));
+
+        foreach (var action in timelineActions)
+            StartCoroutine(TimelineRoutine(action));
+
+        foreach (var action in saveGameActions)
+            StartCoroutine(SaveGameRoutine(action));
+
+        interactable = false;
+
+        if (triggerOnce)
+        {
+            Collider col = GetComponent<Collider>();
+
+            if (col != null)
+                col.enabled = false;
+        }
+    }
 
     IEnumerator EnableObjectRoutine(ObjectAction action)
     {

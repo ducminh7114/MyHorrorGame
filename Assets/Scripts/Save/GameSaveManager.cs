@@ -57,8 +57,27 @@ public class GameSaveManager : MonoBehaviour
 
     // ---------- CHECKPOINT ----------
 
-
+    // Backward compatibility with existing scripts.
     public void SaveCheckpoint(GameObject player)
+    {
+        if (player == null)
+        {
+            Debug.LogError("[SAVE] Cannot save: Player is missing.");
+            return;
+        }
+
+        SaveCheckpoint(
+            player,
+            player.transform.position,
+            player.transform.rotation
+        );
+    }
+
+    // Save Player data and checkpoint Transform separately.
+    public void SaveCheckpoint(
+        GameObject player,
+        Vector3 checkpointPosition,
+        Quaternion checkpointRotation)
     {
         if (player == null)
         {
@@ -69,28 +88,32 @@ public class GameSaveManager : MonoBehaviour
         currentSave.hasSave = true;
         currentSave.sceneName = SceneManager.GetActiveScene().name;
 
-        Vector3 pos = player.transform.position;
-        Vector3 rot = player.transform.eulerAngles;
+        // Save Player's current position.
+        Vector3 playerPos = player.transform.position;
+        Vector3 playerRot = player.transform.eulerAngles;
 
-        currentSave.playerPosX = pos.x;
-        currentSave.playerPosY = pos.y;
-        currentSave.playerPosZ = pos.z;
+        currentSave.playerPosX = playerPos.x;
+        currentSave.playerPosY = playerPos.y;
+        currentSave.playerPosZ = playerPos.z;
 
-        currentSave.playerRotX = rot.x;
-        currentSave.playerRotY = rot.y;
-        currentSave.playerRotZ = rot.z;
+        currentSave.playerRotX = playerRot.x;
+        currentSave.playerRotY = playerRot.y;
+        currentSave.playerRotZ = playerRot.z;
 
-        Debug.LogWarning(
-            "[SAVE POSITION] Saved position: " + pos +
-            " | Called by: " + new System.Diagnostics.StackTrace().GetFrame(1).GetMethod().Name
+        // Save checkpoint position and rotation.
+        currentSave.checkpointPosition = checkpointPosition;
+        currentSave.checkpointRotation = checkpointRotation;
+        currentSave.hasCheckpointPosition = true;
+
+        Debug.Log(
+            "[SAVE] Player position: " + playerPos +
+            " | Checkpoint position: " + checkpointPosition
         );
 
         SaveToDisk();
     }
 
-
     // ---------- COMPLETED EVENTS ----------
-
 
     public void MarkTriggerCompleted(string triggerID)
     {
@@ -103,12 +126,12 @@ public class GameSaveManager : MonoBehaviour
         if (!currentSave.completedTriggers.Contains(triggerID))
         {
             currentSave.completedTriggers.Add(triggerID);
+
             Debug.Log("[SAVE] Event recorded: " + triggerID);
 
             SaveToDisk();
         }
     }
-
 
     // ---------- OBJECT STATES ----------
 
@@ -150,6 +173,22 @@ public class GameSaveManager : MonoBehaviour
         return false;
     }
 
+    // ---------- SAVE ITEM STATE WITHOUT CHECKPOINT ----------
+
+    public void SaveItemState(string id, bool active)
+    {
+        if (string.IsNullOrWhiteSpace(id))
+            return;
+
+        SetObjectState(id, active);
+
+        // Save JSON immediately.
+        // IMPORTANT: Do not modify hasSave.
+        SaveToDisk();
+
+        Debug.Log("[SAVE] Independent item state saved: " + id);
+    }
+
     // ---------- DISK SAVE / LOAD ----------
 
     public void SaveToDisk()
@@ -157,6 +196,7 @@ public class GameSaveManager : MonoBehaviour
         try
         {
             string json = JsonUtility.ToJson(currentSave, true);
+
             File.WriteAllText(SavePath, json);
 
             Debug.Log("[SAVE] File written successfully.");
@@ -172,13 +212,16 @@ public class GameSaveManager : MonoBehaviour
         if (!File.Exists(SavePath))
         {
             currentSave = new SaveData();
+
             Debug.Log("[SAVE] No existing save file.");
+
             return;
         }
 
         try
         {
             string json = File.ReadAllText(SavePath);
+
             currentSave = JsonUtility.FromJson<SaveData>(json);
 
             if (currentSave == null)
@@ -199,12 +242,12 @@ public class GameSaveManager : MonoBehaviour
             if (currentSave.collectedWeaponPickupIDs == null)
                 currentSave.collectedWeaponPickupIDs = new List<string>();
 
-
             Debug.Log("[SAVE] Save file loaded.");
         }
         catch (System.Exception e)
         {
             Debug.LogError("[SAVE] Could not load save: " + e.Message);
+
             currentSave = new SaveData();
         }
     }
@@ -236,7 +279,7 @@ public class GameSaveManager : MonoBehaviour
 
         restoring = true;
 
-        // Allow scene objects and their Start methods to initialize.
+        // Allow scene objects and Start methods to initialize.
         yield return null;
         yield return null;
 
@@ -248,6 +291,7 @@ public class GameSaveManager : MonoBehaviour
 
         Debug.Log("[SAVE] Restoring scene: " + sceneName);
 
+        // Restore persistent objects.
         PersistentObject[] objects =
             FindObjectsOfType<PersistentObject>(true);
 
@@ -257,7 +301,9 @@ public class GameSaveManager : MonoBehaviour
                 obj.RestoreState();
         }
 
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        // Find Player.
+        GameObject player =
+            GameObject.FindGameObjectWithTag("Player");
 
         if (player != null)
         {
@@ -267,50 +313,105 @@ public class GameSaveManager : MonoBehaviour
             if (controller != null)
                 controller.enabled = false;
 
-            player.transform.SetPositionAndRotation(
-                new Vector3(
+            // Determine restore position.
+            Vector3 restorePosition;
+            Quaternion restoreRotation;
+
+            if (currentSave.hasCheckpointPosition)
+            {
+                restorePosition =
+                    currentSave.checkpointPosition;
+
+                restoreRotation =
+                    currentSave.checkpointRotation;
+
+                Debug.Log(
+                    "[LOAD] Restoring to checkpoint: " +
+                    restorePosition
+                );
+            }
+            else
+            {
+                // Backward compatibility with older save files.
+                restorePosition = new Vector3(
                     currentSave.playerPosX,
                     currentSave.playerPosY,
                     currentSave.playerPosZ
-                ),
-                Quaternion.Euler(
+                );
+
+                restoreRotation = Quaternion.Euler(
                     currentSave.playerRotX,
                     currentSave.playerRotY,
                     currentSave.playerRotZ
-                )
+                );
+
+                Debug.Log(
+                    "[LOAD] Restoring to previous Player position."
+                );
+            }
+
+            // Restore Player.
+            player.transform.SetPositionAndRotation(
+                restorePosition,
+                restoreRotation
             );
 
             if (controller != null)
                 controller.enabled = true;
 
-            playerMovement movement = player.GetComponent<playerMovement>();
+            playerMovement movement =
+                player.GetComponent<playerMovement>();
 
             if (movement != null)
                 movement.enabled = true;
 
-            Debug.Log("[SAVE] Player position restored.");
+            Debug.Log(
+                "[LOAD] Player restored at: " +
+                player.transform.position
+            );
         }
         else
         {
-            Debug.LogWarning("[SAVE] Player with tag Player not found.");
+            Debug.LogWarning(
+                "[SAVE] Player with tag Player not found."
+            );
         }
 
         Debug.Log("[SAVE] Restore finished.");
+
         restoring = false;
     }
+
+    // ---------- DEBUG ----------
 
     public void DebugSave()
     {
         Debug.Log("[SAVE] Save file path: " + SavePath);
         Debug.Log("[SAVE] Has save: " + HasSaveGame());
         Debug.Log("[SAVE] Saved scene: " + GetSavedScene());
-        Debug.Log("[SAVE] Completed triggers: " +
-            currentSave.completedTriggers.Count);
-        Debug.Log("[SAVE] Saved object states: " +
-            currentSave.objectStates.Count);
+
+        Debug.Log(
+            "[SAVE] Completed triggers: " +
+            currentSave.completedTriggers.Count
+        );
+
+        Debug.Log(
+            "[SAVE] Saved object states: " +
+            currentSave.objectStates.Count
+        );
+
+        if (currentSave.hasCheckpointPosition)
+        {
+            Debug.Log(
+                "[SAVE] Checkpoint position: " +
+                currentSave.checkpointPosition
+            );
+        }
 
         SaveToDisk();
     }
+
+    // ---------- WEAPON INVENTORY ----------
 
     public void SaveWeaponInventory(WeaponInventorySaveData data)
     {
@@ -336,6 +437,8 @@ public class GameSaveManager : MonoBehaviour
 
         return currentSave.weaponInventory;
     }
+
+    // ---------- WEAPON PICKUPS ----------
 
     public void MarkWeaponPickupCollected(string pickupID)
     {
@@ -364,6 +467,7 @@ public class GameSaveManager : MonoBehaviour
             && currentSave.collectedWeaponPickupIDs.Contains(pickupID);
     }
 
+    // ---------- TRIGGER CHECK ----------
 
     public bool IsTriggerCompleted(string triggerID)
     {
@@ -372,5 +476,4 @@ public class GameSaveManager : MonoBehaviour
             && currentSave.completedTriggers != null
             && currentSave.completedTriggers.Contains(triggerID);
     }
-
 }

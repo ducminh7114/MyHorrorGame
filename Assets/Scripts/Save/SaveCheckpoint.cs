@@ -1,23 +1,16 @@
-
 using UnityEngine;
 
 public class SaveCheckpoint : MonoBehaviour
 {
-    [Tooltip("Optional. Leave empty to use the entering Player.")]
-    public GameObject player;
-
     private void OnTriggerEnter(Collider other)
     {
         if (!other.CompareTag("Player"))
             return;
 
-        // Use the Player that entered this checkpoint.
-        player = other.gameObject;
-
-        Save();
+        Save(other.gameObject);
     }
 
-    public void Save()
+    public void Save(GameObject player)
     {
         if (GameSaveManager.Instance == null)
         {
@@ -27,17 +20,23 @@ public class SaveCheckpoint : MonoBehaviour
 
         if (player == null)
         {
-            player = GameObject.FindGameObjectWithTag("Player");
-        }
-
-        if (player == null)
-        {
             Debug.LogError("[SAVE] Player not found.");
             return;
         }
 
-        GameSaveManager.Instance.SaveCheckpoint(player);
+        // Get this checkpoint object's Transform.
+        Vector3 checkpointPosition = transform.position;
+        Quaternion checkpointRotation = transform.rotation;
 
-        Debug.Log("[CHECKPOINT] Saved position: " + player.transform.position);
+        GameSaveManager.Instance.SaveCheckpoint(
+            player,
+            checkpointPosition,
+            checkpointRotation
+        );
+
+        Debug.Log(
+            "[CHECKPOINT] " + gameObject.name +
+            " saved at: " + checkpointPosition
+        );
     }
 }

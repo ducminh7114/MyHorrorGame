@@ -20,6 +20,8 @@ public class readNote : MonoBehaviour
     public TMP_Text noteText;
     public UnityEngine.UI.ScrollRect noteScrollRect;
 
+
+
     [Header("Note Information")]
     public string noteTitle = "Note";
 
@@ -38,9 +40,18 @@ public class readNote : MonoBehaviour
 
 
     private bool readingNote = false;
+    private InteractEventTrigger eventTrigger;
 
     void Start()
     {
+        eventTrigger = GetComponent<InteractEventTrigger>();
+
+        if (eventTrigger != null)
+        {
+            eventTrigger.noteInteractionMode = true;
+            eventTrigger.noteHandler = this;
+        }
+
         if (noteUI != null)
             noteUI.SetActive(false);
 
@@ -121,6 +132,14 @@ public class readNote : MonoBehaviour
     {
         Debug.Log("Reading note: " + gameObject.name);
 
+        // Execute InteractEventTrigger simultaneously
+        if (eventTrigger != null)
+        {
+            eventTrigger.TriggerEvent();
+        }
+
+        interactable = false;
+
         interactable = false;
         toggleSound.PlayOneShot(toggleClip);
 
@@ -171,6 +190,11 @@ public class readNote : MonoBehaviour
 
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
+
+        if (eventTrigger != null)
+        {
+            eventTrigger.CompleteNoteInteraction();
+        }
     }
 
     void CloseNote()

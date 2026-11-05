@@ -8,6 +8,7 @@ public class PickUpItem : MonoBehaviour
     public GameObject inttext;
     public GameObject flashlight_table;
     public GameObject flashlight_player;
+
     public AudioSource pickup;
     public AudioClip pickupSound;
 
@@ -25,7 +26,7 @@ public class PickUpItem : MonoBehaviour
         if (inttext != null)
             inttext.SetActive(false);
 
-        // Wait for save loading and scene initialization.
+        // Wait for save initialization.
         yield return null;
         yield return null;
 
@@ -37,6 +38,7 @@ public class PickUpItem : MonoBehaviour
         }
 
         ApplyPickupState();
+
         restoring = false;
     }
 
@@ -76,13 +78,15 @@ public class PickUpItem : MonoBehaviour
         pickedUp = true;
         interactable = false;
 
-        // Save only this pickup's collected flag.
+        // Save collected state.
         if (GameSaveManager.Instance != null)
         {
             GameSaveManager.Instance.SetObjectState(
-                flashlightPickupID, true);
+                flashlightPickupID, true
+            );
         }
 
+        // Activate flashlight in Player's hand.
         ApplyPickupState();
 
         if (pickup != null && pickupSound != null)
@@ -91,9 +95,11 @@ public class PickUpItem : MonoBehaviour
 
     void ApplyPickupState()
     {
+        // Hide flashlight from table.
         if (flashlight_table != null)
             flashlight_table.SetActive(!pickedUp);
 
+        // Show flashlight in Player's hand.
         if (flashlight_player != null)
             flashlight_player.SetActive(pickedUp);
 

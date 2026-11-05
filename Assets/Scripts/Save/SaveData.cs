@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 [Serializable]
 public class SaveData
@@ -21,6 +22,12 @@ public class SaveData
 
     public WeaponInventorySaveData weaponInventory = new WeaponInventorySaveData();
     public List<string> collectedWeaponPickupIDs = new List<string>();
+
+    public bool hasCheckpointPosition;
+
+    public Vector3 checkpointPosition;
+
+    public Quaternion checkpointRotation;
 
 }
 
