@@ -2,28 +2,31 @@ using UnityEngine;
 
 public class ColliderFinder : MonoBehaviour
 {
-    private void OnControllerColliderHit(ControllerColliderHit hit)
-    {
-        GameObject obj = hit.collider.gameObject;
+        [Header("Collision Settings")]
+        public bool showDebugLog = true;
 
-        Debug.Log(
-            "PLAYER BLOCKED BY: " + obj.name +
-            "\nPath: " + GetPath(obj.transform) +
-            "\nCollider: " + hit.collider.GetType().Name,
-            obj
-        );
-    }
-
-    string GetPath(Transform obj)
-    {
-        string path = obj.name;
-
-        while (obj.parent != null)
+        private void OnTriggerEnter(Collider other)
         {
-            obj = obj.parent;
-            path = obj.name + "/" + path;
+            Debug.Log("[ColliderFinder] Item collided with: " + other.gameObject.name);
+
+            if (showDebugLog)
+            {
+                Debug.Log("Tag: " + other.tag);
+                Debug.Log("Layer: " + LayerMask.LayerToName(other.gameObject.layer));
+                Debug.Log("Collider: " + other.GetType().Name);
+            }
         }
 
-        return path;
-    }
-}
+        private void OnTriggerStay(Collider other)
+        {
+            if (showDebugLog)
+            {
+                Debug.Log("Currently touching: " + other.gameObject.name);
+            }
+        }
+
+        private void OnTriggerExit(Collider other)
+        {
+            Debug.Log("Item stopped colliding with: " + other.gameObject.name);
+        }
+ }
