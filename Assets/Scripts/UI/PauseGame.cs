@@ -74,7 +74,7 @@ public class PauseGame : MonoBehaviour
         {
             if (playerScript != null)
             {
-                GameSaveManager.Instance.SaveCheckpoint(
+                GameSaveManager.Instance.SavePlayerProgress(
                     playerScript.gameObject
                 );
 
@@ -82,9 +82,7 @@ public class PauseGame : MonoBehaviour
             }
             else
             {
-                Debug.LogError(
-                    "Player Script is not assigned in PauseGame!"
-                );
+                Debug.LogError("Player Script is not assigned in PauseGame!");
             }
 
             GameSaveManager.Instance.DebugSave();
@@ -94,7 +92,6 @@ public class PauseGame : MonoBehaviour
             Debug.LogError("GameSaveManager not found!");
         }
 
-        // Restore normal time before loading the menu.
         Time.timeScale = 1f;
 
         Cursor.visible = true;
@@ -102,7 +99,7 @@ public class PauseGame : MonoBehaviour
 
         SceneManager.LoadScene("MainMenu");
     }
-    
+
     public void QuitGame()
     {
         Debug.Log("This will quit the game in the actual build, not in Unity Editor");

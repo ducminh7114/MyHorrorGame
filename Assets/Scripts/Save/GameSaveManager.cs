@@ -14,7 +14,19 @@ public class GameSaveManager : MonoBehaviour
     private string SavePath =>
         Path.Combine(Application.persistentDataPath, "savegame.json");
 
+    // Progress since the last checkpoint.
+    private readonly HashSet<string> pendingTriggerIDs =
+        new HashSet<string>();
+
+    // Object changes since the last checkpoint.
+    private readonly Dictionary<string, bool> pendingObjectStates =
+        new Dictionary<string, bool>();
+
     private bool restoring;
+
+    // =========================================================
+    // INITIALIZATION
+    // =========================================================
 
     private void Awake()
     {
@@ -43,26 +55,37 @@ public class GameSaveManager : MonoBehaviour
         Instance = null;
     }
 
-    // ---------- NEW GAME ----------
+    // =========================================================
+    // NEW GAME
+    // =========================================================
 
     public void NewGame()
     {
         currentSave = new SaveData();
 
+        pendingTriggerIDs.Clear();
+        pendingObjectStates.Clear();
+
         if (File.Exists(SavePath))
             File.Delete(SavePath);
+
+        PlayerPrefs.SetInt("HasSaveGame", 0);
+        PlayerPrefs.Save();
 
         Debug.Log("[SAVE] New game started. Old save deleted.");
     }
 
-    // ---------- CHECKPOINT ----------
+    // =========================================================
+    // CHECKPOINT
+    // =========================================================
 
-    // Backward compatibility with existing scripts.
+    // Compatibility overload:
+    // Saves the player's current position as the checkpoint.
     public void SaveCheckpoint(GameObject player)
     {
         if (player == null)
         {
-            Debug.LogError("[SAVE] Cannot save: Player is missing.");
+            Debug.LogError("[SAVE] Cannot save checkpoint: Player is NULL.");
             return;
         }
 
@@ -73,7 +96,7 @@ public class GameSaveManager : MonoBehaviour
         );
     }
 
-    // Save Player data and checkpoint Transform separately.
+    // Saves an explicitly supplied checkpoint position.
     public void SaveCheckpoint(
         GameObject player,
         Vector3 checkpointPosition,
@@ -81,14 +104,25 @@ public class GameSaveManager : MonoBehaviour
     {
         if (player == null)
         {
-            Debug.LogError("[SAVE] Cannot save: Player is missing.");
+            Debug.LogError("[SAVE] Cannot save checkpoint: Player is NULL.");
             return;
         }
+
+        if (currentSave == null)
+            currentSave = new SaveData();
+
+        // Commit all temporary progress.
+        CommitPendingProgress();
 
         currentSave.hasSave = true;
         currentSave.sceneName = SceneManager.GetActiveScene().name;
 
-        // Save Player's current position.
+        // Checkpoint respawn position.
+        currentSave.checkpointPosition = checkpointPosition;
+        currentSave.checkpointRotation = checkpointRotation;
+        currentSave.hasCheckpointPosition = true;
+
+        // Keep current player position as backup.
         Vector3 playerPos = player.transform.position;
         Vector3 playerRot = player.transform.eulerAngles;
 
@@ -100,20 +134,63 @@ public class GameSaveManager : MonoBehaviour
         currentSave.playerRotY = playerRot.y;
         currentSave.playerRotZ = playerRot.z;
 
-        // Save checkpoint position and rotation.
-        currentSave.checkpointPosition = checkpointPosition;
-        currentSave.checkpointRotation = checkpointRotation;
-        currentSave.hasCheckpointPosition = true;
-
-        Debug.Log(
-            "[SAVE] Player position: " + playerPos +
-            " | Checkpoint position: " + checkpointPosition
-        );
-
         SaveToDisk();
+
+        Debug.Log("====================================");
+        Debug.Log("[SAVE] CHECKPOINT SAVED");
+        Debug.Log("[SAVE] Scene: " + currentSave.sceneName);
+        Debug.Log("[SAVE] Respawn position: " + checkpointPosition);
+        Debug.Log("[SAVE] Committed trigger count: " +
+                  currentSave.completedTriggers.Count);
+        Debug.Log("====================================");
     }
 
-    // ---------- COMPLETED EVENTS ----------
+    // =========================================================
+    // COMMIT TEMPORARY PROGRESS
+    // =========================================================
+
+    private void CommitPendingProgress()
+    {
+        // Commit trigger IDs.
+        foreach (string id in pendingTriggerIDs)
+        {
+            if (!currentSave.completedTriggers.Contains(id))
+            {
+                currentSave.completedTriggers.Add(id);
+
+                Debug.Log("[SAVE] CHECKPOINT COMMITTED TRIGGER: " + id);
+            }
+        }
+
+        pendingTriggerIDs.Clear();
+
+        // Commit object states.
+        foreach (KeyValuePair<string, bool> entry in pendingObjectStates)
+        {
+            ObjectStateData state =
+                currentSave.objectStates.Find(x => x.id == entry.Key);
+
+            if (state == null)
+            {
+                state = new ObjectStateData();
+                state.id = entry.Key;
+                currentSave.objectStates.Add(state);
+            }
+
+            state.active = entry.Value;
+
+            Debug.Log(
+                "[SAVE] CHECKPOINT COMMITTED OBJECT: " +
+                entry.Key + " = " + entry.Value
+            );
+        }
+
+        pendingObjectStates.Clear();
+    }
+
+    // =========================================================
+    // TRIGGER PROGRESS
+    // =========================================================
 
     public void MarkTriggerCompleted(string triggerID)
     {
@@ -123,28 +200,143 @@ public class GameSaveManager : MonoBehaviour
             return;
         }
 
-        if (!currentSave.completedTriggers.Contains(triggerID))
-        {
-            currentSave.completedTriggers.Add(triggerID);
+        if (IsTriggerCompleted(triggerID))
+            return;
 
-            Debug.Log("[SAVE] Event recorded: " + triggerID);
+        // IMPORTANT:
+        // Do NOT add this to currentSave.completedTriggers.
+        // Do NOT write it to JSON here.
 
-            SaveToDisk();
-        }
+        pendingTriggerIDs.Add(triggerID);
+
+        Debug.Log(
+            "[SAVE] TEMPORARY TRIGGER COMPLETED: " +
+            triggerID +
+            " | Pending count: " +
+            pendingTriggerIDs.Count
+        );
     }
 
-    // ---------- OBJECT STATES ----------
-
-    public void SetObjectState(string id, bool active)
+    public bool IsTriggerCompleted(string triggerID)
     {
-        if (string.IsNullOrWhiteSpace(id))
+        if (string.IsNullOrWhiteSpace(triggerID) ||
+            currentSave == null)
+            return false;
+
+        bool permanentlySaved =
+            currentSave.completedTriggers != null &&
+            currentSave.completedTriggers.Contains(triggerID);
+
+        bool completedThisSession =
+            pendingTriggerIDs.Contains(triggerID);
+
+        return permanentlySaved || completedThisSession;
+    }
+
+    // =========================================================
+    // DISCARD TEMPORARY PROGRESS
+    // =========================================================
+
+    public void DiscardPendingProgress()
+    {
+        Debug.Log("[SAVE] Discarding uncommitted progress.");
+
+        foreach (string id in pendingTriggerIDs)
+            Debug.Log("[SAVE] Trigger will be available again: " + id);
+
+        pendingTriggerIDs.Clear();
+        pendingObjectStates.Clear();
+    }
+
+    // =========================================================
+    // RELOAD LAST CHECKPOINT
+    // =========================================================
+
+    public void ReloadCheckpoint()
+    {
+        if (!HasSaveGame())
         {
-            Debug.LogWarning("[SAVE] Object ID is empty.");
+            Debug.LogError("[SAVE] Cannot reload: No checkpoint exists.");
             return;
         }
 
+        string savedScene = currentSave.sceneName;
+
+        // Discard temporary progress before reloading.
+        DiscardPendingProgress();
+
+        // Reload the actual saved data from JSON.
+        // This also discards unsaved in-memory changes.
+        LoadFromDisk();
+
+        if (!HasSaveGame())
+        {
+            Debug.LogError("[SAVE] Checkpoint data could not be loaded.");
+            return;
+        }
+
+        savedScene = currentSave.sceneName;
+
+        Debug.Log("[SAVE] Reloading checkpoint scene: " + savedScene);
+
+        SceneManager.LoadScene(savedScene);
+    }
+
+    // =========================================================
+    // OBJECT STATES
+    // =========================================================
+
+    // Temporary object state. It is committed at a checkpoint.
+    public void SetObjectState(string id, bool active)
+    {
+        if (string.IsNullOrWhiteSpace(id))
+            return;
+
+        pendingObjectStates[id] = active;
+
+        Debug.Log(
+            "[SAVE] TEMPORARY OBJECT STATE: " +
+            id + " = " + active
+        );
+    }
+
+    public bool TryGetObjectState(string id, out bool active)
+    {
+        active = true;
+
+        if (string.IsNullOrWhiteSpace(id) || currentSave == null)
+            return false;
+
+        // Temporary state takes priority during this session.
+        if (pendingObjectStates.TryGetValue(id, out active))
+            return true;
+
+        if (currentSave.objectStates == null)
+            return false;
+
         ObjectStateData state =
-            currentSave.objectStates.Find(item => item.id == id);
+            currentSave.objectStates.Find(x => x.id == id);
+
+        if (state == null)
+            return false;
+
+        active = state.active;
+        return true;
+    }
+
+    // =========================================================
+    // INDEPENDENT ITEM STATE SAVE
+    // =========================================================
+
+    // Use this when an item should persist independently
+    // of the next checkpoint.
+    public void SaveItemState(string id, bool active)
+    {
+        if (string.IsNullOrWhiteSpace(id))
+            return;
+
+        ObjectStateData state =
+            currentSave.objectStates.Find(x => x.id == id);
 
         if (state == null)
         {
@@ -155,51 +347,128 @@ public class GameSaveManager : MonoBehaviour
 
         state.active = active;
 
-        Debug.Log("[SAVE] Object recorded: " + id + " = " + active);
-    }
+        // This ID is now permanently saved, not pending.
+        pendingObjectStates.Remove(id);
 
-    public bool TryGetObjectState(string id, out bool active)
-    {
-        ObjectStateData state =
-            currentSave.objectStates.Find(item => item.id == id);
-
-        if (state != null)
-        {
-            active = state.active;
-            return true;
-        }
-
-        active = false;
-        return false;
-    }
-
-    // ---------- SAVE ITEM STATE WITHOUT CHECKPOINT ----------
-
-    public void SaveItemState(string id, bool active)
-    {
-        if (string.IsNullOrWhiteSpace(id))
-            return;
-
-        SetObjectState(id, active);
-
-        // Save JSON immediately.
-        // IMPORTANT: Do not modify hasSave.
         SaveToDisk();
 
-        Debug.Log("[SAVE] Independent item state saved: " + id);
+        Debug.Log(
+            "[SAVE] Independent item state saved: " +
+            id + " = " + active
+        );
     }
 
-    // ---------- DISK SAVE / LOAD ----------
+    // =========================================================
+    // SAVE PLAYER PROGRESS WITHOUT MOVING CHECKPOINT
+    // =========================================================
+
+    public void SavePlayerProgress(GameObject player)
+    {
+        if (player == null)
+        {
+            Debug.LogError("[SAVE] Player is missing.");
+            return;
+        }
+
+        currentSave.hasSave = true;
+        currentSave.sceneName = SceneManager.GetActiveScene().name;
+
+        Vector3 pos = player.transform.position;
+        Vector3 rot = player.transform.eulerAngles;
+
+        currentSave.playerPosX = pos.x;
+        currentSave.playerPosY = pos.y;
+        currentSave.playerPosZ = pos.z;
+
+        currentSave.playerRotX = rot.x;
+        currentSave.playerRotY = rot.y;
+        currentSave.playerRotZ = rot.z;
+
+        // This does NOT commit pending triggers or objects.
+        // It does NOT change the checkpoint transform.
+
+        SaveToDisk();
+
+        Debug.Log("[SAVE] Player progress saved: " + pos);
+    }
+
+    // =========================================================
+    // WEAPON INVENTORY
+    // =========================================================
+
+    public void SaveWeaponInventory(WeaponInventorySaveData data)
+    {
+        if (currentSave == null)
+            currentSave = new SaveData();
+
+        currentSave.weaponInventory = data;
+
+        if (currentSave.hasSave)
+            SaveToDisk();
+    }
+
+    public WeaponInventorySaveData GetWeaponInventory()
+    {
+        if (currentSave == null)
+            currentSave = new SaveData();
+
+        if (currentSave.weaponInventory == null)
+            currentSave.weaponInventory = new WeaponInventorySaveData();
+
+        if (currentSave.weaponInventory.ammo == null)
+            currentSave.weaponInventory.ammo =
+                new List<WeaponAmmoSaveData>();
+
+        return currentSave.weaponInventory;
+    }
+
+    // =========================================================
+    // WEAPON PICKUPS
+    // =========================================================
+
+    public void MarkWeaponPickupCollected(string pickupID)
+    {
+        if (string.IsNullOrWhiteSpace(pickupID))
+            return;
+
+        if (currentSave.collectedWeaponPickupIDs == null)
+            currentSave.collectedWeaponPickupIDs = new List<string>();
+
+        if (!currentSave.collectedWeaponPickupIDs.Contains(pickupID))
+        {
+            currentSave.collectedWeaponPickupIDs.Add(pickupID);
+
+            if (currentSave.hasSave)
+                SaveToDisk();
+        }
+    }
+
+    public bool WasWeaponPickupCollected(string pickupID)
+    {
+        return currentSave != null &&
+               currentSave.collectedWeaponPickupIDs != null &&
+               currentSave.collectedWeaponPickupIDs.Contains(pickupID);
+    }
+
+    // =========================================================
+    // SAVE FILE
+    // =========================================================
 
     public void SaveToDisk()
     {
+        if (currentSave == null)
+            currentSave = new SaveData();
+
         try
         {
             string json = JsonUtility.ToJson(currentSave, true);
 
             File.WriteAllText(SavePath, json);
 
-            Debug.Log("[SAVE] File written successfully.");
+            PlayerPrefs.SetInt("HasSaveGame", currentSave.hasSave ? 1 : 0);
+            PlayerPrefs.Save();
+
+            Debug.Log("[SAVE] File written: " + SavePath);
         }
         catch (System.Exception e)
         {
@@ -209,12 +478,14 @@ public class GameSaveManager : MonoBehaviour
 
     public void LoadFromDisk()
     {
+        pendingTriggerIDs.Clear();
+        pendingObjectStates.Clear();
+
         if (!File.Exists(SavePath))
         {
             currentSave = new SaveData();
 
             Debug.Log("[SAVE] No existing save file.");
-
             return;
         }
 
@@ -237,39 +508,72 @@ public class GameSaveManager : MonoBehaviour
                 currentSave.weaponInventory = new WeaponInventorySaveData();
 
             if (currentSave.weaponInventory.ammo == null)
-                currentSave.weaponInventory.ammo = new List<WeaponAmmoSaveData>();
+                currentSave.weaponInventory.ammo =
+                    new List<WeaponAmmoSaveData>();
 
             if (currentSave.collectedWeaponPickupIDs == null)
                 currentSave.collectedWeaponPickupIDs = new List<string>();
 
             Debug.Log("[SAVE] Save file loaded.");
+            Debug.Log("[SAVE] Permanently completed triggers: " +
+                      currentSave.completedTriggers.Count);
         }
         catch (System.Exception e)
         {
             Debug.LogError("[SAVE] Could not load save: " + e.Message);
-
             currentSave = new SaveData();
         }
     }
 
+    // =========================================================
+    // CONTINUE INFORMATION
+    // =========================================================
+
     public bool HasSaveGame()
     {
-        return currentSave != null
-            && currentSave.hasSave
-            && !string.IsNullOrEmpty(currentSave.sceneName);
+        return currentSave != null &&
+               currentSave.hasSave &&
+               !string.IsNullOrEmpty(currentSave.sceneName);
     }
 
     public string GetSavedScene()
     {
-        return currentSave.sceneName;
+        return currentSave != null ? currentSave.sceneName : "";
     }
 
-    // ---------- RESTORE AFTER CONTINUE ----------
+    public Vector3 GetSavedPosition()
+    {
+        return new Vector3(
+            currentSave.playerPosX,
+            currentSave.playerPosY,
+            currentSave.playerPosZ
+        );
+    }
+
+    public Vector3 GetSavedRotation()
+    {
+        return new Vector3(
+            currentSave.playerRotX,
+            currentSave.playerRotY,
+            currentSave.playerRotZ
+        );
+    }
+
+    // =========================================================
+    // RESTORE AFTER CONTINUE / CHECKPOINT RELOAD
+    // =========================================================
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if (HasSaveGame() && scene.name == currentSave.sceneName)
-            StartCoroutine(RestoreSceneData(scene.name));
+        if (!HasSaveGame() || scene.name != currentSave.sceneName)
+            return;
+
+        // Reload the committed snapshot before trigger Start methods run.
+        LoadFromDisk();
+
+        Debug.Log("[SAVE] Checkpoint scene loaded: " + scene.name);
+
+        StartCoroutine(RestoreSceneData(scene.name));
     }
 
     private IEnumerator RestoreSceneData(string sceneName)
@@ -279,7 +583,7 @@ public class GameSaveManager : MonoBehaviour
 
         restoring = true;
 
-        // Allow scene objects and Start methods to initialize.
+        // Allow scene objects to initialize.
         yield return null;
         yield return null;
 
@@ -293,7 +597,10 @@ public class GameSaveManager : MonoBehaviour
 
         // Restore persistent objects.
         PersistentObject[] objects =
-            FindObjectsOfType<PersistentObject>(true);
+            FindObjectsByType<PersistentObject>(
+                FindObjectsInactive.Include,
+                FindObjectsSortMode.None
+            );
 
         foreach (PersistentObject obj in objects)
         {
@@ -313,44 +620,29 @@ public class GameSaveManager : MonoBehaviour
             if (controller != null)
                 controller.enabled = false;
 
-            // Determine restore position.
             Vector3 restorePosition;
             Quaternion restoreRotation;
 
             if (currentSave.hasCheckpointPosition)
             {
-                restorePosition =
-                    currentSave.checkpointPosition;
-
-                restoreRotation =
-                    currentSave.checkpointRotation;
+                restorePosition = currentSave.checkpointPosition;
+                restoreRotation = currentSave.checkpointRotation;
 
                 Debug.Log(
-                    "[LOAD] Restoring to checkpoint: " +
-                    restorePosition
+                    "[LOAD] Restoring checkpoint: " + restorePosition
                 );
             }
             else
             {
-                // Backward compatibility with older save files.
-                restorePosition = new Vector3(
-                    currentSave.playerPosX,
-                    currentSave.playerPosY,
-                    currentSave.playerPosZ
-                );
-
-                restoreRotation = Quaternion.Euler(
-                    currentSave.playerRotX,
-                    currentSave.playerRotY,
-                    currentSave.playerRotZ
-                );
+                // Compatibility with older save files.
+                restorePosition = GetSavedPosition();
+                restoreRotation = Quaternion.Euler(GetSavedRotation());
 
                 Debug.Log(
-                    "[LOAD] Restoring to previous Player position."
+                    "[LOAD] Restoring previous player position."
                 );
             }
 
-            // Restore Player.
             player.transform.SetPositionAndRotation(
                 restorePosition,
                 restoreRotation
@@ -372,9 +664,7 @@ public class GameSaveManager : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning(
-                "[SAVE] Player with tag Player not found."
-            );
+            Debug.LogWarning("[SAVE] Player with tag Player not found.");
         }
 
         Debug.Log("[SAVE] Restore finished.");
@@ -382,98 +672,45 @@ public class GameSaveManager : MonoBehaviour
         restoring = false;
     }
 
-    // ---------- DEBUG ----------
+    // =========================================================
+    // DEBUG
+    // =========================================================
 
     public void DebugSave()
     {
-        Debug.Log("[SAVE] Save file path: " + SavePath);
+        Debug.Log("========== SAVE DEBUG ==========");
+
         Debug.Log("[SAVE] Has save: " + HasSaveGame());
-        Debug.Log("[SAVE] Saved scene: " + GetSavedScene());
+        Debug.Log("[SAVE] Scene: " + GetSavedScene());
+        Debug.Log("[SAVE] Checkpoint: " +
+                  currentSave.checkpointPosition);
 
-        Debug.Log(
-            "[SAVE] Completed triggers: " +
-            currentSave.completedTriggers.Count
-        );
+        Debug.Log("----- PERMANENT TRIGGERS -----");
 
-        Debug.Log(
-            "[SAVE] Saved object states: " +
-            currentSave.objectStates.Count
-        );
+        foreach (string id in currentSave.completedTriggers)
+            Debug.Log("[PERMANENT] " + id);
 
-        if (currentSave.hasCheckpointPosition)
+        Debug.Log("----- TEMPORARY TRIGGERS -----");
+
+        foreach (string id in pendingTriggerIDs)
+            Debug.Log("[PENDING] " + id);
+
+        Debug.Log("----- TEMPORARY OBJECT STATES -----");
+
+        foreach (KeyValuePair<string, bool> entry in pendingObjectStates)
         {
             Debug.Log(
-                "[SAVE] Checkpoint position: " +
-                currentSave.checkpointPosition
+                "[PENDING OBJECT] " +
+                entry.Key + " = " + entry.Value
             );
         }
 
-        SaveToDisk();
+        Debug.Log("================================");
     }
 
-    // ---------- WEAPON INVENTORY ----------
-
-    public void SaveWeaponInventory(WeaponInventorySaveData data)
+    [ContextMenu("DEBUG - List Trigger Progress")]
+    public void DebugListTriggerProgress()
     {
-        if (currentSave == null)
-            currentSave = new SaveData();
-
-        currentSave.weaponInventory = data;
-
-        if (currentSave.hasSave)
-            SaveToDisk();
-    }
-
-    public WeaponInventorySaveData GetWeaponInventory()
-    {
-        if (currentSave == null)
-            currentSave = new SaveData();
-
-        if (currentSave.weaponInventory == null)
-            currentSave.weaponInventory = new WeaponInventorySaveData();
-
-        if (currentSave.weaponInventory.ammo == null)
-            currentSave.weaponInventory.ammo = new List<WeaponAmmoSaveData>();
-
-        return currentSave.weaponInventory;
-    }
-
-    // ---------- WEAPON PICKUPS ----------
-
-    public void MarkWeaponPickupCollected(string pickupID)
-    {
-        if (string.IsNullOrEmpty(pickupID))
-            return;
-
-        if (currentSave == null)
-            currentSave = new SaveData();
-
-        if (currentSave.collectedWeaponPickupIDs == null)
-            currentSave.collectedWeaponPickupIDs = new List<string>();
-
-        if (!currentSave.collectedWeaponPickupIDs.Contains(pickupID))
-        {
-            currentSave.collectedWeaponPickupIDs.Add(pickupID);
-
-            if (currentSave.hasSave)
-                SaveToDisk();
-        }
-    }
-
-    public bool WasWeaponPickupCollected(string pickupID)
-    {
-        return currentSave != null
-            && currentSave.collectedWeaponPickupIDs != null
-            && currentSave.collectedWeaponPickupIDs.Contains(pickupID);
-    }
-
-    // ---------- TRIGGER CHECK ----------
-
-    public bool IsTriggerCompleted(string triggerID)
-    {
-        return !string.IsNullOrWhiteSpace(triggerID)
-            && currentSave != null
-            && currentSave.completedTriggers != null
-            && currentSave.completedTriggers.Contains(triggerID);
+        DebugSave();
     }
 }

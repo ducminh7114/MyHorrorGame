@@ -901,7 +901,7 @@ public class InteractEventTrigger : MonoBehaviour
          * - persistent object states
          */
 
-        GameSaveManager.Instance.SaveCheckpoint(
+        GameSaveManager.Instance.SavePlayerProgress(
             action.player
         );
 

@@ -84,32 +84,17 @@ public class MainMenu : MonoBehaviour
     {
         if (GameSaveManager.Instance == null)
         {
-            Debug.LogError(
-                "GameSaveManager not found."
-            );
-
+            Debug.LogError("GameSaveManager not found.");
             return;
         }
 
         if (!GameSaveManager.Instance.HasSaveGame())
         {
-            Debug.Log(
-                "NO SAVE GAME."
-            );
-
+            Debug.Log("NO SAVE GAME.");
             return;
         }
 
-        string scene =
-            GameSaveManager.Instance.GetSavedScene();
-
-        Debug.Log(
-            "CONTINUE → " +
-            scene
-        );
-
-        UnityEngine.SceneManagement.SceneManager
-            .LoadScene(scene);
+        GameSaveManager.Instance.ReloadCheckpoint();
     }
 
     // =========================================================

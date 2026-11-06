@@ -39,23 +39,16 @@ public class youDie : MonoBehaviour
         restartButton.interactable = GameSaveManager.Instance != null && GameSaveManager.Instance.HasSaveGame();
     }
 
-    public void ContinueGame()
+    public void RestartFromCheckpoint()
     {
-        if(GameSaveManager.Instance == null)
+        if (GameSaveManager.Instance != null)
         {
-            Debug.LogError("GameSaveManager instance is null. Cannot continue game.");
-            return;
+            GameSaveManager.Instance.ReloadCheckpoint();
         }
-        if (!GameSaveManager.Instance.HasSaveGame())
+        else
         {
-            Debug.LogError("No save game found. Cannot continue game.");
-            return;
+            Debug.LogError("GameSaveManager not found!");
         }
-        string scene = GameSaveManager.Instance.GetSavedScene();
-
-        Debug.Log("Loading scene: " + scene);
-
-        UnityEngine.SceneManagement.SceneManager.LoadScene(scene);
     }
 
 
@@ -69,7 +62,7 @@ public class youDie : MonoBehaviour
         {
             if (playerScript != null)
             {
-                GameSaveManager.Instance.SaveCheckpoint(
+                GameSaveManager.Instance.SavePlayerProgress(
                     playerScript.gameObject
                 );
 
@@ -77,9 +70,7 @@ public class youDie : MonoBehaviour
             }
             else
             {
-                Debug.LogError(
-                    "Player Script is not assigned in PauseGame!"
-                );
+                Debug.LogError("Player Script is not assigned in youDie!");
             }
 
             GameSaveManager.Instance.DebugSave();
@@ -89,12 +80,11 @@ public class youDie : MonoBehaviour
             Debug.LogError("GameSaveManager not found!");
         }
 
-        // Restore normal time before loading the menu.
         Time.timeScale = 1f;
 
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
 
-        SceneManager.LoadScene("MainMenu");
+        SceneManager.LoadScene(MainMenuSceneName);
     }
 }
