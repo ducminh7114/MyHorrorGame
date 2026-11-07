@@ -5229,7 +5229,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &30237203
 Transform:
   m_ObjectHideFlags: 0
@@ -5239,7 +5239,7 @@ Transform:
   m_GameObject: {fileID: 30237202}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.6269398, y: 1.363, z: 32.86614}
+  m_LocalPosition: {x: 0.588, y: 1.363, z: 32.86614}
   m_LocalScale: {x: 1, y: 2.9602098, z: 2.6247}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -63527,7 +63527,6 @@ GameObject:
   - component: {fileID: 320083721}
   - component: {fileID: 320083720}
   - component: {fileID: 320083724}
-  - component: {fileID: 320083723}
   m_Layer: 0
   m_Name: eventTrigger17
   m_TagString: Untagged
@@ -63598,24 +63597,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 965250126}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &320083723
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 320083719}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ca827289a4350114ca93c3a321061aa3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Dialogue
-  dialogueText: {fileID: 0}
-  Activator: {fileID: 320083719}
-  dialogue: Let talk to that guy and get out of here.
-  timer: 2
-  triggerID: Dialogue_01
-  triggerOnce: 1
 --- !u!114 &320083724
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -82223,13 +82204,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 431345442}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.523, y: -0.538, z: -4.538}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 12.143, y: 1.151, z: -0.11800003}
   m_LocalScale: {x: 0.46967, y: 0.46967, z: 0.46967}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1481066719}
-  m_Father: {fileID: 8454519755220033928}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &431345445
 Rigidbody:
@@ -481964,7 +481945,6 @@ GameObject:
   - component: {fileID: 1698131760}
   - component: {fileID: 1698131762}
   - component: {fileID: 1698131759}
-  - component: {fileID: 1698131758}
   m_Layer: 0
   m_Name: eventTrigger16.1
   m_TagString: Untagged
@@ -481987,24 +481967,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 965250126}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1698131758
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1698131756}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ca827289a4350114ca93c3a321061aa3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Dialogue
-  dialogueText: {fileID: 0}
-  Activator: {fileID: 1698131756}
-  dialogue: That was close! What the heck was that?!
-  timer: 2
-  triggerID: Dialogue_01
-  triggerOnce: 1
 --- !u!114 &1698131759
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -551018,7 +550980,7 @@ MonoBehaviour:
   noteHandler: {fileID: 0}
   inttext: {fileID: 2572602943446893597}
   interactable: 0
-  triggerID: InteractTrigger_01
+  triggerID: ElevatorTrigger
   enableObjects: []
   disableObjects: []
   animations:
@@ -676799,7 +676761,7 @@ Transform:
   m_GameObject: {fileID: 1829958659982917848}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.77577066, y: -28.735, z: -1.3042951}
+  m_LocalPosition: {x: 0.776, y: -28.734, z: -1.3042951}
   m_LocalScale: {x: 1.3559258, y: 1.3559258, z: 1.3559258}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -705157,7 +705119,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 431345443}
   - {fileID: 1600507586}
   - {fileID: 691109738}
   - {fileID: 5148737425512323035}
@@ -710460,6 +710421,7 @@ SceneRoots:
   - {fileID: 846407505}
   - {fileID: 8773214571653097761}
   - {fileID: 7486221730295357335}
+  - {fileID: 431345443}
   - {fileID: 8454519755220033928}
   - {fileID: 1365711517}
   - {fileID: 444871355}
